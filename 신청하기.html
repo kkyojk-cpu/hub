@@ -59,6 +59,40 @@ nav {
 footer { background: var(--gray9); color: rgba(255,255,255,.55); padding: 2.5rem 2rem; text-align: center; font-size: 0.85rem; }
 footer a { color: var(--g400); text-decoration: none; }
 
+/* ─── 보조도구 섹션 ─── */
+.tools-section { max-width: 1100px; margin: 0 auto; padding: 0 2rem 4rem; }
+.tools-divider { border: none; border-top: 2px solid var(--gray2); margin-bottom: 3rem; }
+.tools-label { font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase; color: var(--g600); font-weight: 700; margin-bottom: 0.6rem; }
+.tools-title { font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 900; color: var(--gray9); margin-bottom: 0.5rem; }
+.tools-desc { font-size: 0.9rem; color: var(--gray5); margin-bottom: 2rem; line-height: 1.7; }
+.tools-video { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px; margin-bottom: 2.5rem; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+.tools-video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+.tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+.tool-card { background: white; border: 1.5px solid var(--gray2); border-radius: 18px; overflow: hidden; transition: all .25s; }
+.tool-card:hover { border-color: var(--g500); box-shadow: 0 8px 32px rgba(16,185,129,0.15); transform: translateY(-3px); }
+.tool-card-head { padding: 1.4rem 1.6rem 1.2rem; }
+.tool-card-head.band { background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); }
+.tool-card-head.board { background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%); }
+.tool-icon { font-size: 1.8rem; margin-bottom: 0.6rem; display: block; }
+.tool-tag { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.6); font-weight: 700; margin-bottom: 0.3rem; }
+.tool-name { font-size: 1.15rem; font-weight: 900; color: white; margin-bottom: 0.4rem; }
+.tool-tagline { font-size: 0.8rem; color: rgba(255,255,255,0.8); line-height: 1.55; }
+.tool-card-body { padding: 1.2rem 1.6rem 1.5rem; }
+.tool-features { list-style: none; margin-bottom: 1.2rem; }
+.tool-features li { font-size: 0.83rem; color: var(--gray7); padding: .28rem 0; display: flex; align-items: flex-start; gap: .4rem; }
+.tool-features li::before { content: '✓'; color: var(--g500); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+.tool-btn { display: block; width: 100%; padding: .8rem; text-align: center; text-decoration: none; border-radius: 10px; font-weight: 800; font-size: 0.9rem; transition: background .2s; color: white; }
+.tool-btn.band-btn { background: var(--g900); } .tool-btn.band-btn:hover { background: #047857; }
+.tool-btn.board-btn { background: #0f766e; } .tool-btn.board-btn:hover { background: #047857; }
+.coupang-notice { font-size: 0.72rem; color: var(--gray5); text-align: center; padding: 0.8rem; background: var(--gray1); border-radius: 8px; line-height: 1.6; }
+
+@media (max-width: 768px) {
+  .tools-section { padding: 0 1.2rem 3rem; }
+  .tools-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .tool-card-head { padding: 1.2rem 1.3rem 1rem; }
+  .tool-card-body { padding: 1rem 1.3rem 1.3rem; }
+}
+
 /* ─── 모바일 반응형 ─── */
 @media (max-width: 768px) {
   nav { padding: 0.8rem 1rem; }
@@ -160,6 +194,56 @@ footer a { color: var(--g400); text-decoration: none; }
       </div>
     </div>
   </div>
+</div>
+
+<!-- ===== 회복 보조도구 섹션 ===== -->
+<div class="tools-section">
+  <hr class="tools-divider">
+  <div class="tools-label">회복 보조도구</div>
+  <h2 class="tools-title">슬로우조깅과 함께 쓰면 좋은 도구 2가지</h2>
+  <p class="tools-desc">올바른 자세와 안전한 스트레칭을 도와주는 도구입니다. 아래 영상에서 자세한 설명을 확인하세요.</p>
+
+  <div class="tools-video">
+    <iframe src="https://www.youtube.com/embed/SOVX3PK1Q6s" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="허리디스크 회복 보조도구 설명"></iframe>
+  </div>
+
+  <div class="tools-grid">
+    <div class="tool-card">
+      <div class="tool-card-head band">
+        <span class="tool-icon">⭐</span>
+        <div class="tool-tag">자세 교정</div>
+        <div class="tool-name">자세교정밴드</div>
+        <div class="tool-tagline">척추위생의 시작, 가슴을 여는 올바른 자세를 잡아줍니다</div>
+      </div>
+      <div class="tool-card-body">
+        <ul class="tool-features">
+          <li>가장 적절한 척추위생은 허리꺾기가 아닌 가슴열기</li>
+          <li>일상에서 자연스럽게 올바른 자세 유지</li>
+          <li>슬로우조깅 시작 전 자세 교정에 효과적</li>
+        </ul>
+        <a href="https://link.coupang.com/a/c3yrVx" target="_blank" rel="noopener" class="tool-btn band-btn">쿠팡에서 보기 →</a>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-card-head board">
+        <span class="tool-icon">⭐</span>
+        <div class="tool-tag">스트레칭</div>
+        <div class="tool-name">스트레칭보드</div>
+        <div class="tool-tagline">하루 1번, 햄스트링과 종아리를 안전하게 풀어줍니다</div>
+      </div>
+      <div class="tool-card-body">
+        <ul class="tool-features">
+          <li>가장 안전하게 햄스트링·종아리를 풀어주는 도구</li>
+          <li>과도한 스트레칭 없이 각도 조절 가능</li>
+          <li>슬로우조깅 전후 몸 준비에 활용</li>
+        </ul>
+        <a href="https://link.coupang.com/a/cWIwBz" target="_blank" rel="noopener" class="tool-btn board-btn">쿠팡에서 보기 →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="coupang-notice">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
 </div>
 
 <footer>
