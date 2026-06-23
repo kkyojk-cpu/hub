@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회복 데이터 — 허리디스크 회복연구소</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --g900: #064e3b; --g700: #047857; --g600: #059669;
+  --g500: #10b981; --g400: #34d399; --g100: #d1fae5; --g50: #ecfdf5;
+  --gray9: #111827; --gray7: #374151; --gray5: #6b7280;
+  --gray2: #e5e7eb; --gray1: #f3f4f6;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Pretendard', -apple-system, sans-serif; background: white; color: var(--gray9); line-height: 1.7; }
+
+nav {
+  background: var(--g900); padding: 0.9rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+.nav-logo { color: white; font-size: 1rem; font-weight: 800; text-decoration: none; white-space: nowrap; }
+.nav-logo span { color: var(--g400); }
+.nav-links { display: flex; gap: 1.2rem; list-style: none; }
+.nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.85rem; transition: color .2s; white-space: nowrap; }
+.nav-links a:hover, .nav-links a.active { color: var(--g400); }
+
+/* ─── OPENING ─── */
+.opening {
+  background: #0a1a12; padding: 6rem 2rem; text-align: center;
+  position: relative; overflow: hidden;
+}
+.opening::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, #0d3321 0%, #0a1a12 70%);
+}
+.opening-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+.opening-pre { font-size: 0.78rem; letter-spacing: 3px; text-transform: uppercase; color: var(--g400); font-weight: 700; margin-bottom: 2rem; }
+.opening-title { font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 900; color: white; line-height: 1.35; margin-bottom: 1.5rem; }
+.opening-body { font-size: 1rem; color: rgba(255,255,255,0.55); line-height: 1.8; }
+.opening-note {
+  display: inline-block; margin-top: 2rem;
+  font-size: 0.78rem; color: rgba(255,255,255,0.3);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 100px;
+  padding: 0.4rem 1rem;
+}
+
+/* ─── DATA SECTION ─── */
+.data-sec {
+  padding: 7rem 2rem; border-bottom: 1px solid var(--gray2);
+}
+.data-sec:nth-child(even) { background: var(--gray1); }
+.data-sec:nth-child(odd) { background: white; }
+.data-inner { max-width: 900px; margin: 0 auto; }
+
+.question-tag {
+  display: inline-block; font-size: 0.72rem; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--g600); font-weight: 700;
+  margin-bottom: 1rem;
+}
+.question-text {
+  font-size: clamp(1.3rem, 2.8vw, 1.9rem);
+  font-weight: 900; color: var(--gray9); line-height: 1.35;
+  margin-bottom: 0.8rem;
+}
+.question-sub { font-size: 0.92rem; color: var(--gray5); max-width: 520px; line-height: 1.75; }
+
+.answer-block {
+  margin: 3rem 0;
+  display: flex; align-items: flex-end; gap: 2rem; flex-wrap: wrap;
+}
+.answer-num {
+  font-size: clamp(4rem, 10vw, 7rem);
+  font-weight: 900; color: var(--g500); line-height: 1;
+  letter-spacing: -2px;
+}
+.answer-num sup { font-size: 0.4em; vertical-align: top; margin-top: 0.3em; }
+.answer-label { font-size: 1.1rem; font-weight: 700; color: var(--gray9); margin-bottom: 0.3rem; }
+.answer-compare { font-size: 0.88rem; color: var(--gray5); }
+.answer-compare strong { color: var(--g700); }
+
+.insight-box {
+  background: var(--g900); color: white;
+  border-radius: 16px; padding: 1.8rem 2rem; margin: 2rem 0;
+}
+.insight-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--g400); font-weight: 700; margin-bottom: 0.8rem; }
+.insight-text { font-size: 1rem; color: rgba(255,255,255,0.88); line-height: 1.75; }
+.insight-text strong { color: var(--g400); }
+
+/* 비교 바 */
+.compare-bars { margin: 2.5rem 0; display: flex; flex-direction: column; gap: 1.2rem; }
+.bar-row { display: flex; align-items: center; gap: 1rem; }
+.bar-label { font-size: 0.85rem; font-weight: 700; color: var(--gray7); width: 90px; flex-shrink: 0; }
+.bar-wrap { flex: 1; background: var(--gray2); border-radius: 100px; height: 28px; overflow: hidden; position: relative; }
+.bar-fill { height: 100%; border-radius: 100px; display: flex; align-items: center; padding: 0 0.8rem; transition: width 1s ease; }
+.bar-fill.green { background: var(--g500); }
+.bar-fill.gray { background: #9ca3af; }
+.bar-val { font-size: 0.8rem; font-weight: 800; color: white; }
+
+/* 이미지 그리드 */
+.img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin: 2rem 0; }
+.img-wrap { border-radius: 12px; overflow: hidden; background: var(--gray1); }
+.img-wrap img { width: 100%; display: block; }
+
+/* 핵심 수치 카드 */
+.stat-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; margin: 2rem 0; }
+.stat-card { background: white; border: 1.5px solid var(--g100); border-radius: 14px; padding: 1.4rem 1.2rem; text-align: center; }
+.stat-num { font-size: 2.2rem; font-weight: 900; color: var(--g700); line-height: 1; margin-bottom: 0.4rem; }
+.stat-unit { font-size: 1rem; font-weight: 700; }
+.stat-lbl { font-size: 0.78rem; color: var(--gray5); line-height: 1.5; }
+.stat-sub { color: var(--g600); font-size: 0.72rem; font-weight: 600; }
+
+/* ─── CLOSING ─── */
+.closing { background: var(--g900); padding: 6rem 2rem; text-align: center; }
+.closing-inner { max-width: 540px; margin: 0 auto; }
+.closing-title { font-size: clamp(1.4rem, 2.8vw, 2rem); font-weight: 900; color: white; line-height: 1.4; margin-bottom: 1rem; }
+.closing-body { font-size: 0.95rem; color: rgba(255,255,255,0.6); line-height: 1.8; margin-bottom: 2.5rem; }
+.closing-btn {
+  display: inline-block; padding: 1rem 2.2rem; background: var(--g500); color: white;
+  border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 1rem; transition: background .2s;
+}
+.closing-btn:hover { background: var(--g400); }
+
+footer { background: #0a1a12; color: rgba(255,255,255,.4); padding: 2.5rem 2rem; text-align: center; font-size: 0.82rem; }
+footer a { color: var(--g400); text-decoration: none; }
+.divider { border: none; border-top: 1px solid var(--gray2); margin: 2.5rem 0; }
+
+/* ─── 모바일 반응형 ─── */
+@media (max-width: 768px) {
+  nav { padding: 0.8rem 1rem; }
+  .nav-links { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; gap: 0.9rem; padding-bottom: 2px; }
+  .nav-links a { font-size: 0.8rem; white-space: nowrap; }
+  .opening { padding: 4rem 1.2rem; }
+  .data-sec { padding: 4rem 1.2rem; }
+  .closing { padding: 4rem 1.2rem; }
+  .answer-block { flex-direction: column; gap: 0.8rem; align-items: flex-start; }
+  .answer-num { font-size: clamp(3.5rem, 12vw, 5.5rem); }
+  .compare-bars { margin: 1.8rem 0; }
+  .bar-row { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+  .bar-label { width: auto; font-size: 0.8rem; }
+  .bar-wrap { width: 100%; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+  .img-grid { grid-template-columns: 1fr; }
+  .insight-box { padding: 1.4rem 1.4rem; }
+  .insight-text { font-size: 0.9rem; }
+  .question-text { font-size: clamp(1.1rem, 4.5vw, 1.6rem); }
+}
+@media (max-width: 480px) {
+  .nav-links a { font-size: 0.75rem; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .answer-num { font-size: clamp(3rem, 14vw, 5rem); }
+  .bar-fill .bar-val { font-size: 0.72rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="허리디스크회복연구소.html" class="nav-logo">허리디스크 <span>회복연구소</span></a>
+  <ul class="nav-links">
+    <li><a href="가이드북.html">가이드북</a></li>
+    <li><a href="회복사례.html">회복 사례</a></li>
+    <li><a href="데이터.html" class="active">데이터</a></li>
+    <li><a href="신청하기.html">신청하기</a></li>
+    <li><a href="https://youtube.com/channel/UCIl78SFUFNzliMFDV2oS5BA" target="_blank">유튜브 ↗</a></li>
+  </ul>
+</nav>
+
+<!-- OPENING -->
+<section class="opening">
+  <div class="opening-inner">
+    <div class="opening-pre">회복 데이터</div>
+    <h1 class="opening-title">추측이 아닙니다.<br>기록이 말하는 것입니다.</h1>
+    <p class="opening-body">참여자들이 앱에 매일 남긴 기록을 분석했습니다. 슬로우조깅이 왜 작동하는지, 숫자가 답합니다.</p>
+    <span class="opening-note">실제 참여자 기록 기반 · 수행직후 × 다음날아침 × VAS 데이터</span>
+  </div>
+</section>
+
+<!-- Q1: 달리면 더 나빠지지 않나요? -->
+<section class="data-sec">
+  <div class="data-inner">
+    <div class="question-tag">질문 01</div>
+    <h2 class="question-text">"달리면 더 나빠지지 않나요?"</h2>
+    <p class="question-sub">디스크 환자들이 슬로우조깅을 망설이는 가장 큰 이유입니다. 데이터는 이렇게 답합니다.</p>
+
+    <div class="answer-block">
+      <div>
+        <div class="answer-num">4<sup>%</sup></div>
+      </div>
+      <div>
+        <div class="answer-label">슬로우조깅 다음날 악화율</div>
+        <div class="answer-compare">걷기(12%)의 <strong>3분의 1 수준</strong></div>
+      </div>
+    </div>
+
+    <div class="compare-bars">
+      <div class="bar-row">
+        <div class="bar-label">슬로우조깅</div>
+        <div class="bar-wrap"><div class="bar-fill green" style="width:4%"><span class="bar-val">4%</span></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">걷기+슬조</div>
+        <div class="bar-wrap"><div class="bar-fill gray" style="width:17%"><span class="bar-val">17%</span></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">걷기</div>
+        <div class="bar-wrap"><div class="bar-fill gray" style="width:12%"><span class="bar-val">12%</span></div></div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-label">해석</div>
+      <p class="insight-text">슬로우조깅을 했을 때 다음날 상태가 나빠지는 경우는 <strong>100번 중 4번</strong>입니다. 오히려 걷기만 할 때보다 악화율이 낮습니다. "달리면 더 나빠질 것"이라는 두려움은 데이터로 반박됩니다.</p>
+    </div>
+
+    <div class="img-grid">
+      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/슬조데이터/4.png" alt="활동 다음날 아침 회복 비교"></div>
+      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/슬조데이터/2.png" alt="슬조 단계 핵심 수치"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Q2: 슬조가 걷기보다 정말 낫나요? -->
+<section class="data-sec">
+  <div class="data-inner">
+    <div class="question-tag">질문 02</div>
+    <h2 class="question-text">"슬로우조깅이 걷기보다 정말 낫나요?"</h2>
+    <p class="question-sub">단순히 "달리면 좋다"는 말이 아닙니다. 같은 참여자, 같은 기간, 활동 종류만 다른 데이터입니다.</p>
+
+    <div class="answer-block">
+      <div>
+        <div class="answer-num">33<sup>%</sup></div>
+      </div>
+      <div>
+        <div class="answer-label">슬조 수행 중 편안함 비율</div>
+        <div class="answer-compare">걷기(9%)의 <strong>3.7배</strong></div>
+      </div>
+    </div>
+
+    <div class="compare-bars">
+      <div class="bar-row">
+        <div class="bar-label">슬로우조깅</div>
+        <div class="bar-wrap"><div class="bar-fill green" style="width:33%"><span class="bar-val">33%</span></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">걷기+슬조</div>
+        <div class="bar-wrap"><div class="bar-fill gray" style="width:17%"><span class="bar-val">17%</span></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">걷기</div>
+        <div class="bar-wrap"><div class="bar-fill gray" style="width:9%"><span class="bar-val">9%</span></div></div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">2.8</div>
+        <div class="stat-lbl">슬조 단계 평균 통증점수<br><span class="stat-sub">걷기(4.3)보다 1.5점 낮음</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">33<span class="stat-unit">%</span></div>
+        <div class="stat-lbl">수행 중 편안함 비율<br><span class="stat-sub">걷기의 3.7배</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">4<span class="stat-unit">%</span></div>
+        <div class="stat-lbl">다음날 악화율<br><span class="stat-sub">걷기의 1/3</span></div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-label">해석</div>
+      <p class="insight-text">슬로우조깅은 뛰는 중에도 걷기보다 편안하고, 다음날도 덜 나쁩니다. 참여자들이 "뛰는 게 오히려 걷는 것보다 편해요"라고 말하는 이유가 데이터로 나옵니다. 이것이 <strong>디스크 펌프 기전</strong>입니다.</p>
+    </div>
+
+    <div class="img-grid">
+      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/슬조데이터/3.png" alt="걷기 vs 슬조 수행 중 컨디션"></div>
+      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/슬조데이터/5.png" alt="활동 단계별 통증 점수 비교"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Q3: 통증이 갑자기 올라오면 끝인가요? -->
+<section class="data-sec">
+  <div class="data-inner">
+    <div class="question-tag">질문 03</div>
+    <h2 class="question-text">"통증이 갑자기 올라오면 끝인가요?"</h2>
+    <p class="question-sub">회복 중 통증이 치솟는 순간은 반드시 옵니다. 포기하는 사람들은 대부분 이 순간에 무너집니다. 데이터는 다른 얘기를 합니다.</p>
+
+    <div class="answer-block">
+      <div>
+        <div class="answer-num">68<sup>%</sup></div>
+      </div>
+      <div>
+        <div class="answer-label">통증 급상승 시 다음날 자연 감소</div>
+        <div class="answer-compare"><strong>10번 중 7번</strong>은 하루 만에 내려갑니다</div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-label">해석</div>
+      <p class="insight-text">통증이 올라간 날, 사람들은 "다시 원점으로 돌아갔나"라고 생각합니다. 하지만 데이터를 보면 그 68%는 다음날 통증이 다시 내려갑니다. <strong>통증의 급상승은 신호이지, 실패가 아닙니다.</strong> 이틀 안에 내려가는 비율은 78%입니다.</p>
+    </div>
+
+    <div class="img-grid">
+      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/통증급상승/3.png" alt="통증 급상승 68% 다음날 감소"></div>
+      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/통증급상승/5.png" alt="통증 변동폭은 회복의 적이 아니다"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Q4: 얼마나 지속할 수 있나요? -->
+<section class="data-sec">
+  <div class="data-inner">
+    <div class="question-tag">질문 04</div>
+    <h2 class="question-text">"얼마나 지속할 수 있나요?"</h2>
+    <p class="question-sub">허리가 아프면 운동을 꾸준히 하기 어렵습니다. 통증이 있는 상태에서 매일 기록하고 움직이는 게 가능할까요?</p>
+
+    <div class="answer-block">
+      <div>
+        <div class="answer-num">79.5<sup>%</sup></div>
+      </div>
+      <div>
+        <div class="answer-label">참여자 활동 지속률</div>
+        <div class="answer-compare">쉰 날보다 <strong>움직인 날이 4배</strong></div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">68.8<span class="stat-unit">%</span></div>
+        <div class="stat-lbl">걷기만으로 시작<br><span class="stat-sub">슬조가 무서워서</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">54.7<span class="stat-unit">%</span></div>
+        <div class="stat-lbl">슬조로 전환 성공<br><span class="stat-sub">이후 전체 기록 중</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">79.5<span class="stat-unit">%</span></div>
+        <div class="stat-lbl">활동 지속률<br><span class="stat-sub">매일 움직인 비율</span></div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-label">해석</div>
+      <p class="insight-text">68.8%가 슬로우조깅이 무서워 걷기로 시작했습니다. 하지만 결국 절반 이상이 슬조로 전환했고, <strong>전체 기간 중 80%의 날은 움직였습니다.</strong> 통증이 있어도 멈추지 않는 구조가 만들어지면, 지속은 의지의 문제가 아니게 됩니다.</p>
+    </div>
+
+    <div class="img-grid">
+      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/VAS변화/3.png" alt="주차별 평균 통증 변화"></div>
+      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/회복보고서/4.png" alt="활동 후 오히려 몸이 편해진다"></div>
+      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/회복보고서/3.png" alt="활동량이 늘어도 통증은 악화되지 않았다"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="closing-inner">
+    <h2 class="closing-title">기록이 쌓이면<br>회복의 방향이 보입니다</h2>
+    <p class="closing-body">이 데이터는 특별한 사람들의 이야기가 아닙니다. 처음엔 걷기도 무서워했던 분들이 매일 기록하며 만들어낸 숫자입니다.</p>
+    <a href="신청하기.html" class="closing-btn">프로그램 알아보기 →</a>
+  </div>
+</section>
+
+<footer>
+  <a href="허리디스크회복연구소.html">← 메인으로</a> &nbsp;·&nbsp; 허리디스크 회복연구소
+</footer>
+
+</body>
+</html>
