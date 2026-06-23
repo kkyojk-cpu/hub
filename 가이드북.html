@@ -795,12 +795,12 @@ function togglePrologue() {
   header.classList.toggle('expanded', !isOpen);
 }
 
-// 챕터 토글 (잠금 해제 후 펼쳐보기)
+// 챕터 토글
+let isUnlocked = false;
 function toggleChapter(id) {
+  if (!isUnlocked) return;
   const body = document.getElementById(id);
   if (!body) return;
-  if (!body.classList.contains('revealed')) return; // 잠긴 상태면 무시
-  // 이미 열려있으면 닫기
   body.style.display = body.style.display === 'block' ? 'none' : 'block';
 }
 
@@ -837,13 +837,8 @@ function tryUnlock() {
 }
 
 function unlockContent() {
-  // 잠금 게이트 숨기기
+  isUnlocked = true;
   document.getElementById('lockGate').style.display = 'none';
-
-  // 모든 잠긴 챕터 열기
-  document.querySelectorAll('.ch-locked-body').forEach(el => {
-    el.classList.add('revealed');
-  });
 
   // 잠금 뱃지 교체
   document.querySelectorAll('.ch-locked-badge').forEach(el => {
