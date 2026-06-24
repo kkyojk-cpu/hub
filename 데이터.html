@@ -174,7 +174,7 @@ footer a { color: var(--g400); text-decoration: none; }
     <div class="opening-pre">회복 데이터</div>
     <h1 class="opening-title">추측이 아닙니다.<br>기록이 말하는 것입니다.</h1>
     <p class="opening-body">참여자들이 앱에 매일 남긴 기록을 분석했습니다. 슬로우조깅이 왜 작동하는지, 숫자가 답합니다.</p>
-    <span class="opening-note">실제 참여자 기록 기반 · 수행직후 × 다음날아침 × VAS 데이터</span>
+    <span class="opening-note">실제 참여자 기록 기반 · 수행직후 × 다음날아침 × 통증점수 데이터</span>
   </div>
 </section>
 
@@ -222,69 +222,185 @@ footer a { color: var(--g400); text-decoration: none; }
   </div>
 </section>
 
-<!-- Q2: 슬조가 걷기보다 정말 낫나요? -->
+<!-- Q2 NEW: 활동 ↑ = 통증 ↓ -->
 <section class="data-sec">
   <div class="data-inner">
     <div class="question-tag">질문 02</div>
-    <h2 class="question-text">"슬로우조깅이 걷기보다 정말 낫나요?"</h2>
-    <p class="question-sub">단순히 "달리면 좋다"는 말이 아닙니다. 같은 참여자, 같은 기간, 활동 종류만 다른 데이터입니다.</p>
+    <h2 class="question-text">"움직일수록 통증이 줄어들었습니다"</h2>
+    <p class="question-sub">활동 수준이 높아진 주일수록 통증점수가 낮았습니다. 8주간의 실제 기록입니다.</p>
+
+    <div style="background:white;border-radius:16px;border:1.5px solid var(--gray2);padding:1.5rem 0.5rem;margin:2.5rem 0;overflow:hidden;">
+      <svg viewBox="0 0 720 310" style="width:100%;height:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <!-- Grid -->
+        <line x1="70" y1="260" x2="685" y2="260" stroke="#e5e7eb" stroke-width="1"/>
+        <line x1="70" y1="20" x2="70" y2="260" stroke="#e5e7eb" stroke-width="1"/>
+        <line x1="70" y1="212" x2="685" y2="212" stroke="#f3f4f6" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="70" y1="164" x2="685" y2="164" stroke="#f3f4f6" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="70" y1="116" x2="685" y2="116" stroke="#f3f4f6" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="70" y1="68"  x2="685" y2="68"  stroke="#f3f4f6" stroke-width="1" stroke-dasharray="4,4"/>
+        <!-- Y labels -->
+        <text x="62" y="216" text-anchor="end" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">2</text>
+        <text x="62" y="168" text-anchor="end" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">4</text>
+        <text x="62" y="120" text-anchor="end" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">6</text>
+        <text x="62" y="72"  text-anchor="end" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">8</text>
+        <!-- Activity area fill -->
+        <polygon points="70,169 157,159 244,157 331,145 418,152 505,128 592,126 685,116 685,260 70,260" fill="#10b981" fill-opacity="0.06"/>
+        <!-- Activity line (green, going up) y=260-(score*24) -->
+        <!-- scores: 3.8,4.2,4.3,4.8,4.5,5.5,5.6,6.0 -->
+        <polyline points="70,169 157,159 244,157 331,145 418,152 505,128 592,126 685,116"
+          fill="none" stroke="#10b981" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+        <!-- VAS line (dark dashed, going down) -->
+        <!-- scores: 4.1,4.0,4.0,3.8,2.7,2.8,3.0,2.7 -->
+        <polyline points="70,162 157,164 244,164 331,169 418,195 505,193 592,188 685,195"
+          fill="none" stroke="#064e3b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="8,3"/>
+        <!-- Crossover callout -->
+        <circle cx="113" cy="162" r="14" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.5"/>
+        <text x="113" y="147" text-anchor="middle" font-size="10" fill="#059669" font-family="Pretendard,sans-serif" font-weight="700">교차</text>
+        <!-- Activity dots -->
+        <circle cx="70"  cy="169" r="4.5" fill="#10b981"/>
+        <circle cx="157" cy="159" r="4.5" fill="#10b981"/>
+        <circle cx="244" cy="157" r="4.5" fill="#10b981"/>
+        <circle cx="331" cy="145" r="4.5" fill="#10b981"/>
+        <circle cx="418" cy="152" r="4.5" fill="#10b981"/>
+        <circle cx="505" cy="128" r="4.5" fill="#10b981"/>
+        <circle cx="592" cy="126" r="4.5" fill="#10b981"/>
+        <circle cx="685" cy="116" r="4.5" fill="#10b981"/>
+        <!-- VAS dots -->
+        <circle cx="70"  cy="162" r="4.5" fill="#064e3b"/>
+        <circle cx="157" cy="164" r="4.5" fill="#064e3b"/>
+        <circle cx="244" cy="164" r="4.5" fill="#064e3b"/>
+        <circle cx="331" cy="169" r="4.5" fill="#064e3b"/>
+        <circle cx="418" cy="195" r="4.5" fill="#064e3b"/>
+        <circle cx="505" cy="193" r="4.5" fill="#064e3b"/>
+        <circle cx="592" cy="188" r="4.5" fill="#064e3b"/>
+        <circle cx="685" cy="195" r="4.5" fill="#064e3b"/>
+        <!-- X labels -->
+        <text x="70"  y="278" text-anchor="middle" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">1주</text>
+        <text x="157" y="278" text-anchor="middle" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">2주</text>
+        <text x="244" y="278" text-anchor="middle" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">3주</text>
+        <text x="331" y="278" text-anchor="middle" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">4주</text>
+        <text x="418" y="278" text-anchor="middle" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">5주</text>
+        <text x="505" y="278" text-anchor="middle" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">6주</text>
+        <text x="592" y="278" text-anchor="middle" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">7주</text>
+        <text x="685" y="278" text-anchor="middle" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">8주</text>
+        <!-- End labels -->
+        <text x="695" y="199" text-anchor="start" font-size="12" font-weight="700" fill="#064e3b" font-family="Pretendard,sans-serif">2.7점</text>
+        <text x="695" y="119" text-anchor="start" font-size="12" font-weight="700" fill="#10b981" font-family="Pretendard,sans-serif">6.0</text>
+        <!-- Legend -->
+        <line x1="70" y1="298" x2="92" y2="298" stroke="#064e3b" stroke-width="2.5" stroke-dasharray="8,3"/>
+        <circle cx="81" cy="298" r="3.5" fill="#064e3b"/>
+        <text x="97" y="302" font-size="11" fill="#374151" font-family="Pretendard,sans-serif">통증점수</text>
+        <line x1="190" y1="298" x2="212" y2="298" stroke="#10b981" stroke-width="2.5"/>
+        <circle cx="201" cy="298" r="3.5" fill="#10b981"/>
+        <text x="217" y="302" font-size="11" fill="#374151" font-family="Pretendard,sans-serif">활동 수준</text>
+      </svg>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-label">해석</div>
+      <p class="insight-text">1주차와 2주차 사이, 두 선이 교차합니다. 활동 수준이 통증점수를 넘어섰고, 이후 두 선은 반대 방향으로 계속 벌어집니다. <strong>더 많이 움직인 주일수록 통증이 낮았습니다.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- Q3 NEW: 25명 통증점수 변화 기울기 차트 -->
+<section class="data-sec">
+  <div class="data-inner">
+    <div class="question-tag">질문 03</div>
+    <h2 class="question-text">참여자 25명의<br>통증점수가 이렇게 바뀌었습니다</h2>
+    <p class="question-sub">선 하나가 한 분입니다. 참여 초기 3회 평균과 최근 3회 평균을 비교했습니다.</p>
+
+    <div style="background:white;border-radius:16px;border:1.5px solid var(--gray2);padding:1.5rem 0.5rem;margin:2.5rem 0;overflow:hidden;">
+      <svg viewBox="0 0 500 370" style="width:100%;height:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <!-- Column headers -->
+        <text x="130" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#374151" font-family="Pretendard,sans-serif">참여 초기</text>
+        <text x="370" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#374151" font-family="Pretendard,sans-serif">현재</text>
+        <!-- Columns -->
+        <line x1="130" y1="30" x2="130" y2="330" stroke="#e5e7eb" stroke-width="1.5"/>
+        <line x1="370" y1="30" x2="370" y2="330" stroke="#e5e7eb" stroke-width="1.5"/>
+        <!-- Horizontal guides y=30+(10-score)*30 -->
+        <line x1="80" y1="90"  x2="420" y2="90"  stroke="#f9fafb" stroke-width="1"/>
+        <line x1="80" y1="150" x2="420" y2="150" stroke="#f9fafb" stroke-width="1"/>
+        <line x1="80" y1="210" x2="420" y2="210" stroke="#f9fafb" stroke-width="1"/>
+        <line x1="80" y1="270" x2="420" y2="270" stroke="#f9fafb" stroke-width="1"/>
+        <text x="75" y="93"  text-anchor="end" font-size="10" fill="#d1d5db" font-family="Pretendard,sans-serif">8</text>
+        <text x="75" y="153" text-anchor="end" font-size="10" fill="#d1d5db" font-family="Pretendard,sans-serif">6</text>
+        <text x="75" y="213" text-anchor="end" font-size="10" fill="#d1d5db" font-family="Pretendard,sans-serif">4</text>
+        <text x="75" y="273" text-anchor="end" font-size="10" fill="#d1d5db" font-family="Pretendard,sans-serif">2</text>
+
+        <!-- WORSENED lines (very muted, drawn first = behind) -->
+        <line x1="130" y1="180" x2="370" y2="150" stroke="#e5e7eb" stroke-width="1.2" opacity="0.7"/>
+        <line x1="130" y1="120" x2="370" y2="90"  stroke="#e5e7eb" stroke-width="1.2" opacity="0.7"/>
+        <line x1="130" y1="210" x2="370" y2="180" stroke="#e5e7eb" stroke-width="1.2" opacity="0.7"/>
+        <line x1="130" y1="219" x2="370" y2="171" stroke="#e5e7eb" stroke-width="1.2" opacity="0.7"/>
+        <line x1="130" y1="249" x2="370" y2="159" stroke="#e5e7eb" stroke-width="1.2" opacity="0.7"/>
+        <!-- MAINTAINED lines -->
+        <line x1="130" y1="240" x2="370" y2="240" stroke="#d1d5db" stroke-width="1.5" opacity="0.7"/>
+        <line x1="130" y1="240" x2="370" y2="240" stroke="#d1d5db" stroke-width="1.5" opacity="0.7"/>
+        <line x1="130" y1="300" x2="370" y2="291" stroke="#d1d5db" stroke-width="1.5" opacity="0.7"/>
+        <!-- IMPROVED lines (green, drawn last = on top) -->
+        <line x1="130" y1="180" x2="370" y2="279" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="141" x2="370" y2="231" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="141" x2="370" y2="201" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="180" x2="370" y2="231" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="120" x2="370" y2="171" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="219" x2="370" y2="270" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="270" x2="370" y2="309" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="201" x2="370" y2="231" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="90"  x2="370" y2="120" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="240" x2="370" y2="261" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="261" x2="370" y2="279" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="249" x2="370" y2="270" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="240" x2="370" y2="261" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="201" x2="370" y2="219" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="189" x2="370" y2="210" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <line x1="130" y1="231" x2="370" y2="240" stroke="#10b981" stroke-width="1.8" opacity="0.85"/>
+        <!-- Endpoint dots (after column only) -->
+        <circle cx="370" cy="279" r="3.5" fill="#10b981"/>
+        <circle cx="370" cy="231" r="3.5" fill="#10b981"/>
+        <circle cx="370" cy="201" r="3.5" fill="#10b981"/>
+        <circle cx="370" cy="171" r="3.5" fill="#10b981"/>
+        <circle cx="370" cy="270" r="3.5" fill="#10b981"/>
+        <circle cx="370" cy="309" r="3.5" fill="#10b981"/>
+        <circle cx="370" cy="120" r="3.5" fill="#10b981"/>
+        <circle cx="370" cy="261" r="3.5" fill="#10b981"/>
+        <circle cx="370" cy="219" r="3.5" fill="#10b981"/>
+        <circle cx="370" cy="210" r="3.5" fill="#10b981"/>
+        <circle cx="370" cy="240" r="3.5" fill="#10b981"/>
+        <circle cx="370" cy="240" r="3"   fill="#9ca3af"/>
+        <circle cx="370" cy="291" r="3"   fill="#9ca3af"/>
+        <circle cx="370" cy="150" r="3"   fill="#e5e7eb"/>
+        <circle cx="370" cy="90"  r="3"   fill="#e5e7eb"/>
+        <circle cx="370" cy="180" r="3"   fill="#e5e7eb"/>
+        <circle cx="370" cy="171" r="3"   fill="#e5e7eb"/>
+        <circle cx="370" cy="159" r="3"   fill="#e5e7eb"/>
+        <!-- Legend -->
+        <line x1="100" y1="352" x2="122" y2="352" stroke="#10b981" stroke-width="2"/>
+        <text x="127" y="356" font-size="11" fill="#374151" font-family="Pretendard,sans-serif">통증 감소 (16명)</text>
+        <line x1="260" y1="352" x2="282" y2="352" stroke="#d1d5db" stroke-width="1.5"/>
+        <text x="287" y="356" font-size="11" fill="#9ca3af" font-family="Pretendard,sans-serif">유지·증가 (9명)</text>
+      </svg>
+    </div>
 
     <div class="answer-block">
+      <div><div class="answer-num">64<sup>%</sup></div></div>
       <div>
-        <div class="answer-num">33<sup>%</sup></div>
-      </div>
-      <div>
-        <div class="answer-label">슬조 수행 중 편안함 비율</div>
-        <div class="answer-compare">걷기(9%)의 <strong>3.7배</strong></div>
-      </div>
-    </div>
-
-    <div class="compare-bars">
-      <div class="bar-row">
-        <div class="bar-label">슬로우조깅</div>
-        <div class="bar-wrap"><div class="bar-fill green" style="width:33%"><span class="bar-val">33%</span></div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">걷기+슬조</div>
-        <div class="bar-wrap"><div class="bar-fill gray" style="width:17%"><span class="bar-val">17%</span></div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">걷기</div>
-        <div class="bar-wrap"><div class="bar-fill gray" style="width:9%"><span class="bar-val">9%</span></div></div>
-      </div>
-    </div>
-
-    <div class="stat-row">
-      <div class="stat-card">
-        <div class="stat-num">2.8</div>
-        <div class="stat-lbl">슬조 단계 평균 통증점수<br><span class="stat-sub">걷기(4.3)보다 1.5점 낮음</span></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">33<span class="stat-unit">%</span></div>
-        <div class="stat-lbl">수행 중 편안함 비율<br><span class="stat-sub">걷기의 3.7배</span></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">4<span class="stat-unit">%</span></div>
-        <div class="stat-lbl">다음날 악화율<br><span class="stat-sub">걷기의 1/3</span></div>
+        <div class="answer-label">25명 중 16명, 통증이 줄었습니다</div>
+        <div class="answer-compare">초기 평균 <strong>4.1점 → 현재 3.6점</strong></div>
       </div>
     </div>
 
     <div class="insight-box">
       <div class="insight-label">해석</div>
-      <p class="insight-text">슬로우조깅은 뛰는 중에도 걷기보다 편안하고, 다음날도 덜 나쁩니다. 참여자들이 "뛰는 게 오히려 걷는 것보다 편해요"라고 말하는 이유가 데이터로 나옵니다. 이것이 <strong>디스크 펌프 기전</strong>입니다.</p>
-    </div>
-
-    <div class="img-grid">
-      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/슬조데이터/3.png" alt="걷기 vs 슬조 수행 중 컨디션"></div>
-      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/슬조데이터/5.png" alt="활동 단계별 통증 점수 비교"></div>
+      <p class="insight-text">오른쪽으로 갈수록 선이 아래로 내려가면 통증이 줄어든 것입니다. <strong>초록 선 16개</strong>가 아래를 향합니다. 시작점이 달랐어도, 방향은 같았습니다.</p>
     </div>
   </div>
 </section>
 
-<!-- Q3: 통증이 갑자기 올라오면 끝인가요? -->
+<!-- Q4: 통증이 갑자기 올라오면 끝인가요? -->
 <section class="data-sec">
   <div class="data-inner">
-    <div class="question-tag">질문 03</div>
+    <div class="question-tag">질문 04</div>
     <h2 class="question-text">"통증이 갑자기 올라오면 끝인가요?"</h2>
     <p class="question-sub">회복 중 통증이 치솟는 순간은 반드시 옵니다. 포기하는 사람들은 대부분 이 순간에 무너집니다. 데이터는 다른 얘기를 합니다.</p>
 
@@ -310,10 +426,10 @@ footer a { color: var(--g400); text-decoration: none; }
   </div>
 </section>
 
-<!-- Q4: 얼마나 지속할 수 있나요? -->
+<!-- Q5: 얼마나 지속할 수 있나요? -->
 <section class="data-sec">
   <div class="data-inner">
-    <div class="question-tag">질문 04</div>
+    <div class="question-tag">질문 05</div>
     <h2 class="question-text">"얼마나 지속할 수 있나요?"</h2>
     <p class="question-sub">허리가 아프면 운동을 꾸준히 하기 어렵습니다. 통증이 있는 상태에서 매일 기록하고 움직이는 게 가능할까요?</p>
 
