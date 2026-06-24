@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>신청 전 자가진단 — 허리디스크 회복연구소</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --g900: #064e3b; --g700: #047857; --g600: #059669;
+  --g500: #10b981; --g400: #34d399; --g100: #d1fae5; --g50: #ecfdf5;
+  --gray9: #111827; --gray7: #374151; --gray5: #6b7280; --gray2: #e5e7eb; --gray1: #f9fafb;
+  --bg: #f8fffe;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--bg); color: var(--gray9); line-height: 1.6; min-height: 100vh; }
+
+nav {
+  background: var(--g900); padding: 0.9rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+.nav-logo { color: white; font-size: 1rem; font-weight: 800; text-decoration: none; }
+.nav-logo span { color: var(--g400); }
+.nav-back { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; transition: color .2s; }
+.nav-back:hover { color: var(--g400); }
+
+.quiz-wrap {
+  max-width: 540px; margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
+  min-height: calc(100vh - 58px);
+  display: flex; flex-direction: column; justify-content: center;
+}
+
+.screen { display: none; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* 진행바 */
+.prog-wrap { margin-bottom: 2.5rem; }
+.prog-meta { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+.prog-label { font-size: 0.72rem; color: var(--gray5); font-weight: 600; letter-spacing: 1px; }
+.prog-bar { height: 4px; background: var(--gray2); border-radius: 100px; overflow: hidden; }
+.prog-fill { height: 100%; background: var(--g500); border-radius: 100px; transition: width 0.4s ease; }
+
+.stage-tag { font-size: 0.7rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--g500); font-weight: 700; margin-bottom: 0.9rem; }
+
+.q-title { font-size: clamp(1.25rem, 4.5vw, 1.7rem); font-weight: 900; color: var(--gray9); line-height: 1.4; margin-bottom: 0.6rem; }
+.q-sub { font-size: 0.88rem; color: var(--gray5); line-height: 1.75; margin-bottom: 1.8rem; }
+
+/* 선택 버튼 */
+.choices { display: flex; flex-direction: column; gap: 0.7rem; }
+.choice-btn {
+  width: 100%; padding: 1.05rem 1.3rem;
+  background: white; border: 2px solid var(--gray2); border-radius: 14px;
+  text-align: left; font-family: 'Pretendard', sans-serif;
+  font-size: 0.97rem; font-weight: 600; color: var(--gray9);
+  cursor: pointer; transition: border-color .15s, background .15s;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.choice-btn:hover { border-color: var(--g500); background: var(--g50); }
+.c-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--gray2); flex-shrink: 0; transition: all .15s; }
+.choice-btn:hover .c-dot { border-color: var(--g500); }
+
+/* 체크리스트 */
+.checklist { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.5rem; }
+.check-item {
+  display: flex; align-items: flex-start; gap: 0.85rem;
+  padding: 1rem 1.2rem; background: white;
+  border: 2px solid var(--gray2); border-radius: 14px;
+  cursor: pointer; transition: border-color .15s, background .15s;
+  font-size: 0.93rem; color: var(--gray7); line-height: 1.55; user-select: none;
+}
+.check-item:hover { border-color: var(--g400); }
+.check-item.checked { border-color: var(--g500); background: var(--g50); color: var(--g900); }
+.check-item.is-danger:hover { border-color: #f87171; }
+.check-item.is-danger.checked { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
+.c-box {
+  width: 20px; height: 20px; border-radius: 5px; border: 2px solid var(--gray2);
+  flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.check-item.checked .c-box { background: var(--g500); border-color: var(--g500); }
+.check-item.is-danger.checked .c-box { background: #ef4444; border-color: #ef4444; }
+.c-box::after { content: '✓'; color: white; font-size: 12px; font-weight: 800; opacity: 0; }
+.check-item.checked .c-box::after { opacity: 1; }
+
+/* 버튼 */
+.btn-next {
+  width: 100%; padding: 1.05rem;
+  background: var(--g900); color: white; border: none; border-radius: 14px;
+  font-family: 'Pretendard', sans-serif; font-size: 1rem; font-weight: 800;
+  cursor: pointer; transition: background .2s; margin-top: 0.3rem;
+}
+.btn-next:hover { background: var(--g700); }
+
+/* 결과 화면 */
+.result-tag { font-size: 0.7rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--g500); font-weight: 700; margin-bottom: 0.8rem; }
+.result-title { font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 900; line-height: 1.3; margin-bottom: 0.8rem; }
+.result-desc { font-size: 0.92rem; color: var(--gray7); line-height: 1.8; margin-bottom: 2rem; }
+.result-card {
+  background: white; border: 1.5px solid var(--g100); border-radius: 18px; padding: 1.5rem;
+}
+.rc-tag { font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--g600); font-weight: 700; margin-bottom: 0.35rem; }
+.rc-name { font-size: 1.2rem; font-weight: 900; color: var(--g900); margin-bottom: 0.4rem; }
+.rc-desc { font-size: 0.85rem; color: var(--gray5); line-height: 1.65; margin-bottom: 1.2rem; }
+.btn-apply {
+  display: block; width: 100%; padding: 1rem;
+  background: var(--g900); color: white; text-decoration: none; text-align: center;
+  border-radius: 12px; font-weight: 800; font-size: 0.95rem; transition: background .2s;
+}
+.btn-apply:hover { background: var(--g700); }
+.btn-apply.teal { background: #0f766e; }
+.btn-apply.teal:hover { background: var(--g700); }
+
+/* 탈락 화면 */
+.fail-card {
+  border-radius: 16px; padding: 1.6rem; margin-bottom: 1.8rem;
+}
+.fail-card.medical { background: #fef2f2; border: 2px solid #fecaca; }
+.fail-card.honest { background: #fff7ed; border: 2px solid #fed7aa; }
+.fail-title { font-size: clamp(1.15rem, 3.8vw, 1.5rem); font-weight: 900; line-height: 1.35; margin-bottom: 0.8rem; }
+.fail-body { font-size: 0.88rem; color: var(--gray7); line-height: 1.8; }
+
+.btn-restart { background: none; border: none; color: var(--gray5); font-size: 0.82rem; cursor: pointer; text-decoration: underline; margin-top: 1rem; font-family: 'Pretendard', sans-serif; }
+
+/* 인트로 */
+.intro-eyebrow { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--g500); font-weight: 700; margin-bottom: 1.2rem; }
+.intro-title { font-size: clamp(1.5rem, 5.5vw, 2.2rem); font-weight: 900; color: var(--gray9); line-height: 1.35; margin-bottom: 0.9rem; }
+.intro-sub { font-size: 0.93rem; color: var(--gray5); line-height: 1.8; margin-bottom: 0.5rem; }
+.intro-note { font-size: 0.85rem; color: var(--gray7); font-style: italic; margin-bottom: 2.2rem; }
+
+@media (max-width: 480px) {
+  nav { padding: 0.8rem 1rem; }
+  .quiz-wrap { padding: 2.5rem 1.2rem 4rem; justify-content: flex-start; padding-top: 2.5rem; }
+  .q-title { font-size: 1.15rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://kkyojk-cpu.github.io/hub/" class="nav-logo">허리디스크 <span>회복연구소</span></a>
+  <a href="신청하기.html" class="nav-back">← 신청하기</a>
+</nav>
+
+<div class="quiz-wrap">
+
+  <!-- 인트로 -->
+  <div class="screen active" id="s-intro">
+    <div class="intro-eyebrow">신청 전 자가진단</div>
+    <h1 class="intro-title">제발 호기심으로는<br>신청하지 말아주세요</h1>
+    <p class="intro-sub">간절하신 분들이 많습니다.<br>이 진단은 지금 정말 준비됐는지 솔직하게 확인합니다.</p>
+    <p class="intro-note">솔직하게 답해주세요. 3분이면 됩니다.</p>
+    <button class="btn-next" onclick="go('s-s0')">시작하기 →</button>
+  </div>
+
+  <!-- 0단계: 안전 체크 -->
+  <div class="screen" id="s-s0">
+    <div class="prog-wrap">
+      <div class="prog-meta">
+        <span class="prog-label">사전 확인</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:8%"></div></div>
+    </div>
+    <div class="stage-tag">안전 확인</div>
+    <h2 class="q-title">아래 중 해당되는 것이<br>있으신가요?</h2>
+    <p class="q-sub">하나라도 해당되면 프로그램보다 병원이 먼저입니다.</p>
+    <div class="checklist" id="s0-list">
+      <label class="check-item is-danger">
+        <span class="c-box"></span>
+        <span>마비증상 또는 감각둔화가 있다</span>
+      </label>
+      <label class="check-item is-danger">
+        <span class="c-box"></span>
+        <span>대소변 실수를 한 적이 있다</span>
+      </label>
+      <label class="check-item is-danger">
+        <span class="c-box"></span>
+        <span>가만히 있어도 통증이 순식간에 강하게 증가한다</span>
+      </label>
+    </div>
+    <button class="btn-next" onclick="submitS0()">다음 →</button>
+    <p style="font-size:0.78rem;color:var(--gray5);margin-top:0.7rem;text-align:center">해당 없으면 그냥 다음으로 넘어가세요</p>
+  </div>
+
+  <!-- 0단계 탈락 -->
+  <div class="screen" id="s-s0-fail">
+    <div class="fail-card medical">
+      <div class="fail-title">지금은 프로그램보다<br>병원이 먼저입니다</div>
+      <p class="fail-body">해당 증상은 즉각적인 의료 평가가 필요한 신호입니다. 신경외과 또는 정형외과 진료를 빠르게 받아보세요.<br><br>상태가 안정되면 그때 다시 찾아주세요.</p>
+    </div>
+    <button class="btn-restart" onclick="restart()">← 처음으로</button>
+  </div>
+
+  <!-- 1단계 Q1 -->
+  <div class="screen" id="s-q1">
+    <div class="prog-wrap">
+      <div class="prog-meta">
+        <span class="prog-label">1단계 · 1 / 4</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:28%"></div></div>
+    </div>
+    <div class="stage-tag">준비 확인</div>
+    <h2 class="q-title">아프신 지 6개월이<br>넘으셨나요?</h2>
+    <div class="choices">
+      <button class="choice-btn" onclick="s1(1,'네')">
+        <span class="c-dot"></span> 네, 6개월이 넘었습니다
+      </button>
+      <button class="choice-btn" onclick="s1(1,'아니오')">
+        <span class="c-dot"></span> 아니오, 아직 6개월이 안 됐습니다
+      </button>
+    </div>
+  </div>
+
+  <!-- 1단계 Q2 -->
+  <div class="screen" id="s-q2">
+    <div class="prog-wrap">
+      <div class="prog-meta"><span class="prog-label">1단계 · 2 / 4</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:44%"></div></div>
+    </div>
+    <div class="stage-tag">준비 확인</div>
+    <h2 class="q-title">병원 치료로<br>해결된 부분이 없으신가요?</h2>
+    <p class="q-sub">주사, 도수치료, 물리치료, 한의원 등 모두 포함해서요.</p>
+    <div class="choices">
+      <button class="choice-btn" onclick="s1(2,'네')">
+        <span class="c-dot"></span> 네, 해결된 게 없습니다
+      </button>
+      <button class="choice-btn" onclick="s1(2,'아니오')">
+        <span class="c-dot"></span> 아니오, 치료가 도움됐습니다
+      </button>
+      <button class="choice-btn" onclick="s1(2,'모르겠음')">
+        <span class="c-dot"></span> 잘 모르겠습니다
+      </button>
+    </div>
+  </div>
+
+  <!-- 1단계 Q3 -->
+  <div class="screen" id="s-q3">
+    <div class="prog-wrap">
+      <div class="prog-meta"><span class="prog-label">1단계 · 3 / 4</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:58%"></div></div>
+    </div>
+    <div class="stage-tag">준비 확인</div>
+    <h2 class="q-title">일상의 어려움이<br>크다고 느끼시나요?</h2>
+    <p class="q-sub">통증 때문에 일, 수면, 이동이 제한되는 상황이요.</p>
+    <div class="choices">
+      <button class="choice-btn" onclick="s1(3,'네')">
+        <span class="c-dot"></span> 네, 일상이 많이 힘듭니다
+      </button>
+      <button class="choice-btn" onclick="s1(3,'아니오')">
+        <span class="c-dot"></span> 아니오, 크게 지장은 없습니다
+      </button>
+      <button class="choice-btn" onclick="s1(3,'모르겠음')">
+        <span class="c-dot"></span> 잘 모르겠습니다
+      </button>
+    </div>
+  </div>
+
+  <!-- 1단계 Q4 -->
+  <div class="screen" id="s-q4">
+    <div class="prog-wrap">
+      <div class="prog-meta"><span class="prog-label">1단계 · 4 / 4</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:72%"></div></div>
+    </div>
+    <div class="stage-tag">준비 확인</div>
+    <h2 class="q-title">회복은 긴 여정이라는 걸<br>이해하시나요?</h2>
+    <p class="q-sub">몇 주 만에 마법은 없습니다.</p>
+    <div class="choices">
+      <button class="choice-btn" onclick="s1(4,'네')">
+        <span class="c-dot"></span> 네, 그 과정을 감당할 준비가 됐습니다
+      </button>
+      <button class="choice-btn" onclick="s1(4,'아니오')">
+        <span class="c-dot"></span> 아니오, 빠른 결과를 원합니다
+      </button>
+      <button class="choice-btn" onclick="s1(4,'모르겠음')">
+        <span class="c-dot"></span> 잘 모르겠습니다
+      </button>
+    </div>
+  </div>
+
+  <!-- 1단계 탈락 -->
+  <div class="screen" id="s-s1-fail">
+    <div class="fail-card honest">
+      <div class="fail-title">지금은 우리 프로그램이<br>필요한 시점이 아닐 수 있어요</div>
+      <p class="fail-body">이 프로그램은 다른 방법이 통하지 않았던 분들, 이미 충분히 힘드신 분들을 위한 것입니다.<br><br>지금 당장이 아니어도 괜찮습니다. 더 간절해지면 그때 다시 찾아주세요. 기다리겠습니다.</p>
+    </div>
+    <button class="btn-restart" onclick="restart()">← 처음으로</button>
+  </div>
+
+  <!-- 2단계: 상태 파악 -->
+  <div class="screen" id="s-s2">
+    <div class="prog-wrap">
+      <div class="prog-meta"><span class="prog-label">마지막 확인</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:88%"></div></div>
+    </div>
+    <div class="stage-tag">상태 확인</div>
+    <h2 class="q-title">해당되는 것을<br>모두 체크해주세요</h2>
+    <p class="q-sub">솔직하게 체크할수록 맞는 프로그램을 안내드릴 수 있어요.</p>
+    <div class="checklist" id="s2-list">
+      <label class="check-item">
+        <span class="c-box"></span>
+        <span>걷기 20분 이상 통증 없이 가능하다</span>
+      </label>
+      <label class="check-item">
+        <span class="c-box"></span>
+        <span>슬로우조깅 10분 이상도 가능하다</span>
+      </label>
+      <label class="check-item">
+        <span class="c-box"></span>
+        <span>최근 12주 이내 수술이나 시술을 받지 않았다</span>
+      </label>
+    </div>
+    <button class="btn-next" onclick="submitS2()">결과 보기 →</button>
+  </div>
+
+  <!-- 결과: 그룹 -->
+  <div class="screen" id="s-result-group">
+    <div class="prog-wrap">
+      <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
+    </div>
+    <div class="result-tag">진단 완료</div>
+    <h2 class="result-title">그룹 프로그램이<br>맞습니다</h2>
+    <p class="result-desc">현재 활동 수준과 회복 의지를 고려했을 때, 12주 커리큘럼 안에서 함께하는 구조가 잘 맞습니다.</p>
+    <div class="result-card">
+      <div class="rc-tag">그룹 커리큘럼</div>
+      <div class="rc-name">회복 나침반 그룹 프로그램</div>
+      <div class="rc-desc">같은 상황의 분들과 함께, 12주 단계별 커리큘럼으로 진행합니다. 주말 리포트 + 분석 포함. 4주 단위.</div>
+      <a href="https://recovery-log-production.up.railway.app/go" target="_blank" class="btn-apply teal">그룹 프로그램 신청하기 →</a>
+    </div>
+    <button class="btn-restart" onclick="restart()">← 다시 하기</button>
+  </div>
+
+  <!-- 결과: 1:1 -->
+  <div class="screen" id="s-result-1on1">
+    <div class="prog-wrap">
+      <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
+    </div>
+    <div class="result-tag">진단 완료</div>
+    <h2 class="result-title">1:1 나침반이<br>맞습니다</h2>
+    <p class="result-desc">지금 상태에서는 코치가 매일 직접 기록을 보고 판단하는 구조가 필요합니다. 혼자 기준을 세우기엔 변수가 많습니다.</p>
+    <div class="result-card">
+      <div class="rc-tag">1:1 밀착 코칭</div>
+      <div class="rc-name">회복 나침반 1:1</div>
+      <div class="rc-desc">매일 기록 + 코치 1:1 피드백. 슬조 도입 시점과 강도를 코치가 직접 판단합니다. 4주 단위.</div>
+      <a href="https://recovery-log-production.up.railway.app/go1" target="_blank" class="btn-apply">1:1 나침반 신청하기 →</a>
+    </div>
+    <button class="btn-restart" onclick="restart()">← 다시 하기</button>
+  </div>
+
+</div>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  document.querySelectorAll('.check-item').forEach(el => el.classList.remove('checked'));
+  go('s-intro');
+}
+
+// 체크리스트 클릭
+document.querySelectorAll('.check-item').forEach(item => {
+  item.addEventListener('click', () => item.classList.toggle('checked'));
+});
+
+// 0단계
+function submitS0() {
+  const fail = document.querySelectorAll('#s0-list .check-item.checked').length > 0;
+  go(fail ? 's-s0-fail' : 's-q1');
+}
+
+// 1단계 (즉시 판정)
+function s1(q, ans) {
+  const fail =
+    (q === 1 && ans === '아니오') ||
+    (q >= 2 && (ans === '아니오' || ans === '모르겠음'));
+  if (fail) { go('s-s1-fail'); return; }
+  const next = { 1: 's-q2', 2: 's-q3', 3: 's-q4', 4: 's-s2' };
+  go(next[q]);
+}
+
+// 2단계
+function submitS2() {
+  const cnt = document.querySelectorAll('#s2-list .check-item.checked').length;
+  go(cnt === 3 ? 's-result-group' : 's-result-1on1');
+}
+</script>
+</body>
+</html>
