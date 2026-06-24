@@ -64,40 +64,70 @@ nav {
 
 /* ─── 1-B. STATS ─── */
 .stats-section {
-  background: white;
-  padding: 4rem 2rem;
-  border-bottom: 1px solid var(--gray2);
-}
-.stats-headline {
-  text-align: center;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--g500);
-  margin-bottom: 2.5rem;
+  background: var(--g50);
+  padding: 5rem 2rem;
 }
 .stats-inner {
-  max-width: 840px; margin: 0 auto;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+  max-width: 760px; margin: 0 auto;
+}
+.stats-eyebrow {
+  font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--g500); font-weight: 700; margin-bottom: 1.8rem;
   text-align: center;
 }
-.stat-item {}
-.stat-num {
-  font-size: clamp(2.4rem, 5vw, 3.8rem);
+.stats-anchor {
+  text-align: center; margin-bottom: 1rem;
+}
+.stats-anchor-num {
+  font-size: clamp(4rem, 12vw, 7rem);
   font-weight: 900; color: var(--g900); line-height: 1;
-  display: block; margin-bottom: 0.5rem;
+  display: block; letter-spacing: -2px;
 }
-.stat-num span { color: var(--g500); }
-.stat-desc {
-  font-size: 0.88rem; color: var(--gray5); line-height: 1.6;
+.stats-anchor-label {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--gray7); font-weight: 400; margin-top: 0.5rem;
+  display: block;
 }
-.stat-divider {
-  width: 1px; background: var(--gray2); align-self: stretch; justify-self: center;
+.stats-support {
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--g100);
+  display: grid; grid-template-columns: 1fr 1px 1fr; gap: 2rem; align-items: center;
+}
+.stats-support-divider { background: var(--g100); align-self: stretch; }
+.stats-support-item { text-align: center; }
+.stats-support-num {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 900; color: var(--g900); display: block; line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.stats-support-num em { color: var(--g500); font-style: normal; }
+.stats-support-desc {
+  font-size: 0.85rem; color: var(--gray5); line-height: 1.65;
+}
+/* 10→1 여정선 */
+.journey-bar {
+  display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+.journey-val {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 900; line-height: 1;
+}
+.journey-val.start { color: var(--gray5); }
+.journey-val.end { color: var(--g500); }
+.journey-line {
+  flex: 1; max-width: 60px; height: 2px;
+  background: linear-gradient(to right, var(--gray2), var(--g400));
+  position: relative;
+}
+.journey-line::after {
+  content: ''; position: absolute; right: -4px; top: -3px;
+  border: 4px solid transparent; border-left: 6px solid var(--g400);
 }
 @media (max-width: 600px) {
-  .stats-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-  .stat-divider { display: none; }
+  .stats-support { grid-template-columns: 1fr; gap: 2rem; }
+  .stats-support-divider { display: none; }
 }
 
 /* ─── 2. DOUBT ─── */
@@ -314,21 +344,26 @@ footer a { color: var(--g400); text-decoration: none; }
 
 <!-- 1-B. 통계 -->
 <section class="stats-section">
-  <p class="stats-headline">이 숫자 뒤에 사람이 있습니다</p>
   <div class="stats-inner">
-    <div class="stat-item">
-      <span class="stat-num">68<span>명</span></span>
-      <p class="stat-desc">허리디스크로 힘드셨던 분들이<br>1기부터 지금까지 찾아주셨습니다</p>
+    <p class="stats-eyebrow">지금까지의 기록</p>
+    <div class="stats-anchor">
+      <span class="stats-anchor-num">68명</span>
+      <span class="stats-anchor-label">허리디스크로 힘드셨던 분들이 1기부터 지금까지 찾아주셨습니다</span>
     </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <span class="stat-num">64<span>%</span></span>
-      <p class="stat-desc">매일 기록을 쌓은 분들 중<br>"통증이 줄었다"고 직접 남긴 비율</p>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <span class="stat-num">10<span>점</span></span>
-      <p class="stat-desc">극심한 통증으로 시작하신 분이<br>지금은 1점에 머물고 있습니다</p>
+    <div class="stats-support">
+      <div class="stats-support-item">
+        <span class="stats-support-num">64<em>%</em></span>
+        <p class="stats-support-desc">꾸준히 기록한 분들 중<br>"통증이 줄었다"고 직접 남긴 비율</p>
+      </div>
+      <div class="stats-support-divider"></div>
+      <div class="stats-support-item">
+        <div class="journey-bar">
+          <span class="journey-val start">10점</span>
+          <div class="journey-line"></div>
+          <span class="journey-val end">1점</span>
+        </div>
+        <p class="stats-support-desc">가장 극심한 통증으로 시작하신 분이<br>지금 머물고 있는 곳</p>
+      </div>
     </div>
   </div>
 </section>
