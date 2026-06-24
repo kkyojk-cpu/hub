@@ -180,8 +180,17 @@ nav {
         <span>가만히 있어도 통증이 순식간에 강하게 증가한다</span>
       </label>
     </div>
-    <button class="btn-next" onclick="submitS0()">다음 →</button>
-    <p style="font-size:0.78rem;color:var(--gray5);margin-top:0.7rem;text-align:center">해당 없으면 그냥 다음으로 넘어가세요</p>
+    <button class="btn-next" onclick="submitS0()" id="s0-btn">해당 없습니다, 다음으로 →</button>
+
+<script>
+document.querySelectorAll('#s0-list .check-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const btn = document.getElementById('s0-btn');
+    const anyChecked = document.querySelectorAll('#s0-list .check-item.checked').length > 0;
+    btn.textContent = anyChecked ? '해당 항목 확인 완료' : '해당 없습니다, 다음으로 →';
+  });
+});
+</script>
   </div>
 
   <!-- 0단계 탈락 -->
