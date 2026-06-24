@@ -62,6 +62,35 @@ nav {
   font-size: 1rem; color: rgba(255,255,255,0.6); line-height: 1.8;
 }
 
+/* ─── 1-B. STATS ─── */
+.stats-section {
+  background: white;
+  padding: 4rem 2rem;
+  border-bottom: 1px solid var(--gray2);
+}
+.stats-inner {
+  max-width: 840px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+  text-align: center;
+}
+.stat-item {}
+.stat-num {
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 900; color: var(--g900); line-height: 1;
+  display: block; margin-bottom: 0.5rem;
+}
+.stat-num span { color: var(--g500); }
+.stat-desc {
+  font-size: 0.88rem; color: var(--gray5); line-height: 1.6;
+}
+.stat-divider {
+  width: 1px; background: var(--gray2); align-self: stretch; justify-self: center;
+}
+@media (max-width: 600px) {
+  .stats-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .stat-divider { display: none; }
+}
+
 /* ─── 2. DOUBT ─── */
 .doubt-section {
   background: var(--gray1);
@@ -271,6 +300,26 @@ footer a { color: var(--g400); text-decoration: none; }
     <p class="opening-line dim">그런데 아무것도 남지 않았다</p>
     <div class="opening-divider"></div>
     <p class="opening-body">이 사람들이 찾은 건 수술이 아니라<br>스스로 회복하는 방법이었습니다</p>
+  </div>
+</section>
+
+<!-- 1-B. 통계 -->
+<section class="stats-section">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-num">68<span>명</span></span>
+      <p class="stat-desc">1기부터 지금까지<br>함께한 모든 분들</p>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">64<span>%</span></span>
+      <p class="stat-desc">앱 기록 기준<br>통증이 감소한 참여자</p>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">10<span>→1</span></span>
+      <p class="stat-desc">실제 기록에서 나온<br>최대 VAS 감소 케이스</p>
+    </div>
   </div>
 </section>
 
