@@ -287,55 +287,6 @@ footer a:hover { text-decoration: underline; }
   </div>
 </section>
 
-<!-- 참여자 후기 -->
-<section class="testi-sec" id="testimonials" style="display:none">
-  <div class="testi-inner">
-    <div class="testi-label">참여자 변화</div>
-    <h2 class="testi-title">실제로 달라진 분들이 있습니다</h2>
-    <p style="color:rgba(255,255,255,.7); font-size:0.9rem; margin-bottom:2rem;">가장 최근 기록을 업데이트해서 보여드려요</p>
-    <div class="testi-grid" id="testi-grid"></div>
-    <div class="testi-dots" id="testi-dots"></div>
-  </div>
-</section>
-<script>
-(function() {
-  fetch("https://recovery-log-production.up.railway.app/api/testimonials")
-    .then(r => r.json())
-    .then(data => {
-      if (!data || data.length === 0) return;
-      const sec = document.getElementById("testimonials");
-      const grid = document.getElementById("testi-grid");
-      const dots = document.getElementById("testi-dots");
-      sec.style.display = "";
-      data.forEach((t, i) => {
-        const card = document.createElement("div");
-        card.className = "testi-card" + (i === 0 ? " active" : "");
-        card.innerHTML =
-          '<div class="testi-card-label">' + t.label + '</div>' +
-          '<div class="testi-vas"><span class="testi-vas-num">' + t.startVas + '점</span>' +
-          '<span class="testi-vas-arrow">→</span>' +
-          '<span class="testi-vas-num" style="color:var(--g400)">' + t.minVas + '점</span></div>' +
-          (t.excerpt ? '<div class="testi-excerpt">&ldquo;' + t.excerpt + '&rdquo;</div>' : '');
-        grid.appendChild(card);
-        const dot = document.createElement("div");
-        dot.className = "testi-dot" + (i === 0 ? " active" : "");
-        dot.onclick = () => goTo(i);
-        dots.appendChild(dot);
-      });
-      let cur = 0;
-      const cards = grid.querySelectorAll(".testi-card");
-      const dotEls = dots.querySelectorAll(".testi-dot");
-      function goTo(idx) {
-        cards[cur].classList.remove("active"); dotEls[cur].classList.remove("active");
-        cur = idx;
-        cards[cur].classList.add("active"); dotEls[cur].classList.add("active");
-      }
-      setInterval(() => goTo((cur + 1) % cards.length), 5000);
-    })
-    .catch(() => {});
-})();
-</script>
-
 <!-- 유튜브 키콘텐츠 -->
 <section class="extra-sec" id="videos">
   <div class="extra-inner">
