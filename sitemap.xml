@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://kkyojk-cpu.github.io/hub/</loc>
+    <loc>https://hub-murex-eta.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://kkyojk-cpu.github.io/hub/회복사례.html</loc>
+    <loc>https://hub-murex-eta.vercel.app/회복사례.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://kkyojk-cpu.github.io/hub/데이터.html</loc>
+    <loc>https://hub-murex-eta.vercel.app/데이터.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://kkyojk-cpu.github.io/hub/신청하기.html</loc>
+    <loc>https://hub-murex-eta.vercel.app/신청하기.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kkyojk-cpu.github.io/hub/자가진단.html</loc>
+    <loc>https://hub-murex-eta.vercel.app/자가진단.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://hub-murex-eta.vercel.app/가이드북.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
