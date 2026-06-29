@@ -47,29 +47,33 @@ nav {
 .opening-sub { font-size: 1rem; color: rgba(255,255,255,0.5); line-height: 1.85; max-width: 500px; margin: 0 auto; }
 
 /* ZONE BAR */
-.zone-bar { background: #0a0f0a; padding: 2rem 2rem; border-bottom: 1px solid #1a2a1a; }
+.zone-bar { background: #0d1a10; padding: 2.5rem 2rem; border-bottom: 1px solid #1e3a20; }
 .zone-bar-inner { max-width: 900px; margin: 0 auto; }
-.zone-bar-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); font-weight: 700; margin-bottom: 1.2rem; text-align: center; }
+.zone-bar-label { font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 700; margin-bottom: 1.6rem; text-align: center; }
 .zone-track { display: flex; align-items: center; gap: 0; }
 .zone-stop {
   display: flex; flex-direction: column; align-items: center; flex: 1;
   position: relative; cursor: default;
 }
 .zone-dot {
-  width: 36px; height: 36px; border-radius: 50%;
+  width: 42px; height: 42px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.75rem; font-weight: 800; margin-bottom: 0.5rem;
+  font-size: 0.85rem; font-weight: 800; margin-bottom: 0.7rem;
   position: relative; z-index: 2;
 }
-.zone-dot.z0 { background: rgba(239,68,68,0.15); color: #ef4444; border: 1.5px solid rgba(239,68,68,0.3); }
-.zone-dot.z1 { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1.5px solid rgba(245,158,11,0.3); }
-.zone-dot.z2 { background: rgba(239,68,68,0.25); color: #fca5a5; border: 1.5px solid rgba(239,68,68,0.5); width: 44px; height: 44px; font-size: 0.85rem; }
-.zone-dot.z3 { background: rgba(16,185,129,0.2); color: var(--g400); border: 1.5px solid rgba(16,185,129,0.4); }
-.zone-dot.z4 { background: rgba(16,185,129,0.12); color: var(--g400); border: 1.5px solid rgba(16,185,129,0.25); }
-.zone-dot.z5 { background: rgba(16,185,129,0.08); color: rgba(52,211,153,0.7); border: 1.5px solid rgba(16,185,129,0.15); }
-.zone-name { font-size: 0.65rem; color: rgba(255,255,255,0.35); text-align: center; line-height: 1.4; }
-.zone-name.active { color: rgba(255,255,255,0.7); }
-.zone-connector { flex: 1; height: 1px; background: rgba(255,255,255,0.08); max-width: 40px; margin-bottom: 1.5rem; }
+.zone-dot.z0 { background: rgba(239,68,68,0.2); color: #f87171; border: 1.5px solid rgba(239,68,68,0.45); }
+.zone-dot.z1 { background: rgba(245,158,11,0.2); color: #fbbf24; border: 1.5px solid rgba(245,158,11,0.45); }
+.zone-dot.z2 { background: rgba(239,68,68,0.3); color: #fca5a5; border: 2px solid rgba(239,68,68,0.65); width: 48px; height: 48px; font-size: 0.9rem; }
+.zone-dot.z3 {
+  background: var(--g500); color: white; border: 2px solid var(--g400);
+  width: 64px; height: 64px; font-size: 1.1rem;
+  box-shadow: 0 0 0 6px rgba(16,185,129,0.15), 0 0 24px rgba(16,185,129,0.35);
+}
+.zone-dot.z4 { background: rgba(16,185,129,0.2); color: var(--g400); border: 1.5px solid rgba(16,185,129,0.4); }
+.zone-dot.z5 { background: rgba(16,185,129,0.12); color: rgba(52,211,153,0.8); border: 1.5px solid rgba(16,185,129,0.25); }
+.zone-name { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-align: center; line-height: 1.5; font-weight: 600; }
+.zone-name.active { color: var(--g400); font-weight: 800; font-size: 0.8rem; }
+.zone-connector { flex: 1; height: 1px; background: rgba(255,255,255,0.12); max-width: 40px; margin-bottom: 2rem; }
 
 /* SECTION BASE */
 .z-sec { padding: 6rem 2rem; }
