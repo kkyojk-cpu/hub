@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>디스크의 시작과 끝 — 허리디스크 회복연구소</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --g900: #064e3b; --g700: #047857; --g600: #059669;
+  --g500: #10b981; --g400: #34d399; --g100: #d1fae5; --g50: #ecfdf5;
+  --gray9: #111827; --gray7: #374151; --gray5: #6b7280;
+  --gray2: #e5e7eb; --gray1: #f3f4f6;
+  --red: #ef4444; --amber: #f59e0b;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Pretendard', -apple-system, sans-serif; background: white; color: var(--gray9); line-height: 1.7; word-break: keep-all; overflow-wrap: break-word; }
+
+/* NAV */
+nav {
+  background: var(--g900); padding: 0.9rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+.nav-logo { color: white; font-size: 1rem; font-weight: 800; text-decoration: none; white-space: nowrap; }
+.nav-logo span { color: var(--g400); }
+.nav-links { display: flex; gap: 1.2rem; list-style: none; }
+.nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.85rem; transition: color .2s; white-space: nowrap; }
+.nav-links a:hover, .nav-links a.active { color: var(--g400); }
+
+/* OPENING */
+.opening {
+  background: #060e08; padding: 7rem 2rem 5rem;
+  text-align: center; position: relative; overflow: hidden;
+}
+.opening::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 60%, #0d2b19 0%, #060e08 65%);
+}
+.opening-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+.opening-pre { font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--g400); font-weight: 700; margin-bottom: 2rem; }
+.opening-title {
+  font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 900; color: white;
+  line-height: 1.2; margin-bottom: 1.8rem; letter-spacing: -0.5px;
+}
+.opening-sub { font-size: 1rem; color: rgba(255,255,255,0.5); line-height: 1.85; max-width: 500px; margin: 0 auto; }
+
+/* ZONE BAR */
+.zone-bar { background: #0a0f0a; padding: 2rem 2rem; border-bottom: 1px solid #1a2a1a; }
+.zone-bar-inner { max-width: 900px; margin: 0 auto; }
+.zone-bar-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); font-weight: 700; margin-bottom: 1.2rem; text-align: center; }
+.zone-track { display: flex; align-items: center; gap: 0; }
+.zone-stop {
+  display: flex; flex-direction: column; align-items: center; flex: 1;
+  position: relative; cursor: default;
+}
+.zone-dot {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 800; margin-bottom: 0.5rem;
+  position: relative; z-index: 2;
+}
+.zone-dot.z0 { background: rgba(239,68,68,0.15); color: #ef4444; border: 1.5px solid rgba(239,68,68,0.3); }
+.zone-dot.z1 { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1.5px solid rgba(245,158,11,0.3); }
+.zone-dot.z2 { background: rgba(239,68,68,0.25); color: #fca5a5; border: 1.5px solid rgba(239,68,68,0.5); width: 44px; height: 44px; font-size: 0.85rem; }
+.zone-dot.z3 { background: rgba(16,185,129,0.2); color: var(--g400); border: 1.5px solid rgba(16,185,129,0.4); }
+.zone-dot.z4 { background: rgba(16,185,129,0.12); color: var(--g400); border: 1.5px solid rgba(16,185,129,0.25); }
+.zone-dot.z5 { background: rgba(16,185,129,0.08); color: rgba(52,211,153,0.7); border: 1.5px solid rgba(16,185,129,0.15); }
+.zone-name { font-size: 0.65rem; color: rgba(255,255,255,0.35); text-align: center; line-height: 1.4; }
+.zone-name.active { color: rgba(255,255,255,0.7); }
+.zone-connector { flex: 1; height: 1px; background: rgba(255,255,255,0.08); max-width: 40px; margin-bottom: 1.5rem; }
+
+/* SECTION BASE */
+.z-sec { padding: 6rem 2rem; }
+.z-inner { max-width: 720px; margin: 0 auto; }
+.z-tag { font-size: 0.7rem; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem; }
+.z-tag::after { content: ''; flex: 1; height: 1px; background: currentColor; opacity: 0.2; }
+.z-title { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 900; line-height: 1.3; margin-bottom: 1.2rem; }
+.z-desc { font-size: 0.95rem; line-height: 1.9; color: var(--gray7); }
+.z-desc + .z-desc { margin-top: 1rem; }
+.z-bullets { margin: 1.5rem 0 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.z-bullets li { font-size: 0.9rem; color: var(--gray7); padding-left: 1.2rem; position: relative; line-height: 1.7; }
+.z-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--gray5); }
+
+/* ZONE 0 */
+.sec-z0 { background: var(--gray1); }
+.sec-z0 .z-tag { color: var(--red); }
+.sec-z0 .z-title { color: var(--gray9); }
+
+/* ZONE 1 */
+.sec-z1 { background: white; }
+.sec-z1 .z-tag { color: var(--amber); }
+.sec-z1 .z-title { color: var(--gray9); }
+
+/* ZONE 2 — 클라이맥스 */
+.sec-z2 { background: #05090a; padding: 8rem 2rem; }
+.sec-z2 .z-inner { max-width: 760px; }
+.sec-z2 .z-tag { color: #fca5a5; }
+.sec-z2 .z-title { color: white; font-size: clamp(1.8rem, 4vw, 2.8rem); }
+.sec-z2 .z-desc { color: rgba(255,255,255,0.65); }
+.z2-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 2.5rem 0; }
+
+/* 풀쿼트 */
+.pull-quote {
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-weight: 900; color: white; line-height: 1.35;
+  padding: 2.5rem 0; border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin: 2.5rem 0;
+}
+.pull-quote em { color: #fca5a5; font-style: normal; }
+.pull-quote.green em { color: var(--g400); }
+
+/* 강조 문장 */
+.z2-statement { font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.9; margin: 1.2rem 0; }
+.z2-statement strong { color: white; }
+.z2-box {
+  background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.15);
+  border-left: 3px solid rgba(239,68,68,0.5); border-radius: 0 10px 10px 0;
+  padding: 1.4rem 1.6rem; margin: 2rem 0;
+}
+.z2-box p { font-size: 0.9rem; color: rgba(255,255,255,0.65); line-height: 1.85; }
+.z2-box p + p { margin-top: 0.8rem; }
+
+/* ZONE 3 */
+.sec-z3 { background: var(--g900); padding: 8rem 2rem; }
+.sec-z3 .z-tag { color: var(--g400); }
+.sec-z3 .z-title { color: white; }
+.sec-z3 .z-desc { color: rgba(255,255,255,0.7); }
+.paper-box {
+  background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.2);
+  border-radius: 14px; padding: 1.6rem 1.8rem; margin: 2.5rem 0;
+}
+.paper-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--g400); font-weight: 700; margin-bottom: 0.8rem; }
+.paper-text { font-size: 0.88rem; color: rgba(255,255,255,0.7); line-height: 1.85; }
+.paper-text strong { color: var(--g400); }
+.z3-pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+.z3-pillar {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 1.2rem 1.4rem;
+}
+.z3-pillar-num { font-size: 0.7rem; color: var(--g400); font-weight: 700; margin-bottom: 0.4rem; letter-spacing: 1px; }
+.z3-pillar-text { font-size: 0.88rem; color: rgba(255,255,255,0.7); line-height: 1.65; }
+
+/* ZONE 4~5 */
+.sec-z45 { background: var(--g50); padding: 5rem 2rem; }
+.z45-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2.5rem; }
+.z45-card { background: white; border-radius: 16px; padding: 1.8rem 1.6rem; border: 1.5px solid var(--g100); }
+.z45-tag { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--g600); font-weight: 700; margin-bottom: 0.5rem; }
+.z45-title { font-size: 1.05rem; font-weight: 800; color: var(--gray9); margin-bottom: 0.8rem; }
+.z45-note { font-size: 0.82rem; color: var(--g700); font-weight: 600; margin-bottom: 0.8rem; padding: 0.5rem 0.8rem; background: var(--g50); border-radius: 8px; }
+.z45-bullets { list-style: none; padding: 0; }
+.z45-bullets li { font-size: 0.85rem; color: var(--gray5); padding-left: 1rem; position: relative; margin-bottom: 0.35rem; line-height: 1.65; }
+.z45-bullets li::before { content: '·'; position: absolute; left: 0; color: var(--g500); font-weight: 900; }
+
+/* CLOSING */
+.closing { background: var(--g900); padding: 6rem 2rem; text-align: center; }
+.closing-inner { max-width: 540px; margin: 0 auto; }
+.closing-title { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 900; color: white; line-height: 1.4; margin-bottom: 1rem; }
+.closing-body { font-size: 0.95rem; color: rgba(255,255,255,0.55); line-height: 1.85; margin-bottom: 2.5rem; }
+.closing-btn {
+  display: inline-block; padding: 1rem 2.4rem; background: var(--g500); color: white;
+  border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 1rem; transition: background .2s;
+}
+.closing-btn:hover { background: var(--g400); }
+
+footer { background: #060e08; color: rgba(255,255,255,.3); padding: 2.5rem 2rem; text-align: center; font-size: 0.82rem; }
+footer a { color: var(--g400); text-decoration: none; }
+
+@media (max-width: 768px) {
+  nav { padding: 0.8rem 1rem 0.6rem; flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+  .nav-links { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; gap: 0.9rem; padding-bottom: 2px; width: 100%; }
+  .nav-links a { font-size: 0.78rem; }
+  .opening { padding: 5rem 1.2rem 3.5rem; }
+  .z-sec { padding: 4rem 1.2rem; }
+  .sec-z2 { padding: 5rem 1.2rem; }
+  .sec-z3 { padding: 5rem 1.2rem; }
+  .pull-quote { font-size: clamp(1.2rem, 5vw, 1.7rem); padding: 2rem 0; }
+  .z3-pillars { grid-template-columns: 1fr; }
+  .z45-grid { grid-template-columns: 1fr; }
+  .zone-name { font-size: 0.58rem; }
+  .zone-connector { max-width: 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://hub-murex-eta.vercel.app/" class="nav-logo">허리디스크 <span>회복연구소</span></a>
+  <ul class="nav-links">
+    <li><a href="디스크의시작과끝.html" class="active">회복의 구조</a></li>
+    <li><a href="가이드북.html">가이드북</a></li>
+    <li><a href="회복사례.html">회복 사례</a></li>
+    <li><a href="데이터.html">데이터</a></li>
+    <li><a href="신청하기.html">신청하기</a></li>
+    <li><a href="https://youtube.com/channel/UCIl78SFUFNzliMFDV2oS5BA" target="_blank">유튜브 ↗</a></li>
+    <li><a href="http://pf.kakao.com/_xmnxfyn" target="_blank">카카오톡 ↗</a></li>
+  </ul>
+</nav>
+
+<!-- OPENING -->
+<section class="opening">
+  <div class="opening-inner">
+    <div class="opening-pre">디스크의 시작과 끝</div>
+    <h1 class="opening-title">발병부터 일상 복귀까지,<br>아무도 알려주지 않은 구조</h1>
+    <p class="opening-sub">허리디스크 환자라면 누구나 지나게 되는 여정이 있습니다. 우리는 그 구조를 처음으로 들여다봤습니다.</p>
+  </div>
+</section>
+
+<!-- ZONE BAR -->
+<div class="zone-bar">
+  <div class="zone-bar-inner">
+    <div class="zone-bar-label">허리디스크 회복 여정 전체 구조</div>
+    <div class="zone-track">
+      <div class="zone-stop">
+        <div class="zone-dot z0">0</div>
+        <div class="zone-name">발병</div>
+      </div>
+      <div class="zone-connector"></div>
+      <div class="zone-stop">
+        <div class="zone-dot z1">1</div>
+        <div class="zone-name">진단</div>
+      </div>
+      <div class="zone-connector"></div>
+      <div class="zone-stop">
+        <div class="zone-dot z2">2</div>
+        <div class="zone-name active">공백<br>⚠️</div>
+      </div>
+      <div class="zone-connector"></div>
+      <div class="zone-stop">
+        <div class="zone-dot z3">3</div>
+        <div class="zone-name">나침반<br>🧭</div>
+      </div>
+      <div class="zone-connector"></div>
+      <div class="zone-stop">
+        <div class="zone-dot z4">4</div>
+        <div class="zone-name">기능<br>회복</div>
+      </div>
+      <div class="zone-connector"></div>
+      <div class="zone-stop">
+        <div class="zone-dot z5">5</div>
+        <div class="zone-name">장기<br>유지</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ZONE 0 -->
+<section class="z-sec sec-z0">
+  <div class="z-inner">
+    <div class="z-tag" style="color:var(--red)">Zone 0 — INCIDENCE ZONE</div>
+    <h2 class="z-title">발병 / 증상 시작</h2>
+    <ul class="z-bullets">
+      <li>허리 통증 발생</li>
+      <li>급성 디스크 의심</li>
+      <li>초기 기능 저하 및 통증의 시작</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ZONE 1 -->
+<section class="z-sec sec-z1">
+  <div class="z-inner">
+    <div class="z-tag" style="color:var(--amber)">Zone 1 — MEDICAL TRIAGE ZONE</div>
+    <h2 class="z-title">의료 분류 구간 — 병원의 영역</h2>
+    <ul class="z-bullets">
+      <li>MRI / 진단</li>
+      <li>수술, 시술 여부 판단</li>
+      <li>신경학적 위험 평가</li>
+      <li>Red Flag 제거 — 진짜 수술의 적응증, 긴급성 존재, 비가역적 손상, 영구적 기능 소실 우려</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ZONE 2 -->
+<section class="sec-z2">
+  <div class="z-inner">
+    <div class="z-tag">Zone 2 — DISCHARGE GAP ZONE</div>
+    <h2 class="z-title">핵심 공백<br>시스템이 비어 있는 구간</h2>
+
+    <div class="pull-quote">
+      <em>"큰 문제 아닙니다"</em><br>
+      <em>"수술은 아닙니다"</em>
+    </div>
+
+    <p class="z2-statement">이 말이 나온 이후, <strong>플랜이 끊깁니다.</strong></p>
+    <p class="z2-statement">약과 주사 후 귀가 — 반복의 굴레가 시작됩니다.</p>
+    <p class="z2-statement">행동 가이드는 없습니다. 단 한마디만 남습니다.</p>
+
+    <div class="pull-quote">
+      <em>"집에서 잘 관리하셔요"</em>
+    </div>
+
+    <p class="z2-statement">이 말은 <strong>치료 시스템의 관심이 끝나는 신호</strong>이며<br>동시에 환자의 회복을 위한 방안이 증발되는 일입니다.</p>
+
+    <div class="z2-divider"></div>
+
+    <p class="z2-statement">이유는 단순합니다.</p>
+
+    <div class="z2-box">
+      <p>시스템은 '치료 대상'인 환자에게만 작동합니다. 치료의 적응증이 아닌 환자로 분류되는 순간 — 환자는 사실상 시스템 밖으로 나옵니다.</p>
+      <p>현대 의료는 아직 즉각적 증상만을 처리합니다. 허리디스크 환자의 회복을 위한 공급망을 마련하는 데 필요한 경제적, 기간적 비용의 리스크를 아무도 안으려 하지 않기 때문입니다.</p>
+      <p>정확하게는 — 그 누구도 이 다음의 디스크 맞춤 회복 플랜을 확립하지 못했습니다. 데이터 증명이 아니라 각자의 주장이 난무하고 있습니다.</p>
+    </div>
+
+    <div class="z2-divider"></div>
+
+    <p class="z2-statement">이 공백에서 환자들이 찾아가는 서비스들의 대부분은 —<br><strong>순서가 틀렸습니다.</strong></p>
+
+    <p class="z2-statement">통증이 개선된 이후에 효과가 있는 접근들이,<br>통증이 가장 극심한 이 시점에 먼저 소비되고 있습니다.</p>
+
+    <p class="z2-statement">여러분도 아실 근육개선, 불균형 개선 치료가 우선으로 왔을 때<br>오히려 변수가 되는 상황으로 이끌어집니다.</p>
+
+    <div class="z2-divider"></div>
+
+    <p class="z2-statement">공포, 혼란, 비활동.</p>
+    <p class="z2-statement">방법론의 부재, 실제 회복 플랜 구축의 부재.</p>
+    <p class="z2-statement"><strong>이 구간에서 여러분 모두가 속고 있습니다.</strong></p>
+  </div>
+</section>
+
+<!-- ZONE 3 -->
+<section class="sec-z3">
+  <div class="z-inner">
+    <div class="z-tag">Zone 3 — SELF-RECOVERY INFRA ZONE</div>
+    <h2 class="z-title">허리디스크 회복나침반의 영역</h2>
+
+    <p class="z-desc">제가 누누이 말씀드리는 거죠.</p>
+    <p class="z-desc" style="color:var(--g400);font-weight:700;font-size:1.05rem;margin:1rem 0;">그래서 '스스로 판단하는 구조'가 필요합니다.<br>그걸 만들어냅니다.</p>
+
+    <div class="paper-box">
+      <div class="paper-label">과학적 근거</div>
+      <p class="paper-text"><strong>Running exercise strengthens the intervertebral disc</strong></p>
+      <p class="paper-text" style="margin-top:0.6rem;">달리기 운동이 추간판의 수화(hydration) 및 프로테오글리칸(GAG) 함량을 높이고 추간판 비대와 연관된다. 인간을 대상으로 운동이 추간판에 긍정적으로 반응할 수 있다는 <strong>최초의 직접 증거.</strong></p>
+    </div>
+
+    <p class="z-desc">추간판의 적정 자극을 통한 추간판 자체 힐링 기전을 차용합니다.<br>회복 사례, 실제 수집 데이터, 연구 근거를 연계한 방법론과 플랜을 구축합니다.</p>
+
+    <div class="z3-pillars">
+      <div class="z3-pillar">
+        <div class="z3-pillar-num">01</div>
+        <div class="z3-pillar-text">환자에게 밀착한<br>생활 기반 회복</div>
+      </div>
+      <div class="z3-pillar">
+        <div class="z3-pillar-num">02</div>
+        <div class="z3-pillar-text">일상적 움직임과<br>활동성 복귀 설계</div>
+      </div>
+      <div class="z3-pillar">
+        <div class="z3-pillar-num">03</div>
+        <div class="z3-pillar-text">꾸준한 관찰과 기록으로<br>통증 변동폭 대응</div>
+      </div>
+      <div class="z3-pillar">
+        <div class="z3-pillar-num">04</div>
+        <div class="z3-pillar-text">타인의 개입 의존을 낮추는<br>행동 의사결정 시스템</div>
+      </div>
+    </div>
+
+    <p class="z-desc">일별, 주별, 월별 주기적인 추적 관리가 이어집니다.<br>단일적인 방법 제공만 하거나 환자의 몫으로 돌리지 않습니다.<br>집요한 원인 파악과 회복 궤도 안착을 위한 지속성이 핵심입니다.</p>
+  </div>
+</section>
+
+<!-- ZONE 4~5 -->
+<section class="z-sec sec-z45">
+  <div class="z-inner">
+    <div class="z-tag" style="color:var(--g600)">Zone 4 · 5 — 그 다음</div>
+    <h2 class="z-title" style="color:var(--gray9)">Zone 3이 해결되면, 그때부터입니다</h2>
+    <div class="z45-grid">
+      <div class="z45-card">
+        <div class="z45-tag">Zone 4 — 기능 회복 영역</div>
+        <div class="z45-title">정상 활동 복귀</div>
+        <div class="z45-note">⚑ 재활, 도수/물리치료의 진짜 자리</div>
+        <ul class="z45-bullets">
+          <li>운동 가능 환경 조성</li>
+          <li>장시간 활동 가능한 기능 개선</li>
+          <li>직업 복귀</li>
+        </ul>
+      </div>
+      <div class="z45-card">
+        <div class="z45-tag">Zone 5 — 장기 유지</div>
+        <div class="z45-title">환자 자가 관리</div>
+        <div class="z45-note">관리 체계의 학습 종료</div>
+        <ul class="z45-bullets">
+          <li>재발 방지</li>
+          <li>생활 패턴 유지</li>
+          <li>체력 관리</li>
+          <li>위험 신호 모니터링</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="closing-inner">
+    <h2 class="closing-title">당신이 지금 어느 구간에 있든,<br>다음은 있습니다</h2>
+    <p class="closing-body">이 구조를 이해하는 것만으로도 회복의 방향이 달라집니다. 공백에 머물지 않아도 됩니다.</p>
+    <a href="신청하기.html" class="closing-btn">회복나침반 알아보기 →</a>
+  </div>
+</section>
+
+<footer>
+  <a href="https://hub-murex-eta.vercel.app/">← 메인으로</a> &nbsp;·&nbsp; 허리디스크 회복연구소 &nbsp;·&nbsp; <a href="http://pf.kakao.com/_xmnxfyn" target="_blank">카카오톡 채널 ↗</a>
+</footer>
+
+</body>
+</html>
