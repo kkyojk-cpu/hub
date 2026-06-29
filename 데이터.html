@@ -127,6 +127,59 @@ footer { background: #0a1a12; color: rgba(255,255,255,.4); padding: 2.5rem 2rem;
 footer a { color: var(--g400); text-decoration: none; }
 .divider { border: none; border-top: 1px solid var(--gray2); margin: 2.5rem 0; }
 
+/* ─── Q6: 회복 순서 타임라인 ─── */
+.rt-wrap { margin: 3rem 0; }
+.rt-item { display: flex; gap: 0; position: relative; }
+.rt-left { display: flex; flex-direction: column; align-items: center; width: 52px; flex-shrink: 0; }
+.rt-num {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; flex-shrink: 0; position: relative; z-index: 2;
+  transition: transform .25s;
+}
+.rt-num:hover { transform: scale(1.1); }
+.rt-num.s1 { background: var(--g50);  color: var(--g600); border: 2px solid var(--g100); font-size: 0.82rem; }
+.rt-num.s2 { background: var(--g50);  color: var(--g600); border: 2px solid var(--g400); font-size: 0.88rem; }
+.rt-num.s3 { background: var(--g100); color: var(--g700); border: 2px solid var(--g500); font-size: 0.92rem; }
+.rt-num.s4 { background: var(--g400); color: #064e3b;      border: 2px solid var(--g400); font-size: 0.96rem; }
+.rt-num.s5 { background: var(--g500); color: white;         border: 2px solid var(--g500); font-size: 1rem; }
+.rt-num.s6 { background: var(--g700); color: white;         border: 2px solid var(--g700); font-size: 1rem; box-shadow: 0 0 0 4px var(--g100); }
+.rt-line { width: 2px; flex: 1; min-height: 28px; background: linear-gradient(to bottom, var(--g400), var(--g100)); margin: 5px 0; }
+.rt-item:last-child .rt-line { display: none; }
+.rt-body { flex: 1; padding: 0 0 2.4rem 1.6rem; }
+.rt-stage { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--g600); font-weight: 700; margin-bottom: 0.3rem; }
+.rt-title { font-size: 1.2rem; font-weight: 900; color: var(--gray9); margin-bottom: 0.9rem; line-height: 1.3; }
+.rt-quote {
+  background: var(--g50); border-left: 3px solid var(--g400);
+  border-radius: 0 10px 10px 0; padding: 0.7rem 1rem; margin-bottom: 0.45rem;
+  font-size: 0.88rem; color: var(--g900); font-style: italic; line-height: 1.65;
+}
+.rt-desc { font-size: 0.86rem; color: var(--gray5); line-height: 1.75; margin-top: 0.75rem; }
+
+/* 체크리스트 */
+.rc-box { background: var(--g900); border-radius: 20px; padding: 2.4rem 2rem; margin: 3rem 0; }
+.rc-title { font-size: 1.1rem; font-weight: 900; color: white; margin-bottom: 1.6rem; line-height: 1.4; }
+.rc-list { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.8rem; }
+.rc-label {
+  display: flex; align-items: center; gap: 0.9rem; cursor: pointer;
+  padding: 0.65rem 1rem; border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,0.1);
+  transition: background .18s, border-color .18s;
+  color: rgba(255,255,255,0.7); font-size: 0.9rem; user-select: none;
+}
+.rc-label:hover { background: rgba(255,255,255,0.05); border-color: rgba(52,211,153,0.4); }
+.rc-label input[type="checkbox"] { display: none; }
+.rc-check-icon {
+  width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.25);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .18s, border-color .18s; font-size: 13px; font-weight: 900;
+}
+.rc-label.checked { color: white; border-color: var(--g400); background: rgba(52,211,153,0.08); }
+.rc-label.checked .rc-check-icon { background: var(--g400); border-color: var(--g400); color: var(--g900); }
+.rc-msg { text-align: center; color: rgba(255,255,255,0.5); font-size: 0.88rem; line-height: 1.75; }
+.rc-msg strong { display: block; color: var(--g400); font-size: 1rem; margin-bottom: 0.4rem; }
+
 /* ─── 모바일 반응형 ─── */
 @media (max-width: 768px) {
   nav { padding: 0.8rem 1rem 0.6rem; flex-direction: column; align-items: flex-start; gap: 0.3rem; }
@@ -464,6 +517,96 @@ footer a { color: var(--g400); text-decoration: none; }
   </div>
 </section>
 
+<!-- Q6: 회복 순서 -->
+<section class="data-sec">
+  <div class="data-inner">
+    <div class="question-tag">질문 06</div>
+    <h2 class="question-text">회복은 어떤 순서로<br>찾아옵니까?</h2>
+    <p class="question-sub">참여자 46개 주간 리포트에서 반복적으로 나타난 패턴입니다. 어느 날 갑자기 낫는 게 아닙니다. 조용히, 같은 순서로 옵니다.</p>
+
+    <div class="rt-wrap">
+      <div class="rt-item">
+        <div class="rt-left"><div class="rt-num s1">1</div><div class="rt-line"></div></div>
+        <div class="rt-body">
+          <div class="rt-stage">1단계</div>
+          <div class="rt-title">아침이 바뀐다</div>
+          <div class="rt-quote">"다음날 아침이 보통으로 유지됐어요"</div>
+          <div class="rt-quote">"어제보다 일어나는 게 조금 덜 무서웠습니다"</div>
+          <p class="rt-desc">극적인 변화가 아닙니다. 그냥... 오늘 아침이 어제보다 조금 나은 것.</p>
+        </div>
+      </div>
+      <div class="rt-item">
+        <div class="rt-left"><div class="rt-num s2">2</div><div class="rt-line"></div></div>
+        <div class="rt-body">
+          <div class="rt-stage">2단계</div>
+          <div class="rt-title">움직이는 동안이 편해진다</div>
+          <div class="rt-quote">"수행 중에 가벼운 느낌이 들었어요"</div>
+          <div class="rt-quote">"운동 직후가 편안했습니다"</div>
+          <p class="rt-desc">아직 다 나은 게 아닌데, 움직이는 그 시간이 무섭지 않아집니다.</p>
+        </div>
+      </div>
+      <div class="rt-item">
+        <div class="rt-left"><div class="rt-num s3">3</div><div class="rt-line"></div></div>
+        <div class="rt-body">
+          <div class="rt-stage">3단계</div>
+          <div class="rt-title">올라가도 내려온다</div>
+          <div class="rt-quote">"저녁엔 괜찮아졌어요"</div>
+          <div class="rt-quote">"시간이 지나면 가라앉는 패턴이 생겼습니다"</div>
+          <p class="rt-desc">통증이 왔다 가는 것, 그 자체가 회복 신호입니다.</p>
+        </div>
+      </div>
+      <div class="rt-item">
+        <div class="rt-left"><div class="rt-num s4">4</div><div class="rt-line"></div></div>
+        <div class="rt-body">
+          <div class="rt-stage">4단계</div>
+          <div class="rt-title">기상통이 줄어든다</div>
+          <div class="rt-quote">"기상통이 없어진 날이 생겼어요"</div>
+          <div class="rt-quote">"아침에 일어날 때 통증이 확실히 줄었습니다"</div>
+          <p class="rt-desc">잠들기 전 걱정, 눈 뜨는 두려움. 그게 사라지는 주가 옵니다.</p>
+        </div>
+      </div>
+      <div class="rt-item">
+        <div class="rt-left"><div class="rt-num s5">5</div><div class="rt-line"></div></div>
+        <div class="rt-body">
+          <div class="rt-stage">5단계</div>
+          <div class="rt-title">심리가 먼저 바뀐다</div>
+          <div class="rt-quote">"걱정이 사라지고 희망감이 생겼어요"</div>
+          <div class="rt-quote">"멘탈을 다시 잡게 됐습니다"</div>
+          <p class="rt-desc">통증 숫자보다 이 변화가 더 먼저 왔습니다. '나도 되는구나'라는 감각.</p>
+        </div>
+      </div>
+      <div class="rt-item">
+        <div class="rt-left"><div class="rt-num s6">6</div></div>
+        <div class="rt-body">
+          <div class="rt-stage">6단계</div>
+          <div class="rt-title">할 수 있는 게 늘어난다</div>
+          <div class="rt-quote">"예전엔 못 했던 걸 지금은 할 수 있어요"</div>
+          <div class="rt-quote">"처음 뛰었는데 걷는 것보다 오래 했습니다"</div>
+          <p class="rt-desc">일상이 돌아옵니다. 조금씩, 그러나 분명히.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rc-box">
+      <div class="rc-title">당신은 지금 몇 단계인가요?</div>
+      <div class="rc-list">
+        <label class="rc-label"><input type="checkbox"><span class="rc-check-icon"></span><span>아침이 어제보다 조금 나아졌다</span></label>
+        <label class="rc-label"><input type="checkbox"><span class="rc-check-icon"></span><span>운동하는 그 시간이 덜 두렵다</span></label>
+        <label class="rc-label"><input type="checkbox"><span class="rc-check-icon"></span><span>통증이 와도 결국 가라앉는다</span></label>
+        <label class="rc-label"><input type="checkbox"><span class="rc-check-icon"></span><span>기상통이 줄었다</span></label>
+        <label class="rc-label"><input type="checkbox"><span class="rc-check-icon"></span><span>이전보다 덜 무섭다</span></label>
+        <label class="rc-label"><input type="checkbox"><span class="rc-check-icon"></span><span>할 수 있는 게 조금씩 늘었다</span></label>
+      </div>
+      <div class="rc-msg"><strong id="rc-result">체크한 만큼, 당신은 이미 회복 중입니다.</strong>이 내용은 실제 참여자들의 주간 리포트에서 뽑았습니다. 데이터가 있어서 말할 수 있는 이야기입니다.</div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-label">해석</div>
+      <p class="insight-text">이 순서가 중요한 이유는, <strong>어디에 있는지 알면 다음이 보이기 때문입니다.</strong> 1단계에 있다면 2단계가 기다리고 있습니다. 어느 단계든, 당신은 이 길 위에 있습니다.</p>
+    </div>
+  </div>
+</section>
+
 <!-- CLOSING -->
 <section class="closing">
   <div class="closing-inner">
@@ -477,5 +620,38 @@ footer a { color: var(--g400); text-decoration: none; }
   <a href="https://hub-murex-eta.vercel.app/">← 메인으로</a> &nbsp;·&nbsp; 허리디스크 회복연구소 &nbsp;·&nbsp; <a href="http://pf.kakao.com/_xmnxfyn" target="_blank">카카오톡 채널 ↗</a>
 </footer>
 
+<script>
+(function() {
+  var labels = document.querySelectorAll('.rc-label');
+  var result = document.getElementById('rc-result');
+  var msgs = [
+    '체크한 만큼, 당신은 이미 회복 중입니다.',
+    '1단계입니다. 회복이 시작됐습니다.',
+    '2단계입니다. 몸이 반응하고 있습니다.',
+    '3단계입니다. 회복 탄력이 생기고 있습니다.',
+    '4단계입니다. 회복이 깊어지고 있습니다.',
+    '5단계입니다. 회복의 끝자락에 있습니다.',
+    '6단계 — 당신은 이미 회복했습니다.'
+  ];
+  labels.forEach(function(label) {
+    label.addEventListener('change', function() {
+      var checked = 0;
+      labels.forEach(function(l) {
+        var cb = l.querySelector('input[type="checkbox"]');
+        var icon = l.querySelector('.rc-check-icon');
+        if (cb.checked) {
+          checked++;
+          l.classList.add('checked');
+          icon.textContent = '✓';
+        } else {
+          l.classList.remove('checked');
+          icon.textContent = '';
+        }
+      });
+      result.textContent = msgs[checked] || msgs[0];
+    });
+  });
+})();
+</script>
 </body>
 </html>
