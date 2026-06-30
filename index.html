@@ -66,7 +66,7 @@ nav {
   padding: 2.5rem 2rem;
   display: flex; align-items: center; justify-content: center; gap: 1.2rem;
 }
-.banner-icon { font-size: 3.5rem; flex-shrink: 0; }
+.banner-icon { flex-shrink: 0; }
 .banner-title { font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 900; color: #1a3a2e; line-height: 1.2; margin-bottom: 0.3rem; }
 .banner-sub { font-size: clamp(0.8rem, 1.2vw, 0.95rem); color: #2d5a47; line-height: 1.6; word-break: keep-all; overflow-wrap: break-word; }
 
@@ -259,7 +259,12 @@ footer a:hover { text-decoration: underline; }
 
 <!-- BANNER -->
 <section id="banner">
-  <span class="banner-icon">🧭</span>
+  <svg class="banner-icon" width="56" height="56" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="24" cy="24" r="19" stroke="#1a3a2e" stroke-width="2.5"/>
+    <path d="M24 9L29.5 24L24 24L24 9Z" fill="#1a3a2e"/>
+    <path d="M24 39L18.5 24L24 24L24 39Z" fill="#1a3a2e" opacity="0.32"/>
+    <circle cx="24" cy="24" r="2.4" fill="#1a3a2e"/>
+  </svg>
   <div>
     <div class="banner-title">허리디스크 회복</div>
     <div class="banner-sub">기록으로 증명하고<br>회복의 방향을 안내하는 나침반이 되겠습니다</div>
