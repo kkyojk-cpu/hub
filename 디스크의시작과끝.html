@@ -77,7 +77,7 @@ nav {
 /* SECTION BASE */
 .z-sec { padding: 6rem 2rem; }
 .z-inner { max-width: 720px; margin: 0 auto; }
-.z-tag { font-size: 0.7rem; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem; }
+.z-tag { font-size: 0.95rem; letter-spacing: 0.3px; font-weight: 800; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
 .z-tag::after { content: ''; flex: 1; height: 1px; background: currentColor; opacity: 0.2; }
 .z-title { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 900; line-height: 1.3; margin-bottom: 1.2rem; }
 .z-desc { font-size: 0.95rem; line-height: 1.9; color: var(--gray7); }
@@ -85,6 +85,15 @@ nav {
 .z-bullets { margin: 1.5rem 0 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
 .z-bullets li { font-size: 0.9rem; color: var(--gray7); padding-left: 1.2rem; position: relative; line-height: 1.7; }
 .z-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--gray5); }
+
+/* 단계 전환 화살표 */
+.z-arrow { display: flex; justify-content: center; margin-top: 3rem; opacity: 0.35; color: var(--gray5); }
+.sec-z2 .z-arrow, .sec-z3 .z-arrow { color: rgba(255,255,255,0.4); }
+.z-arrow svg { width: 20px; height: 20px; }
+@media (prefers-reduced-motion: no-preference) {
+  .z-arrow svg { animation: z-arrow-drift 2.6s ease-in-out infinite; }
+}
+@keyframes z-arrow-drift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 
 /* ZONE 0 */
 .sec-z0 { background: var(--gray1); }
@@ -146,16 +155,16 @@ nav {
 .z3-pillar-num { font-size: 0.7rem; color: var(--g400); font-weight: 700; margin-bottom: 0.4rem; letter-spacing: 1px; }
 .z3-pillar-text { font-size: 0.88rem; color: rgba(255,255,255,0.7); line-height: 1.65; }
 
-/* ZONE 4~5 */
-.sec-z45 { background: var(--g50); padding: 5rem 2rem; }
-.z45-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2.5rem; }
-.z45-card { background: white; border-radius: 16px; padding: 1.8rem 1.6rem; border: 1.5px solid var(--g100); }
-.z45-tag { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--g600); font-weight: 700; margin-bottom: 0.5rem; }
-.z45-title { font-size: 1.05rem; font-weight: 800; color: var(--gray9); margin-bottom: 0.8rem; }
-.z45-note { font-size: 0.82rem; color: var(--g700); font-weight: 600; margin-bottom: 0.8rem; padding: 0.5rem 0.8rem; background: var(--g50); border-radius: 8px; }
-.z45-bullets { list-style: none; padding: 0; }
-.z45-bullets li { font-size: 0.85rem; color: var(--gray5); padding-left: 1rem; position: relative; margin-bottom: 0.35rem; line-height: 1.65; }
-.z45-bullets li::before { content: '·'; position: absolute; left: 0; color: var(--g500); font-weight: 900; }
+/* ZONE 4 */
+.sec-z4 { background: white; }
+.sec-z4 .z-tag { color: var(--g600); }
+.sec-z4 .z-title { color: var(--gray9); }
+.z-note { font-size: 0.88rem; color: var(--g700); font-weight: 700; margin: 1.2rem 0; padding: 0.7rem 1rem; background: var(--g50); border-radius: 8px; }
+
+/* ZONE 5 */
+.sec-z5 { background: var(--g50); }
+.sec-z5 .z-tag { color: var(--g600); }
+.sec-z5 .z-title { color: var(--gray9); }
 
 /* CLOSING */
 .closing { background: var(--g900); padding: 6rem 2rem; text-align: center; }
@@ -181,7 +190,6 @@ footer a { color: var(--g400); text-decoration: none; }
   .sec-z3 { padding: 5rem 1.2rem; }
   .pull-quote { font-size: clamp(1.2rem, 5vw, 1.7rem); padding: 2rem 0; }
   .z3-pillars { grid-template-columns: 1fr; }
-  .z45-grid { grid-template-columns: 1fr; }
   .zone-name { font-size: 0.58rem; }
   .zone-connector { max-width: 20px; }
 }
@@ -252,20 +260,21 @@ footer a { color: var(--g400); text-decoration: none; }
 <!-- ZONE 0 -->
 <section class="z-sec sec-z0">
   <div class="z-inner">
-    <div class="z-tag" style="color:var(--red)">Zone 0 — INCIDENCE ZONE</div>
+    <div class="z-tag" style="color:var(--red)">0단계 · 허리통증 발생</div>
     <h2 class="z-title">발병 / 증상 시작</h2>
     <ul class="z-bullets">
       <li>허리 통증 발생</li>
       <li>급성 디스크 의심</li>
       <li>초기 기능 저하 및 통증의 시작(요통을 포함한 좌골신경통)</li>
     </ul>
+    <div class="z-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg></div>
   </div>
 </section>
 
 <!-- ZONE 1 -->
 <section class="z-sec sec-z1">
   <div class="z-inner">
-    <div class="z-tag" style="color:var(--amber)">Zone 1 — MEDICAL TRIAGE ZONE</div>
+    <div class="z-tag" style="color:var(--amber)">1단계 · 병원 진료, 진단</div>
     <h2 class="z-title">의료 분류 구간 — 병원의 영역</h2>
     <ul class="z-bullets">
       <li>MRI / 진단</li>
@@ -273,13 +282,14 @@ footer a { color: var(--g400); text-decoration: none; }
       <li>신경학적 위험 평가</li>
       <li>위험 신호 제거 — 진짜 수술의 적응증 분별, 긴급성 존재, 영구적 기능 소실 우려</li>
     </ul>
+    <div class="z-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg></div>
   </div>
 </section>
 
 <!-- ZONE 2 -->
 <section class="sec-z2">
   <div class="z-inner">
-    <div class="z-tag">Zone 2 — DISCHARGE GAP ZONE</div>
+    <div class="z-tag">2단계 · 회복 체계 공백</div>
     <h2 class="z-title">핵심 공백<br>시스템이 비어 있는 구간</h2>
 
     <div class="pull-quote">
@@ -319,12 +329,13 @@ footer a { color: var(--g400); text-decoration: none; }
 
     <p class="z2-statement">그런 통증의 반복 루프에서 연속되는 공포, 혼란, 비활동.</p>
     <p class="z2-statement">환자에게 떨어지는 문제들은<br>방법론의 부재, 실제 회복 플랜 구축의 부재.</p>
+    <div class="z-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg></div>
   </div>
 </section>
 
 <!-- 전환 모먼트 -->
 <div style="background:linear-gradient(to bottom, #05090a 0%, #032d1a 100%); padding:5rem 2rem; text-align:center;">
-  <p style="font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:rgba(52,211,153,0.5);font-weight:700;margin-bottom:1.4rem;">ZONE 3</p>
+  <p style="font-size:0.95rem;letter-spacing:0.3px;color:rgba(52,211,153,0.6);font-weight:800;margin-bottom:1.4rem;">3단계 · 회복 나침반의 역할</p>
   <div style="font-size:clamp(1.6rem,4vw,2.8rem);font-weight:900;color:white;line-height:1.25;max-width:700px;margin:0 auto;">
     공백을 채울<br>우리의 회복 구조는 이겁니다
   </div>
@@ -333,7 +344,7 @@ footer a { color: var(--g400); text-decoration: none; }
 <!-- ZONE 3 -->
 <section class="sec-z3">
   <div class="z-inner">
-    <div class="z-tag">Zone 3 — SELF-RECOVERY INFRA ZONE</div>
+    <div class="z-tag">3단계 · 회복 나침반의 역할</div>
     <h2 class="z-title">허리디스크 회복나침반의 영역</h2>
 
     <p class="z-desc">제가 누누이 말씀드리는 거죠.</p>
@@ -371,37 +382,38 @@ footer a { color: var(--g400); text-decoration: none; }
     <a href="논문.html" style="display:inline-flex;align-items:center;gap:0.6rem;margin-top:2rem;padding:0.9rem 1.8rem;background:rgba(52,211,153,0.12);border:1.5px solid rgba(52,211,153,0.3);border-radius:12px;color:var(--g400);text-decoration:none;font-weight:700;font-size:0.9rem;transition:background .2s;">
       📄 이 외 디스크 회복을 돕는 적정 자극, 기계 자극으로 인한 혈류개선과 영양공급의 메커니즘을 담은 연구논문 20편 보기 →
     </a>
+    <div class="z-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg></div>
   </div>
 </section>
 
-<!-- ZONE 4~5 -->
-<section class="z-sec sec-z45">
+<!-- ZONE 4 -->
+<section class="z-sec sec-z4">
   <div class="z-inner">
-    <div class="z-tag" style="color:var(--g600)">Zone 4 · 5 — 그 다음</div>
-    <h2 class="z-title" style="color:var(--gray9)">Zone 3이 해결되면, 그때부터 기능개선 이야기가 나와야 합니다</h2>
-    <div class="z45-grid">
-      <div class="z45-card">
-        <div class="z45-tag">Zone 4 — 기능 회복 영역</div>
-        <div class="z45-title">정상 활동 복귀 이후</div>
-        <div class="z45-note">⚑ 재활, 도수/물리치료가 있어야 할 진짜 자리</div>
-        <ul class="z45-bullets">
-          <li>운동 가능 환경 조성</li>
-          <li>장시간 활동이 가능한 기능 개선 세션</li>
-          <li>기능개선을 통한 완전한 직업 복귀</li>
-        </ul>
-      </div>
-      <div class="z45-card">
-        <div class="z45-tag">Zone 5 — 장기 유지</div>
-        <div class="z45-title">환자 자가 관리 시스템</div>
-        <div class="z45-note">서비스로 인해 제공되는 관리 체계의 학습 종료</div>
-        <ul class="z45-bullets">
-          <li>스스로 재발 방지</li>
-          <li>스스로 생활 패턴 유지</li>
-          <li>스스로 체력 관리</li>
-          <li>스스로 위험 신호 모니터링</li>
-        </ul>
-      </div>
-    </div>
+    <div class="z-tag">4단계 · 근육, 체형 기능회복</div>
+    <h2 class="z-title">나침반 구간이 해결되면,<br>그때부터 기능개선 이야기가 나와야 합니다</h2>
+    <p class="z-desc">정상 활동 복귀 이후를 위한 단계입니다.</p>
+    <div class="z-note">⚑ 재활, 도수/물리치료가 있어야 할 진짜 자리</div>
+    <ul class="z-bullets">
+      <li>운동 가능 환경 조성</li>
+      <li>장시간 활동이 가능한 기능 개선 세션</li>
+      <li>기능개선을 통한 완전한 직업 복귀</li>
+    </ul>
+    <div class="z-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg></div>
+  </div>
+</section>
+
+<!-- ZONE 5 -->
+<section class="z-sec sec-z5">
+  <div class="z-inner">
+    <div class="z-tag">5단계 · 스스로 관리 체계 유지</div>
+    <h2 class="z-title">환자 자가 관리 시스템</h2>
+    <p class="z-desc">서비스로 인해 제공되는 관리 체계의 학습 종료 — 이제부터는 스스로 이어갑니다.</p>
+    <ul class="z-bullets">
+      <li>스스로 재발 방지</li>
+      <li>스스로 생활 패턴 유지</li>
+      <li>스스로 체력 관리</li>
+      <li>스스로 위험 신호 모니터링</li>
+    </ul>
   </div>
 </section>
 
