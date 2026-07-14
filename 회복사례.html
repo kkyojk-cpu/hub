@@ -295,6 +295,7 @@ nav {
 }
 .yt-more-item:last-child { border-bottom: none; }
 .yt-more-item b { color: var(--gray9); }
+.yt-voices .voice-text { font-style: normal; }
 
 /* ─── 6. CLOSING CTA ─── */
 .closing-section { background: var(--g900); padding: 6rem 2rem; text-align: center; }
@@ -543,10 +544,6 @@ footer a { color: var(--g400); text-decoration: none; }
     <p class="voices-sub">주간설문에서 직접 적어준 문장들입니다</p>
 
     <div class="voice-item">
-      <p class="voice-text">한 달 전엔 앉아 있지도 못했던 미용실에서 앉아 있으며 마무리했다. 주위에서 많이 좋아졌구나 해주셨다.</p>
-      <p class="voice-attr">— 1:1 나침반 참여자 · 50일 기록</p>
-    </div>
-    <div class="voice-item">
       <p class="voice-text">허리 주변이 이완되는 느낌과 정말 영양분이 공급되는 느낌을 받는다.</p>
       <p class="voice-attr">— 1:1 나침반 참여자 · 13일 기록</p>
     </div>
@@ -618,7 +615,7 @@ footer a { color: var(--g400); text-decoration: none; }
 </section>
 
 <!-- 5-B. 유튜브 시청자 후기 -->
-<section class="voices-section" style="background:white;">
+<section class="voices-section yt-voices" style="background:white;">
   <div class="voices-inner">
     <div class="section-label" style="text-align:center">유튜브 시청자들의 진짜 변화</div>
     <h2 class="voices-title">함께한 적 없지만, 같이 나은 사람들</h2>
@@ -659,33 +656,33 @@ footer a { color: var(--g400); text-decoration: none; }
 
     <button class="yt-more-toggle" id="ytMoreToggle" onclick="toggleYtMore()">더 많은 후기 보기 (27개) ▾</button>
     <div class="yt-more-list" id="ytMoreList">
-      <div class="yt-more-item"><b>@문영진</b> — 슬로우조깅 후 컨디션 호전, 걷기 가능시간 10분 → 30분으로 늘어남</div>
-      <div class="yt-more-item"><b>@코모</b> — 4개월째 슬로우조깅, 10걸음도 힘들었는데 지금은 통증 거의 없음</div>
-      <div class="yt-more-item"><b>@경하김</b> — 매일 15분씩 2달 넘게, 2시간 걸을 수 있게 됐고 세수도 편해짐</div>
-      <div class="yt-more-item"><b>@rimakym</b> — 슬로우러닝 효과로 밤에 잘 때 통증이 서서히 줄어 잠을 잘 수 있게 됨</div>
-      <div class="yt-more-item"><b>@하늘이안</b> — 2주차부터 나아진 느낌, 이후 3~4회로 줄여가며 통증이 신기하게 사라짐, 헬스 복귀 예정</div>
-      <div class="yt-more-item"><b>정장원 님 지인 사례</b> — 척추 협착·재발 반복 10년차, "많이 배우고 갑니다" 공감 댓글</div>
-      <div class="yt-more-item">@jjangyjp — 디스크 방사통, 걷기보다 슬로우조깅이 덜 아파서 이해됐다는 반응</div>
-      <div class="yt-more-item">@재영김 — 걷기는 아픈데 달릴 때는 오히려 덜 아프다는 공감</div>
-      <div class="yt-more-item">@하하하 — 요추 5·6번 초기 디스크, 3주 만에 방사통 소실</div>
-      <div class="yt-more-item">@bbong — 10일째 슬로우조깅 15~20분, 통증이 조금씩 줄어드는 걸 느낌</div>
-      <div class="yt-more-item">@Mingzlyo — 건설현장 노동자, 병원은 꿈도 못 꾸는 처지에서 통증 호전 중</div>
-      <div class="yt-more-item">진영 님 — 신경차단술·주사도 효과 없다가, 슬로우조깅 시작 후 통증 80% 호전</div>
-      <div class="yt-more-item">수술 대기 중 시청자 — 수술 전 마지막으로 시도 중, 한 달째 분명한 변화 느낌</div>
-      <div class="yt-more-item">@Kquickturn 답글러 — 디스크 10년차, "이분은 찐이네요" 공감</div>
-      <div class="yt-more-item">익명 — 10분 걷기 vs 10분 슬로우조깅 비교, 슬로우조깅이 확실히 덜 아픔</div>
-      <div class="yt-more-item">tt 님 — 방바닥에서 시작해 한강에서 30분 조깅까지 발전</div>
-      <div class="yt-more-item">불꽃 아이콘 — 슬로우조깅 3개월째, 6개월까지 채워볼 계획</div>
-      <div class="yt-more-item">배관공 지인 답글 — "이 채널 몰랐으면 지금도 누워서 고통받고 있었을 것" 공감</div>
-      <div class="yt-more-item">보라 ㅎ — 매일 30분 러닝 후 허리가 좋아진 것에 확신</div>
-      <div class="yt-more-item">제자리 뛰기 시청자 — 4달 반째, 15분→20분으로 증진, 삶의 자신감 회복</div>
-      <div class="yt-more-item">@jungkyu4060 — 천천히 뛰면서 통증 소실 체감, 트레드밀 병행 문의</div>
-      <div class="yt-more-item">최고건강 — "사실입니다, 인정, 저도 경험하고 있어요"</div>
-      <div class="yt-more-item">행복한방랑자 — "팩트만 정확히 찝어주셨네요, 제가 경험자입니다"</div>
-      <div class="yt-more-item">@IK아이개아 — 38일차, 재발 3개월 반 지나며 근력 단련까지 겸해 호전 중</div>
-      <div class="yt-more-item">간략히 님 — 처음엔 딴생각 안 하려 달렸는데, 어느새 무의식적으로 걷게 됨</div>
-      <div class="yt-more-item">간략히 님 2 — 슬로우조깅 시간 늘려가며 마니아가 될 정도로 통증 감소</div>
-      <div class="yt-more-item">1년 4개월째 러너 — 100m도 버거웠던 몸이 지금은 6분 20초 페이스로 최장거리 달성</div>
+      <div class="yt-more-item"><b>유튜브 시청자 A</b> — 슬로우조깅 후 컨디션 호전, 걷기 가능시간 10분 → 30분으로 늘어남</div>
+      <div class="yt-more-item"><b>유튜브 시청자 B</b> — 4개월째 슬로우조깅, 10걸음도 힘들었는데 지금은 통증 거의 없음</div>
+      <div class="yt-more-item"><b>유튜브 시청자 C</b> — 매일 15분씩 2달 넘게, 2시간 걸을 수 있게 됐고 세수도 편해짐</div>
+      <div class="yt-more-item"><b>유튜브 시청자 D</b> — 슬로우러닝 효과로 밤에 잘 때 통증이 서서히 줄어 잠을 잘 수 있게 됨</div>
+      <div class="yt-more-item"><b>유튜브 시청자 E</b> — 2주차부터 나아진 느낌, 이후 3~4회로 줄여가며 통증이 신기하게 사라짐, 헬스 복귀 예정</div>
+      <div class="yt-more-item"><b>유튜브 시청자 F</b> — 척추 협착·재발 반복 10년차, "많이 배우고 갑니다" 공감 댓글</div>
+      <div class="yt-more-item">유튜브 시청자 G — 디스크 방사통, 걷기보다 슬로우조깅이 덜 아파서 이해됐다는 반응</div>
+      <div class="yt-more-item">유튜브 시청자 H — 걷기는 아픈데 달릴 때는 오히려 덜 아프다는 공감</div>
+      <div class="yt-more-item">유튜브 시청자 I — 요추 5·6번 초기 디스크, 3주 만에 방사통 소실</div>
+      <div class="yt-more-item">유튜브 시청자 J — 10일째 슬로우조깅 15~20분, 통증이 조금씩 줄어드는 걸 느낌</div>
+      <div class="yt-more-item">유튜브 시청자 K — 건설현장 노동자, 병원은 꿈도 못 꾸는 처지에서 통증 호전 중</div>
+      <div class="yt-more-item">유튜브 시청자 L — 신경차단술·주사도 효과 없다가, 슬로우조깅 시작 후 통증 80% 호전</div>
+      <div class="yt-more-item">유튜브 시청자 M — 수술 전 마지막으로 시도 중, 한 달째 분명한 변화 느낌</div>
+      <div class="yt-more-item">유튜브 시청자 N — 디스크 10년차, "이분은 찐이네요" 공감 댓글</div>
+      <div class="yt-more-item">유튜브 시청자 O — 10분 걷기 vs 10분 슬로우조깅 비교, 슬로우조깅이 확실히 덜 아픔</div>
+      <div class="yt-more-item">유튜브 시청자 P — 방바닥에서 시작해 한강에서 30분 조깅까지 발전</div>
+      <div class="yt-more-item">유튜브 시청자 Q — 슬로우조깅 3개월째, 6개월까지 채워볼 계획</div>
+      <div class="yt-more-item">유튜브 시청자 R — "이 채널 몰랐으면 지금도 누워서 고통받고 있었을 것" 공감</div>
+      <div class="yt-more-item">유튜브 시청자 S — 매일 30분 러닝 후 허리가 좋아진 것에 확신</div>
+      <div class="yt-more-item">유튜브 시청자 T — 4달 반째, 15분→20분으로 증진, 삶의 자신감 회복</div>
+      <div class="yt-more-item">유튜브 시청자 U — 천천히 뛰면서 통증 소실 체감, 트레드밀 병행 문의</div>
+      <div class="yt-more-item">유튜브 시청자 V — "사실입니다, 인정, 저도 경험하고 있어요"</div>
+      <div class="yt-more-item">유튜브 시청자 W — "팩트만 정확히 찝어주셨네요, 제가 경험자입니다"</div>
+      <div class="yt-more-item">유튜브 시청자 X — 38일차, 재발 3개월 반 지나며 근력 단련까지 겸해 호전 중</div>
+      <div class="yt-more-item">유튜브 시청자 Y — 처음엔 딴생각 안 하려 달렸는데, 어느새 무의식적으로 걷게 됨</div>
+      <div class="yt-more-item">유튜브 시청자 Z — 슬로우조깅 시간 늘려가며 마니아가 될 정도로 통증 감소</div>
+      <div class="yt-more-item">유튜브 시청자 AA — 100m도 버거웠던 몸이 지금은 6분 20초 페이스로 최장거리 달성</div>
     </div>
   </div>
 </section>
