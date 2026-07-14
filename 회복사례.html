@@ -280,6 +280,22 @@ nav {
 .voice-text::before { content: '"'; color: var(--g400); font-size: 1.4rem; font-style: normal; line-height: 0; vertical-align: -0.3em; margin-right: 0.2rem; }
 .voice-attr { font-size: 0.75rem; color: var(--gray5); font-style: normal; }
 
+.yt-more-toggle {
+  display: block; width: 100%; margin-top: 1rem;
+  background: var(--g50); border: 1.5px solid var(--g100); border-radius: 12px;
+  padding: 0.9rem; text-align: center; font-weight: 700; font-size: 0.9rem;
+  color: var(--g700); cursor: pointer;
+}
+.yt-more-toggle:hover { background: var(--g100); }
+.yt-more-list { display: none; margin-top: 1rem; }
+.yt-more-list.open { display: block; }
+.yt-more-item {
+  font-size: 0.85rem; color: var(--gray7); line-height: 1.6;
+  padding: 0.85rem 0; border-bottom: 1px solid var(--gray2);
+}
+.yt-more-item:last-child { border-bottom: none; }
+.yt-more-item b { color: var(--gray9); }
+
 /* ─── 6. CLOSING CTA ─── */
 .closing-section { background: var(--g900); padding: 6rem 2rem; text-align: center; }
 .closing-inner { max-width: 540px; margin: 0 auto; }
@@ -601,6 +617,79 @@ footer a { color: var(--g400); text-decoration: none; }
   </div>
 </section>
 
+<!-- 5-B. 유튜브 시청자 후기 -->
+<section class="voices-section" style="background:white;">
+  <div class="voices-inner">
+    <div class="section-label" style="text-align:center">유튜브 시청자들의 진짜 변화</div>
+    <h2 class="voices-title">함께한 적 없지만, 같이 나은 사람들</h2>
+    <p class="voices-sub">프로그램 참여자가 아니라, 영상만 보고 혼자 시작하신 유튜브 시청자분들의 댓글입니다</p>
+
+    <div class="voice-item">
+      <p class="voice-text">심하게 4-5번 디스크가 터져서 수술 결정 2달 전에 우연히 영상 보고 마지막으로 해보자 했습니다. 2달 후 MRI를 원장님이 보고 놀라셨어요, 거의 흡수됐다고 이제는 정상급이라고. 15년 동안 디스크를 달고 살았는데... 너무 감사합니다.</p>
+      <p class="voice-attr">— 유튜브 시청자</p>
+    </div>
+    <div class="voice-item">
+      <p class="voice-text">달릴 수 있으면 달리세요. 디스크 3번 터지고도 지금은 달립니다. 병원에서 수술 해야 된다고 했는데, 3번 다 수술·시술 없이 완치했습니다.</p>
+      <p class="voice-attr">— 유튜브 시청자</p>
+    </div>
+    <div class="voice-item">
+      <p class="voice-text">왼쪽 종아리가 찌릿거리는 통증 때문에 잠을 못 자서 우울증과 자살충동까지 느꼈었는데, 슬로우조깅과 척추전만자세를 유지하니 통증이 사라졌습니다.</p>
+      <p class="voice-attr">— 유튜브 시청자</p>
+    </div>
+    <div class="voice-item">
+      <p class="voice-text">일주일에 척추주사 두 번씩 맞고 일하던 배관공입니다. 일을 그만둘까 생각하다가 이 채널 영상을 보고 슬로우조깅한 지 한 달 정도 됐는데, 방사통이 90% 이상 사라졌습니다.</p>
+      <p class="voice-attr">— 유튜브 시청자</p>
+    </div>
+    <div class="voice-item">
+      <p class="voice-text">허리디스크 때문에 너무 고생입니다. 건설현장 노가다를 뛰고 있는데 하루벌어 하루사는 처지라 병원은 꿈에도 못 꾸고 있어요. 영상 보면서 15분씩 뛰고 있는데 통증이 호전되고 있어요.</p>
+      <p class="voice-attr">— 유튜브 시청자</p>
+    </div>
+    <div class="voice-item">
+      <p class="voice-text">허리디스크 L4-L5 파열을 가진 지 3년, 필라테스·PT·한의원·신경주사·24시간 누워만 있기까지 다 해봐도 나아지지 않다가, 슬로우조깅과 척추위생 시작한 지 2달 만에 좌골신경통이 아예 사라졌습니다.</p>
+      <p class="voice-attr">— 유튜브 시청자</p>
+    </div>
+    <div class="voice-item">
+      <p class="voice-text">1년 정도 허리디스크로 일상생활이 불가능하고 10걸음마다 다리가 저릿했는데, 오늘이 뛴 지 86일 되는 날입니다. 현재 헬스장도 다니고 매일 달려도 통증이 거의 없을 정도로 회복됐습니다.</p>
+      <p class="voice-attr">— 유튜브 시청자</p>
+    </div>
+    <div class="voice-item">
+      <p class="voice-text">처음엔 반신반의로 따라했는데, 15분씩 3~4회 하다 보니 어느 순간 신기하게도 통증이 사라졌어요. 이제는 다시 헬스 복귀하고 싶은 욕심이 생기네요.</p>
+      <p class="voice-attr">— 유튜브 시청자</p>
+    </div>
+
+    <button class="yt-more-toggle" id="ytMoreToggle" onclick="toggleYtMore()">더 많은 후기 보기 (27개) ▾</button>
+    <div class="yt-more-list" id="ytMoreList">
+      <div class="yt-more-item"><b>@문영진</b> — 슬로우조깅 후 컨디션 호전, 걷기 가능시간 10분 → 30분으로 늘어남</div>
+      <div class="yt-more-item"><b>@코모</b> — 4개월째 슬로우조깅, 10걸음도 힘들었는데 지금은 통증 거의 없음</div>
+      <div class="yt-more-item"><b>@경하김</b> — 매일 15분씩 2달 넘게, 2시간 걸을 수 있게 됐고 세수도 편해짐</div>
+      <div class="yt-more-item"><b>@rimakym</b> — 슬로우러닝 효과로 밤에 잘 때 통증이 서서히 줄어 잠을 잘 수 있게 됨</div>
+      <div class="yt-more-item"><b>@하늘이안</b> — 2주차부터 나아진 느낌, 이후 3~4회로 줄여가며 통증이 신기하게 사라짐, 헬스 복귀 예정</div>
+      <div class="yt-more-item"><b>정장원 님 지인 사례</b> — 척추 협착·재발 반복 10년차, "많이 배우고 갑니다" 공감 댓글</div>
+      <div class="yt-more-item">@jjangyjp — 디스크 방사통, 걷기보다 슬로우조깅이 덜 아파서 이해됐다는 반응</div>
+      <div class="yt-more-item">@재영김 — 걷기는 아픈데 달릴 때는 오히려 덜 아프다는 공감</div>
+      <div class="yt-more-item">@하하하 — 요추 5·6번 초기 디스크, 3주 만에 방사통 소실</div>
+      <div class="yt-more-item">@bbong — 10일째 슬로우조깅 15~20분, 통증이 조금씩 줄어드는 걸 느낌</div>
+      <div class="yt-more-item">@Mingzlyo — 건설현장 노동자, 병원은 꿈도 못 꾸는 처지에서 통증 호전 중</div>
+      <div class="yt-more-item">진영 님 — 신경차단술·주사도 효과 없다가, 슬로우조깅 시작 후 통증 80% 호전</div>
+      <div class="yt-more-item">수술 대기 중 시청자 — 수술 전 마지막으로 시도 중, 한 달째 분명한 변화 느낌</div>
+      <div class="yt-more-item">@Kquickturn 답글러 — 디스크 10년차, "이분은 찐이네요" 공감</div>
+      <div class="yt-more-item">익명 — 10분 걷기 vs 10분 슬로우조깅 비교, 슬로우조깅이 확실히 덜 아픔</div>
+      <div class="yt-more-item">tt 님 — 방바닥에서 시작해 한강에서 30분 조깅까지 발전</div>
+      <div class="yt-more-item">불꽃 아이콘 — 슬로우조깅 3개월째, 6개월까지 채워볼 계획</div>
+      <div class="yt-more-item">배관공 지인 답글 — "이 채널 몰랐으면 지금도 누워서 고통받고 있었을 것" 공감</div>
+      <div class="yt-more-item">보라 ㅎ — 매일 30분 러닝 후 허리가 좋아진 것에 확신</div>
+      <div class="yt-more-item">제자리 뛰기 시청자 — 4달 반째, 15분→20분으로 증진, 삶의 자신감 회복</div>
+      <div class="yt-more-item">@jungkyu4060 — 천천히 뛰면서 통증 소실 체감, 트레드밀 병행 문의</div>
+      <div class="yt-more-item">최고건강 — "사실입니다, 인정, 저도 경험하고 있어요"</div>
+      <div class="yt-more-item">행복한방랑자 — "팩트만 정확히 찝어주셨네요, 제가 경험자입니다"</div>
+      <div class="yt-more-item">@IK아이개아 — 38일차, 재발 3개월 반 지나며 근력 단련까지 겸해 호전 중</div>
+      <div class="yt-more-item">간략히 님 — 처음엔 딴생각 안 하려 달렸는데, 어느새 무의식적으로 걷게 됨</div>
+      <div class="yt-more-item">간략히 님 2 — 슬로우조깅 시간 늘려가며 마니아가 될 정도로 통증 감소</div>
+      <div class="yt-more-item">1년 4개월째 러너 — 100m도 버거웠던 몸이 지금은 6분 20초 페이스로 최장거리 달성</div>
+    </div>
+  </div>
+</section>
+
 <!-- 6. 마무리 CTA -->
 <section class="closing-section">
   <div class="closing-inner">
@@ -614,6 +703,14 @@ footer a { color: var(--g400); text-decoration: none; }
   <a href="https://hub-murex-eta.vercel.app/">← 메인으로</a> &nbsp;·&nbsp; 허리디스크 회복연구소 &nbsp;·&nbsp; <a href="http://pf.kakao.com/_xmnxfyn" target="_blank">카카오톡 채널 ↗</a>
 </footer>
 
+<script>
+function toggleYtMore() {
+  var list = document.getElementById('ytMoreList');
+  var btn = document.getElementById('ytMoreToggle');
+  var open = list.classList.toggle('open');
+  btn.textContent = open ? '접기 ▴' : '더 많은 후기 보기 (27개) ▾';
+}
+</script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
