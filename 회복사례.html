@@ -178,21 +178,17 @@ nav {
 .impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-bottom: 4rem; }
 @media (max-width: 900px) { .impact-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 620px) { .impact-grid { grid-template-columns: 1fr; } }
-.impact-card { background: white; border: 1.5px solid var(--gray2); border-radius: 20px; padding: 1.8rem 1.5rem; text-align: center; }
-.impact-tag { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray5); font-weight: 700; margin-bottom: 0.9rem; }
-.impact-nums { display: flex; align-items: center; justify-content: center; gap: 0.6rem; }
-.impact-num { font-size: 2.4rem; font-weight: 900; line-height: 1; }
-.impact-num.before { color: #dc2626; }
-.impact-num.after { color: var(--g600, #059669); }
-.impact-arrow { font-size: 1.1rem; color: var(--gray5); }
-.impact-cap { font-size: 0.72rem; color: var(--gray5); margin-top: 0.4rem; }
-.impact-headline { font-size: 0.95rem; font-weight: 800; color: var(--gray9); margin-top: 1rem; line-height: 1.5; }
-.impact-quote { margin-top: 0.9rem; font-size: 0.82rem; color: var(--gray7); line-height: 1.6; border-left: 2px solid var(--g500); padding-left: 0.75rem; text-align: left; font-style: italic; }
-.impact-proof { margin-top: 1rem; border-radius: 10px; background: var(--g50); border: 1px dashed var(--g100); padding: 0.6rem; }
-.impact-proof-cap { font-size: 0.62rem; color: var(--gray5); margin-bottom: 0.4rem; text-align: left; }
-.impact-proof-graph { height: 40px; display: flex; align-items: flex-end; gap: 2px; }
-.impact-proof-graph i { flex: 1; background: var(--g500); opacity: 0.5; border-radius: 2px 2px 0 0; }
-.impact-proof-graph i:last-child { opacity: 1; }
+.impact-card { background: white; border: 1.5px solid var(--gray2); border-radius: 20px; padding: 1.9rem 1.6rem; text-align: left; }
+.impact-meta { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+.impact-tag { font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray5); font-weight: 700; }
+.impact-stat { font-size: 0.72rem; color: var(--gray5); font-weight: 700; background: var(--gray1); padding: 0.25rem 0.6rem; border-radius: 100px; white-space: nowrap; }
+.impact-headline { font-size: 1.28rem; font-weight: 900; color: var(--g900); line-height: 1.45; margin-bottom: 1.1rem; }
+.impact-quote { font-size: 0.9rem; color: var(--gray7); line-height: 1.7; border-left: 2px solid var(--g500); padding-left: 0.9rem; font-style: italic; margin-bottom: 1.3rem; }
+.impact-proof { border-top: 1px dashed var(--gray2); padding-top: 0.9rem; }
+.impact-proof-cap { font-size: 0.62rem; color: var(--gray5); margin-bottom: 0.4rem; }
+.impact-proof-graph { height: 26px; display: flex; align-items: flex-end; gap: 2px; opacity: 0.8; }
+.impact-proof-graph i { flex: 1; background: var(--g400); border-radius: 2px 2px 0 0; }
+.impact-proof-graph i:last-child { background: var(--g600, #059669); }
 
 .case-card {
   border: 1.5px solid var(--gray2); border-radius: 20px;
@@ -422,10 +418,11 @@ footer a { color: var(--g400); text-decoration: none; }
 
       <!-- 이윤태4572 -->
       <div class="impact-card">
-        <div class="impact-tag">1:1 나침반 · 63일 기록</div>
-        <div class="impact-nums"><span class="impact-num before">2</span><span class="impact-arrow">→</span><span class="impact-num after">0</span></div>
-        <p class="impact-cap">통증점수 · 10점 만점</p>
-        <p class="impact-headline">기상통·엉치통증으로 시작해<br>63일 만에 통증 0을 기록했습니다</p>
+        <div class="impact-meta">
+          <span class="impact-tag">1:1 나침반 · 63일 기록</span>
+          <span class="impact-stat">통증 2→0</span>
+        </div>
+        <p class="impact-headline">기상통·엉치통증으로 시작해<br>이제는 통증 없이 지냅니다</p>
         <p class="impact-quote">"슬로우조깅을 2분 동안 하면서<br>오히려 허리가 시원해지는 느낌"</p>
         <div class="impact-proof">
           <div class="impact-proof-cap">74일간 통증점수 추이</div>
@@ -435,9 +432,10 @@ footer a { color: var(--g400); text-decoration: none; }
 
       <!-- 이혁진2482 -->
       <div class="impact-card">
-        <div class="impact-tag">1:1 나침반 · 62일 기록</div>
-        <div class="impact-nums"><span class="impact-num before">3</span><span class="impact-arrow">→</span><span class="impact-num after">1</span></div>
-        <p class="impact-cap">통증점수 · 10점 만점</p>
+        <div class="impact-meta">
+          <span class="impact-tag">1:1 나침반 · 62일 기록</span>
+          <span class="impact-stat">통증 3→1</span>
+        </div>
         <p class="impact-headline">왼발 전체에 퍼지던 통증이<br>"바둑알 크기"로 좁아졌습니다</p>
         <p class="impact-quote">"수행전 왼발바닥 중앙의<br>바둑알 크기의 통증, 수행중 급격히 완화"</p>
         <div class="impact-proof">
@@ -448,10 +446,11 @@ footer a { color: var(--g400); text-decoration: none; }
 
       <!-- 강가을4880 -->
       <div class="impact-card">
-        <div class="impact-tag">1:1 나침반 · 6주 기록</div>
-        <div class="impact-nums"><span class="impact-num before">6</span><span class="impact-arrow">→</span><span class="impact-num after">3</span></div>
-        <p class="impact-cap">통증점수 · 10점 만점</p>
-        <p class="impact-headline">가장 심했던 통증 6,<br>6주 만에 3으로 내려왔습니다</p>
+        <div class="impact-meta">
+          <span class="impact-tag">1:1 나침반 · 6주 기록</span>
+          <span class="impact-stat">통증 6→3</span>
+        </div>
+        <p class="impact-headline">팔걸이 없인 못 일어나던 몸이<br>이젠 허리 하나도 안 아파요</p>
         <p class="impact-quote">"팔걸이를 잡지 않으면 일어나는 방법이<br>생각 안 나서 현타왔는데<br>→ 이젠 허리 하나도 안 아파요"</p>
         <div class="impact-proof">
           <div class="impact-proof-cap">4/4~5/19 통증점수 추이</div>
@@ -461,10 +460,11 @@ footer a { color: var(--g400); text-decoration: none; }
 
       <!-- 강미숙9584 -->
       <div class="impact-card">
-        <div class="impact-tag">1:1 나침반 · 23일 기록</div>
-        <div class="impact-nums"><span class="impact-num before">9</span><span class="impact-arrow">→</span><span class="impact-num after">3</span></div>
-        <p class="impact-cap">통증점수 · 10점 만점</p>
-        <p class="impact-headline">가장 심했던 통증 9,<br>3주 만에 3으로 내려왔습니다</p>
+        <div class="impact-meta">
+          <span class="impact-tag">1:1 나침반 · 23일 기록</span>
+          <span class="impact-stat">통증 9→3</span>
+        </div>
+        <p class="impact-headline">가장 심한 9점에서 시작해<br>발바닥이 안 아픈 순간을 처음 만났습니다</p>
         <p class="impact-quote">"오늘 하루 잠깐 발바닥도<br>안 아픈 적이 있었음, 처음이라 놀랐다"</p>
         <div class="impact-proof">
           <div class="impact-proof-cap">23일간 통증점수 추이</div>
@@ -474,10 +474,11 @@ footer a { color: var(--g400); text-decoration: none; }
 
       <!-- 김성희-9702 -->
       <div class="impact-card">
-        <div class="impact-tag">1:1 나침반 · 50일 기록</div>
-        <div class="impact-nums"><span class="impact-num before">6</span><span class="impact-arrow">→</span><span class="impact-num after">1</span></div>
-        <p class="impact-cap">통증점수 · 10점 만점</p>
-        <p class="impact-headline">통증 6 → 1, 그리고<br>50일째 그대로입니다</p>
+        <div class="impact-meta">
+          <span class="impact-tag">1:1 나침반 · 50일 기록</span>
+          <span class="impact-stat">통증 6→1</span>
+        </div>
+        <p class="impact-headline">한 달 전엔 앉지도 못했던 미용실에서<br>이젠 편안히 앉아 마무리합니다</p>
         <p class="impact-quote">"한 달 전엔 앉아 있지도 못했던 미용실에서<br>앉아 있으며 마무리했다.<br>주위에서 많이 좋아졌구나 해주셨다"</p>
         <div class="impact-proof">
           <div class="impact-proof-cap">50일간 통증점수 추이</div>
@@ -487,10 +488,11 @@ footer a { color: var(--g400); text-decoration: none; }
 
       <!-- 박형근0127 -->
       <div class="impact-card">
-        <div class="impact-tag">1:1 나침반 · 13일 기록</div>
-        <div class="impact-nums"><span class="impact-num before">6</span><span class="impact-arrow">→</span><span class="impact-num after">2</span></div>
-        <p class="impact-cap">통증점수 · 10점 만점</p>
-        <p class="impact-headline">가장 심했던 통증 6,<br>13일 만에 2로 내려왔습니다</p>
+        <div class="impact-meta">
+          <span class="impact-tag">1:1 나침반 · 13일 기록</span>
+          <span class="impact-stat">통증 6→2</span>
+        </div>
+        <p class="impact-headline">가장 심했던 통증에서 시작해<br>3분을 연속으로 뛸 수 있게 됐습니다</p>
         <p class="impact-quote">"느린 속도지만 이렇게 3분을<br>연속해서 뛸 수 있음에 놀랐다"</p>
         <div class="impact-proof">
           <div class="impact-proof-cap">13일간 통증점수 추이</div>
