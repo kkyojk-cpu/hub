@@ -122,6 +122,15 @@ nav {
 .chart-card { background: white; border-radius: 16px; border: 1.5px solid var(--gray2); padding: 1.5rem; margin: 2rem 0; }
 .chart-title { font-size: 0.85rem; font-weight: 700; color: var(--gray7); margin-bottom: 1rem; }
 
+/* 개인별 개선폭 막대그래프 (질문7) */
+.pbar-card { background: white; border-radius: 16px; border: 1.5px solid var(--gray2); padding: 1.8rem 1.6rem; margin: 2rem 0; }
+.pbar-caption { font-size: 0.8rem; color: var(--gray5); font-weight: 600; margin-bottom: 1.4rem; }
+.pbar-row { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.7rem; }
+.pbar-idx { width: 64px; font-size: 0.82rem; font-weight: 700; color: var(--gray5); text-align: right; flex-shrink: 0; }
+.pbar-track { flex: 1; height: 22px; background: var(--gray1); border-radius: 6px; overflow: hidden; }
+.pbar-fill { height: 100%; border-radius: 6px; background: var(--g500); }
+.pbar-val { width: 56px; font-size: 0.82rem; font-weight: 800; color: var(--g700); text-align: right; flex-shrink: 0; }
+
 /* 핵심 수치 카드 */
 .stat-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; margin: 2rem 0; }
 .stat-card { background: white; border: 1.5px solid var(--g100); border-radius: 14px; padding: 1.4rem 1.2rem; text-align: center; }
@@ -520,7 +529,7 @@ footer a { color: var(--g400); text-decoration: none; }
 
 <!-- Q6: 회복 순서 -->
 <div class="j-item">
-  <div class="j-rail"><div class="j-dot">06</div></div>
+  <div class="j-rail"><div class="j-dot">06</div><div class="j-line"></div></div>
   <div class="j-body">
     <div class="question-tag">질문 06</div>
     <h2 class="question-text">회복은 어떤 순서로<br>찾아옵니까?</h2>
@@ -605,6 +614,43 @@ footer a { color: var(--g400); text-decoration: none; }
     <div class="insight-box">
       <div class="insight-label">해석</div>
       <p class="insight-text">이만큼 기록이 중요한 이유는, 나의 회복 흐름, 나의 회복 방향이 <strong>잘 가고 있는지에 대한 나침반이 되어줍니다.</strong> 남이 아닌 여러분이 직접 적은 기록이 말이죠.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q7: 그래서 진짜 효과가 있나요? -->
+<div class="j-item">
+  <div class="j-rail"><div class="j-dot">07</div></div>
+  <div class="j-body">
+    <div class="question-tag">질문 07</div>
+    <h2 class="question-text">그래서,<br>진짜 효과가 있나요?</h2>
+    <p class="question-sub">가장 많이 받는 질문입니다. 숫자로 답합니다.</p>
+
+    <div class="answer-block">
+      <div>
+        <div class="answer-num">47.9<sup>%</sup></div>
+      </div>
+      <div>
+        <div class="answer-label">평균 통증 감소율</div>
+        <div class="answer-compare">평균 <strong>4.9점 → 2.9점</strong></div>
+      </div>
+    </div>
+
+    <div class="pbar-card">
+      <div class="pbar-caption">막대 하나 = 참여자 한 명이 줄인 통증 점수 (10점 만점)</div>
+      <div class="pbar-row"><div class="pbar-idx">김**</div><div class="pbar-track"><div class="pbar-fill" style="width:100%"></div></div><div class="pbar-val">-4.0점</div></div>
+      <div class="pbar-row"><div class="pbar-idx">강**</div><div class="pbar-track"><div class="pbar-fill" style="width:75%"></div></div><div class="pbar-val">-3.0점</div></div>
+      <div class="pbar-row"><div class="pbar-idx">박**</div><div class="pbar-track"><div class="pbar-fill" style="width:57%"></div></div><div class="pbar-val">-2.3점</div></div>
+      <div class="pbar-row"><div class="pbar-idx">이**</div><div class="pbar-track"><div class="pbar-fill" style="width:57%"></div></div><div class="pbar-val">-2.3점</div></div>
+      <div class="pbar-row"><div class="pbar-idx">이**</div><div class="pbar-track"><div class="pbar-fill" style="width:50%"></div></div><div class="pbar-val">-2.0점</div></div>
+      <div class="pbar-row"><div class="pbar-idx">이**</div><div class="pbar-track"><div class="pbar-fill" style="width:50%"></div></div><div class="pbar-val">-2.0점</div></div>
+      <div class="pbar-row"><div class="pbar-idx">이**</div><div class="pbar-track"><div class="pbar-fill" style="width:42%"></div></div><div class="pbar-val">-1.7점</div></div>
+      <div class="pbar-row"><div class="pbar-idx">이**</div><div class="pbar-track"><div class="pbar-fill" style="width:42%"></div></div><div class="pbar-val">-1.7점</div></div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-label">해석</div>
+      <p class="insight-text">한 사람 이야기가 아닙니다. <strong>여러 명이 각자의 속도로 만든 변화</strong>입니다. 이 숫자는 설문이 아니라, 참여자들이 매일 아침 남긴 <strong>1,207건의 실제 기록</strong>에서 나온 것입니다.</p>
     </div>
   </div>
 </div>
