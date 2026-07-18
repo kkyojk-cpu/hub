@@ -48,12 +48,26 @@ nav {
 }
 
 /* ─── DATA SECTION ─── */
-.data-sec {
-  padding: 7rem 2rem; border-bottom: 1px solid var(--gray2);
-}
-.data-sec:nth-child(even) { background: var(--gray1); }
-.data-sec:nth-child(odd) { background: white; }
 .data-inner { max-width: 900px; margin: 0 auto; }
+
+/* ─── JOURNEY RAIL (질문들을 하나의 여정으로 연결) ─── */
+.journey { max-width: 1000px; margin: 0 auto; padding: 5rem 2rem 1rem; background: var(--bg, #f8fffe); }
+.j-item { display: flex; gap: 0; }
+.j-rail { display: flex; flex-direction: column; align-items: center; width: 56px; flex-shrink: 0; }
+.j-dot {
+  width: 40px; height: 40px; border-radius: 50%; background: white; border: 2px solid var(--g100);
+  display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.85rem; color: var(--g600);
+  flex-shrink: 0; z-index: 2; box-shadow: 0 2px 8px rgba(6,78,59,0.08);
+}
+.j-line { width: 2px; flex: 1; min-height: 40px; background: linear-gradient(to bottom, var(--g100), var(--gray2)); margin: 4px 0; }
+.j-item:last-child .j-line { display: none; }
+.j-body { flex: 1; min-width: 0; padding: 0 0 5.5rem 2rem; }
+@media (max-width: 640px) {
+  .journey { padding: 3.5rem 1rem 1rem; }
+  .j-rail { width: 40px; }
+  .j-dot { width: 32px; height: 32px; font-size: 0.72rem; }
+  .j-body { padding: 0 0 3.5rem 1.2rem; }
+}
 
 .question-tag {
   display: inline-block; font-size: 0.72rem; letter-spacing: 2px;
@@ -103,6 +117,10 @@ nav {
 .img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin: 2rem 0; }
 .img-wrap { border-radius: 12px; overflow: hidden; background: var(--gray1); }
 .img-wrap img { width: 100%; display: block; }
+
+/* 차트 카드 (질문5 등 단일 차트 강조용) */
+.chart-card { background: white; border-radius: 16px; border: 1.5px solid var(--gray2); padding: 1.5rem; margin: 2rem 0; }
+.chart-title { font-size: 0.85rem; font-weight: 700; color: var(--gray7); margin-bottom: 1rem; }
 
 /* 핵심 수치 카드 */
 .stat-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; margin: 2rem 0; }
@@ -234,9 +252,12 @@ footer a { color: var(--g400); text-decoration: none; }
   </div>
 </section>
 
+<div class="journey">
+
 <!-- Q1: 달리면 더 나빠지지 않나요? -->
-<section class="data-sec">
-  <div class="data-inner">
+<div class="j-item">
+  <div class="j-rail"><div class="j-dot">01</div><div class="j-line"></div></div>
+  <div class="j-body">
     <div class="question-tag">질문 01</div>
     <h2 class="question-text">"달리면 더 나빠지지 않나요?"</h2>
     <p class="question-sub">디스크 환자들이 슬로우조깅을 망설이는 가장 큰 이유입니다. 데이터는 이렇게 답합니다.</p>
@@ -276,11 +297,12 @@ footer a { color: var(--g400); text-decoration: none; }
       <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/슬조데이터/2.png" alt="슬조 단계 핵심 수치"></div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- Q2 NEW: 활동 ↑ = 통증 ↓ -->
-<section class="data-sec">
-  <div class="data-inner">
+<div class="j-item">
+  <div class="j-rail"><div class="j-dot">02</div><div class="j-line"></div></div>
+  <div class="j-body">
     <div class="question-tag">질문 02</div>
     <h2 class="question-text">"움직일수록 통증이 줄어들었습니다"</h2>
     <p class="question-sub">활동 수준이 높아진 주일수록 통증점수가 낮았습니다. 8주간의 실제 기록입니다.</p>
@@ -357,11 +379,12 @@ footer a { color: var(--g400); text-decoration: none; }
       <p class="insight-text">1주차와 2주차 사이, 두 선이 교차합니다. 활동 수준이 통증점수를 넘어섰고, 이후 두 선은 반대 방향으로 계속 벌어집니다. <strong>더 많이 움직인 주일수록 통증이 낮았습니다.</strong></p>
     </div>
   </div>
-</section>
+</div>
 
 <!-- Q3 NEW: 25명 통증점수 변화 기울기 차트 -->
-<section class="data-sec">
-  <div class="data-inner">
+<div class="j-item">
+  <div class="j-rail"><div class="j-dot">03</div><div class="j-line"></div></div>
+  <div class="j-body">
     <div class="question-tag">질문 03</div>
     <h2 class="question-text">참여자 25명의<br>통증점수가 이렇게 바뀌었습니다</h2>
     <p class="question-sub">선 하나가 한 분입니다. 참여 초기 3회 평균과 최근 3회 평균을 비교했습니다.</p>
@@ -443,11 +466,12 @@ footer a { color: var(--g400); text-decoration: none; }
       <p class="insight-text">오른쪽으로 갈수록 선이 아래로 내려가면 통증이 줄어든 것입니다. 초록 선이 회색보다 많습니다. 시작점이 달랐어도, <strong>방향은 같았습니다.</strong></p>
     </div>
   </div>
-</section>
+</div>
 
 <!-- Q4: 통증이 갑자기 올라오면 끝인가요? -->
-<section class="data-sec">
-  <div class="data-inner">
+<div class="j-item">
+  <div class="j-rail"><div class="j-dot">04</div><div class="j-line"></div></div>
+  <div class="j-body">
     <div class="question-tag">질문 04</div>
     <h2 class="question-text">"통증이 갑자기 올라오면 끝인가요?"</h2>
     <p class="question-sub">회복 중 통증이 치솟는 순간은 반드시 옵니다. 포기하는 사람들은 대부분 이 순간에 무너집니다. 데이터는 다른 얘기를 합니다.</p>
@@ -457,14 +481,14 @@ footer a { color: var(--g400); text-decoration: none; }
         <div class="answer-num">68<sup>%</sup></div>
       </div>
       <div>
-        <div class="answer-label">통증 급상승 시 다음날 자연 감소</div>
-        <div class="answer-compare"><strong>10번 중 7번</strong>은 하루 만에 내려갑니다</div>
+        <div class="answer-label">통증 급상승, 다음날 자연 감소</div>
+        <div class="answer-compare">이틀 뒤엔 <strong>78%</strong>가 진정됩니다</div>
       </div>
     </div>
 
     <div class="insight-box">
-      <div class="insight-label">해석</div>
-      <p class="insight-text">통증이 올라간 날, 사람들은 "다시 원점으로 돌아갔나"라고 생각합니다. 하지만 데이터를 보면 그 68%는 다음날 통증이 다시 내려갑니다. <strong>통증의 급상승은 신호이지, 실패가 아닙니다.</strong> 이틀 안에 내려가는 비율은 78%입니다.</p>
+      <div class="insight-label">결론</div>
+      <p class="insight-text"><strong>겁먹지 마세요.</strong> 통증은 원래 오르내립니다 — 급상승은 실패가 아니라 변동폭의 일부입니다. 10명 중 7명은 다음날, 이틀이 지나면 10명 중 8명은 가라앉습니다.</p>
     </div>
 
     <div class="img-grid">
@@ -472,56 +496,32 @@ footer a { color: var(--g400); text-decoration: none; }
       <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/통증급상승/5.png" alt="통증 변동폭은 회복의 적이 아니다"></div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- Q5: 얼마나 지속할 수 있나요? -->
-<section class="data-sec">
-  <div class="data-inner">
+<!-- Q5: 시간이 지날수록 실제로 좋아지나요? -->
+<div class="j-item">
+  <div class="j-rail"><div class="j-dot">05</div><div class="j-line"></div></div>
+  <div class="j-body">
     <div class="question-tag">질문 05</div>
-    <h2 class="question-text">"얼마나 지속할 수 있나요?"</h2>
-    <p class="question-sub">허리가 아프면 운동을 꾸준히 하기 어렵습니다. 통증이 있는 상태에서 매일 기록하고 움직이는 게 가능할까요?</p>
+    <h2 class="question-text">시간이 지날수록<br>실제로 좋아집니까?</h2>
+    <p class="question-sub">주차별로 통증점수가 어떻게 바뀌었는지, 평균으로 확인했습니다.</p>
 
-    <div class="answer-block">
-      <div>
-        <div class="answer-num">79.5<sup>%</sup></div>
-      </div>
-      <div>
-        <div class="answer-label">참여자 활동 지속률</div>
-        <div class="answer-compare">쉰 날보다 <strong>움직인 날이 4배</strong></div>
-      </div>
-    </div>
-
-    <div class="stat-row">
-      <div class="stat-card">
-        <div class="stat-num">68.8<span class="stat-unit">%</span></div>
-        <div class="stat-lbl">걷기만으로 시작<br><span class="stat-sub">슬조가 무서워서</span></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">54.7<span class="stat-unit">%</span></div>
-        <div class="stat-lbl">슬조로 전환 성공<br><span class="stat-sub">이후 전체 기록 중</span></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">79.5<span class="stat-unit">%</span></div>
-        <div class="stat-lbl">활동 지속률<br><span class="stat-sub">매일 움직인 비율</span></div>
-      </div>
+    <div class="chart-card">
+      <div class="chart-title">주차별 평균 통증 점수 변화</div>
+      <img src="https://recovery-log-production.up.railway.app/hub/VAS변화/3.png" alt="주차별 평균 통증 변화" style="width:100%;border-radius:8px;display:block;">
     </div>
 
     <div class="insight-box">
       <div class="insight-label">해석</div>
-      <p class="insight-text">68.8%가 슬로우조깅이 무서워 걷기로 시작했습니다. 하지만 결국 절반 이상이 슬조로 전환했고, <strong>전체 기간 중 80%의 날은 움직였습니다.</strong> 통증이 있어도 멈추지 않는 구조가 만들어지면, 지속은 의지의 문제가 아니게 됩니다.</p>
-    </div>
-
-    <div class="img-grid">
-      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/VAS변화/3.png" alt="주차별 평균 통증 변화"></div>
-      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/회복보고서/4.png" alt="활동 후 오히려 몸이 편해진다"></div>
-      <div class="img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/회복보고서/3.png" alt="활동량이 늘어도 통증은 악화되지 않았다"></div>
+      <p class="insight-text">주차가 지날수록 평균 통증점수는 <strong>꾸준히 낮아지는 방향</strong>으로 움직였습니다. 하루하루는 오르내려도, 몇 주 단위로 보면 방향은 분명합니다.</p>
     </div>
   </div>
-</section>
+</div>
 
 <!-- Q6: 회복 순서 -->
-<section class="data-sec">
-  <div class="data-inner">
+<div class="j-item">
+  <div class="j-rail"><div class="j-dot">06</div></div>
+  <div class="j-body">
     <div class="question-tag">질문 06</div>
     <h2 class="question-text">회복은 어떤 순서로<br>찾아옵니까?</h2>
     <p class="question-sub">참여자 46개 주간 리포트에서 반복적으로 나타난 패턴입니다. 어느 날 갑자기 낫는 게 아닙니다. 조용히, 같은 순서로 옵니다.</p>
@@ -607,7 +607,9 @@ footer a { color: var(--g400); text-decoration: none; }
       <p class="insight-text">이만큼 기록이 중요한 이유는, 나의 회복 흐름, 나의 회복 방향이 <strong>잘 가고 있는지에 대한 나침반이 되어줍니다.</strong> 남이 아닌 여러분이 직접 적은 기록이 말이죠.</p>
     </div>
   </div>
-</section>
+</div>
+
+</div><!-- /.journey -->
 
 <!-- CLOSING -->
 <section class="closing">
