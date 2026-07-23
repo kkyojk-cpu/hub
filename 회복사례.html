@@ -286,6 +286,23 @@ nav {
 }
 .data-img-wrap img { width: 100%; display: block; }
 
+/* ─── 실제 코칭 데이터 기반 그래프 카드 (네이티브 SVG) ─── */
+.rec-graph-card { background: #0a1410; border-radius: 12px; overflow: hidden; border-top: 4px solid var(--accent, #10b981); padding: 1.6rem 1.5rem 1.4rem; }
+.rec-graph-meta { font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.9rem; }
+.rec-graph-stat { font-size: 2.2rem; font-weight: 900; color: #fff; margin-bottom: 0.5rem; line-height: 1; }
+.rec-graph-stat span { color: var(--accent, #10b981); }
+.rec-graph-headline { font-size: 1rem; font-weight: 800; color: #fff; line-height: 1.4; margin-bottom: 0.3rem; }
+.rec-graph-sub { font-size: 0.78rem; color: rgba(255,255,255,0.45); margin-bottom: 1rem; }
+.rec-graph-chart { width: 100%; height: auto; margin-bottom: 1rem; }
+.rec-graph-stats { display: flex; gap: 0.6rem; margin-bottom: 1rem; }
+.rec-graph-box { flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 0.7rem 0.8rem; }
+.rec-graph-box-lbl { font-size: 0.66rem; color: rgba(255,255,255,0.4); margin-bottom: 0.3rem; }
+.rec-graph-box-val { font-size: 1.15rem; font-weight: 800; color: #fff; }
+.rec-graph-quote { background: rgba(255,255,255,0.05); border-left: 3px solid var(--accent, #10b981); border-radius: 0 8px 8px 0; padding: 0.8rem 1rem; font-size: 0.82rem; color: rgba(255,255,255,0.85); line-height: 1.6; }
+.rec-graph-quote::before { content: '"'; color: var(--accent, #10b981); font-weight: 900; }
+.rec-graph-quote::after { content: '"'; color: var(--accent, #10b981); font-weight: 900; }
+.rec-graph-quote-attr { display: block; margin-top: 0.4rem; font-size: 0.7rem; color: rgba(255,255,255,0.35); }
+
 /* ─── 5. VOICES ─── */
 .voices-section { background: var(--g50); padding: 6rem 2rem; }
 .voices-inner { max-width: 760px; margin: 0 auto; }
@@ -642,6 +659,54 @@ footer a { color: var(--g400); text-decoration: none; }
       <div class="data-img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/참여자사례/2.png" alt="케이스 02 통증 변화"></div>
       <div class="data-img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/참여자사례/3.png" alt="케이스 03 통증 변화"></div>
       <div class="data-img-wrap"><img src="https://recovery-log-production.up.railway.app/hub/참여자사례/4.png" alt="케이스 04 통증 변화"></div>
+
+      <div class="data-img-wrap rec-graph-card" style="--accent:#10b981;">
+        <div class="rec-graph-meta">CASE 05 · 83일 · 슬로우조깅</div>
+        <div class="rec-graph-stat">5점대 <span>→</span> 3점대</div>
+        <div class="rec-graph-headline">3개월간 흔들림 없이 통증이 가라앉았다</div>
+        <div class="rec-graph-sub">하루 10시간 노동, 15~20kg 짐을 나르면서도</div>
+        <svg class="rec-graph-chart" viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="60.0,134.0 117.3,118.9 174.5,139.9 231.8,131.1 289.1,143.1 346.4,143.1 403.6,143.1 460.9,146.0 518.2,139.9 575.5,146.0 632.7,150.2 690.0,167.0" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="60.0" cy="134.0" r="3" fill="#10b981"/><circle cx="117.3" cy="118.9" r="3" fill="#10b981"/><circle cx="174.5" cy="139.9" r="3" fill="#10b981"/><circle cx="231.8" cy="131.1" r="3" fill="#10b981"/><circle cx="289.1" cy="143.1" r="3" fill="#10b981"/><circle cx="346.4" cy="143.1" r="3" fill="#10b981"/><circle cx="403.6" cy="143.1" r="3" fill="#10b981"/><circle cx="460.9" cy="146.0" r="3" fill="#10b981"/><circle cx="518.2" cy="139.9" r="3" fill="#10b981"/><circle cx="575.5" cy="146.0" r="3" fill="#10b981"/><circle cx="632.7" cy="150.2" r="3" fill="#10b981"/><circle cx="690.0" cy="167.0" r="4" fill="#34d399"/>
+        </svg>
+        <div class="rec-graph-stats">
+          <div class="rec-graph-box"><div class="rec-graph-box-lbl">기록 일수</div><div class="rec-graph-box-val">83일</div></div>
+          <div class="rec-graph-box"><div class="rec-graph-box-lbl">최근 주간 평균</div><div class="rec-graph-box-val">3.0점</div></div>
+        </div>
+        <div class="rec-graph-quote">마약성진통제없이 버티는게 가능해졌습니다<span class="rec-graph-quote-attr">— 참여자 직접 기록</span></div>
+      </div>
+
+      <div class="data-img-wrap rec-graph-card" style="--accent:#f59e0b;">
+        <div class="rec-graph-meta">CASE 06 · 20일 · 슬로우조깅 도입</div>
+        <div class="rec-graph-stat">7점 <span>→</span> 4점</div>
+        <div class="rec-graph-headline">3주 만에 통증이 눈에 띄게 잦아들었다</div>
+        <div class="rec-graph-sub">첫 도입 실수를 바로잡은 뒤 안정적으로 하향</div>
+        <svg class="rec-graph-chart" viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="60.0,83.0 93.2,125.0 126.3,83.0 159.5,104.0 192.6,104.0 225.8,146.0 258.9,104.0 292.1,104.0 325.3,104.0 358.4,83.0 391.6,104.0 424.7,125.0 457.9,125.0 491.1,104.0 524.2,104.0 557.4,146.0 590.5,146.0 623.7,146.0 656.8,125.0 690.0,146.0" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="60.0" cy="83.0" r="4" fill="#fbbf24"/><circle cx="93.2" cy="125.0" r="3" fill="#f59e0b"/><circle cx="126.3" cy="83.0" r="3" fill="#f59e0b"/><circle cx="159.5" cy="104.0" r="3" fill="#f59e0b"/><circle cx="192.6" cy="104.0" r="3" fill="#f59e0b"/><circle cx="225.8" cy="146.0" r="3" fill="#f59e0b"/><circle cx="258.9" cy="104.0" r="3" fill="#f59e0b"/><circle cx="292.1" cy="104.0" r="3" fill="#f59e0b"/><circle cx="325.3" cy="104.0" r="3" fill="#f59e0b"/><circle cx="358.4" cy="83.0" r="3" fill="#f59e0b"/><circle cx="391.6" cy="104.0" r="3" fill="#f59e0b"/><circle cx="424.7" cy="125.0" r="3" fill="#f59e0b"/><circle cx="457.9" cy="125.0" r="3" fill="#f59e0b"/><circle cx="491.1" cy="104.0" r="3" fill="#f59e0b"/><circle cx="524.2" cy="104.0" r="3" fill="#f59e0b"/><circle cx="557.4" cy="146.0" r="3" fill="#f59e0b"/><circle cx="590.5" cy="146.0" r="3" fill="#f59e0b"/><circle cx="623.7" cy="146.0" r="3" fill="#f59e0b"/><circle cx="656.8" cy="125.0" r="3" fill="#f59e0b"/><circle cx="690.0" cy="146.0" r="4" fill="#fbbf24"/>
+        </svg>
+        <div class="rec-graph-stats">
+          <div class="rec-graph-box"><div class="rec-graph-box-lbl">기록 일수</div><div class="rec-graph-box-val">20일</div></div>
+          <div class="rec-graph-box"><div class="rec-graph-box-lbl">3주 후 통증</div><div class="rec-graph-box-val">4점</div></div>
+        </div>
+        <div class="rec-graph-quote">오후에 근무할 때 통증이 예전보다 덜한 느낌이 있음<span class="rec-graph-quote-attr">— 참여자 직접 기록</span></div>
+      </div>
+
+      <div class="data-img-wrap rec-graph-card" style="--accent:#3b82f6;">
+        <div class="rec-graph-meta">CASE 07 · 27일 · 슬로우조깅</div>
+        <div class="rec-graph-stat">5점 <span>→</span> 2점</div>
+        <div class="rec-graph-headline">저림 걱정 없이 편안하게 뛸 수 있게 됐다</div>
+        <div class="rec-graph-sub">초반 급격히 떨어진 뒤 낮은 통증대로 계속 유지</div>
+        <svg class="rec-graph-chart" viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="60.0,125.0 84.2,188.0 108.5,188.0 132.7,230.0 156.9,188.0 181.2,188.0 205.4,188.0 229.6,188.0 253.8,167.0 278.1,188.0 302.3,188.0 326.5,188.0 350.8,188.0 375.0,167.0 399.2,188.0 423.5,188.0 447.7,188.0 471.9,188.0 496.2,188.0 520.4,188.0 544.6,188.0 568.8,167.0 593.1,188.0 617.3,188.0 641.5,188.0 665.8,188.0 690.0,188.0" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="60.0" cy="125.0" r="4" fill="#60a5fa"/><circle cx="132.7" cy="230.0" r="3" fill="#3b82f6"/><circle cx="690.0" cy="188.0" r="4" fill="#60a5fa"/>
+        </svg>
+        <div class="rec-graph-stats">
+          <div class="rec-graph-box"><div class="rec-graph-box-lbl">저림 발현 지연</div><div class="rec-graph-box-val">20분→1시간</div></div>
+          <div class="rec-graph-box"><div class="rec-graph-box-lbl">최근 통증</div><div class="rec-graph-box-val">2점 유지</div></div>
+        </div>
+        <div class="rec-graph-quote">활동전 중후 불편한곳없이 편안하게 뛰었음<span class="rec-graph-quote-attr">— 참여자 직접 기록</span></div>
+      </div>
     </div>
   </div>
 </section>
