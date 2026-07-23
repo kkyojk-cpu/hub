@@ -245,6 +245,28 @@ nav {
 .case-quote::before { content: '" '; }
 .case-quote::after { content: ' "'; }
 
+/* ─── 3-B. 코칭 과정 ─── */
+.coaching-section { background: var(--gray1); padding: 6rem 2rem; }
+.coaching-inner { max-width: 840px; margin: 0 auto; }
+.coaching-title { font-size: clamp(1.5rem, 2.8vw, 2rem); font-weight: 900; color: var(--gray9); margin-bottom: 0.5rem; }
+.coaching-subtitle { font-size: 0.95rem; color: var(--gray5); margin-bottom: 3rem; }
+.coaching-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.4rem; }
+.coach-card { background: white; border: 1.5px solid var(--gray2); border-radius: 20px; padding: 1.9rem 1.7rem; }
+.coach-tag {
+  display: inline-block; font-size: 0.7rem; font-weight: 800; color: var(--g700);
+  background: var(--g50); border: 1px solid var(--g100);
+  padding: 0.3rem 0.75rem; border-radius: 100px; margin-bottom: 1.3rem;
+}
+.coach-beat { border-left: 3px solid var(--gray2); padding-left: 0.9rem; margin-bottom: 1rem; }
+.coach-beat:last-child { margin-bottom: 0; }
+.coach-beat .lbl { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.5px; color: var(--gray5); margin-bottom: 0.28rem; }
+.coach-beat .txt { font-size: 0.9rem; color: var(--gray7); line-height: 1.65; }
+.coach-beat.action { border-left-color: var(--g500); }
+.coach-beat.action .lbl { color: var(--g700); }
+.coach-beat.after { border-left-color: var(--g900); }
+.coach-beat.after .lbl { color: var(--g900); }
+.coach-beat.after .txt { color: var(--gray9); font-weight: 700; font-size: 0.95rem; }
+
 /* ─── 4. DATA ─── */
 .data-section { background: #0a1a12; padding: 6rem 2rem; }
 .data-inner { max-width: 960px; margin: 0 auto; }
@@ -328,6 +350,8 @@ footer a { color: var(--g400); text-decoration: none; }
   .opening { padding: 4rem 1.2rem; }
   .doubt-section { padding: 4rem 1.2rem; }
   .cases-section { padding: 4rem 1.2rem; }
+  .coaching-section { padding: 4rem 1.2rem; }
+  .coach-card { padding: 1.5rem 1.4rem; }
   .data-section { padding: 4rem 1.2rem; }
   .voices-section { padding: 4rem 1.2rem; }
   .closing-section { padding: 4rem 1.2rem; }
@@ -524,6 +548,87 @@ footer a { color: var(--g400); text-decoration: none; }
 
     </div>
 
+  </div>
+</section>
+
+<!-- 3-B. 코칭 과정 -->
+<section class="coaching-section">
+  <div class="coaching-inner">
+    <div class="section-label">실제 코칭 기록</div>
+    <h2 class="coaching-title">코칭은 실제로 이렇게 진행됩니다</h2>
+    <p class="coaching-subtitle">결과만 보여드리지 않겠습니다. 그 사이에 무엇을 했는지, 그대로 옮겼습니다</p>
+
+    <div class="coaching-grid">
+
+      <!-- 성욱제9258 -->
+      <div class="coach-card">
+        <span class="coach-tag">순대국집 사장님 · 하루 10시간 노동</span>
+        <div class="coach-beat before">
+          <div class="lbl">전</div>
+          <div class="txt">순대국집을 운영하며 하루 10시간 넘게 일하고, 15~20kg 짐까지 나르는 고된 노동 속에서, 마약성 진통제 없이는 하루도 버티기 힘들었습니다</div>
+        </div>
+        <div class="coach-beat action">
+          <div class="lbl">회복연구소가</div>
+          <div class="txt">3개월간 매일 몸 상태를 확인하며 슬로우조깅을 3분부터 25분까지 천천히, 정확하게 늘려나갔습니다</div>
+        </div>
+        <div class="coach-beat after">
+          <div class="lbl">지금은</div>
+          <div class="txt">이제 진통제 없이 일할 수 있고, 스스로 관리할 수 있다며 프로그램을 졸업했습니다</div>
+        </div>
+      </div>
+
+      <!-- 이수진7503 -->
+      <div class="coach-card">
+        <span class="coach-tag">사무직 · 통증부터 시작한 첫 도입</span>
+        <div class="coach-beat before">
+          <div class="lbl">전</div>
+          <div class="txt">슬로우조깅을 시작하자마자 통증이 5~7점까지 올라와, 이걸 계속해도 되는 건지 불안해했습니다</div>
+        </div>
+        <div class="coach-beat action">
+          <div class="lbl">회복연구소가</div>
+          <div class="txt">무리하게 밀어붙이지 않고, 3분→5분→8분→10분→13분까지 몸 반응을 하나하나 확인하며 늘려나갔습니다</div>
+        </div>
+        <div class="coach-beat after">
+          <div class="lbl">지금은</div>
+          <div class="txt">3주 만에 슬로우조깅 13분을 혼자 이어갈 수 있게 됐고, 근무 중에도 예전보다 통증이 훨씬 덜하다고 느끼기 시작했습니다</div>
+        </div>
+      </div>
+
+      <!-- 박은석9460 -->
+      <div class="coach-card">
+        <span class="coach-tag">신생아 육아 중인 참여자</span>
+        <div class="coach-beat before">
+          <div class="lbl">전</div>
+          <div class="txt">신생아를 혼자 돌보느라 밤잠을 설치면서도 매일 통증과 씨름해야 했습니다</div>
+        </div>
+        <div class="coach-beat action">
+          <div class="lbl">회복연구소가</div>
+          <div class="txt">육아라는 변수를 감안해서 활동량은 유지하되, 자세와 속도를 세밀하게 조정해줬습니다</div>
+        </div>
+        <div class="coach-beat after">
+          <div class="lbl">지금은</div>
+          <div class="txt">"한 시간 앉아있는 게 이틀 전부터 가능해졌어요" — 못 견디던 일상이 하나씩 가능해지고 있습니다</div>
+        </div>
+      </div>
+
+      <!-- 이승현7587 -->
+      <div class="coach-card">
+        <span class="coach-tag">매일 다리 저림에 시달리던 참여자</span>
+        <div class="coach-beat before">
+          <div class="lbl">전</div>
+          <div class="txt">다리가 계속 저려서, 대체 언제까지 이럴지 몰라 답답하고 불안했습니다</div>
+        </div>
+        <div class="coach-beat action">
+          <div class="lbl">회복연구소가</div>
+          <div class="txt">저림이 시작되는 시점을 매일 정확히 추적하며, 활동을 꾸준히 이어가도록 이끌었습니다</div>
+        </div>
+        <div class="coach-beat after">
+          <div class="lbl">지금은</div>
+          <div class="txt">저림 걱정 없이, 불편한 곳 하나 없이 편안하게 뛸 수 있게 됐습니다</div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
