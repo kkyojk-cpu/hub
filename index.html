@@ -22,8 +22,19 @@ a:hover{color:#6ee7b7}
   section{padding-left:1.2rem !important;padding-right:1.2rem !important}
   h1{font-size:clamp(1.6rem,6vw,2.4rem) !important}
   .achievement-grid{gap:0.5rem !important}
-  .chart-scroll-hint{display:block !important}
 }
+#vasChartScroll{scrollbar-width:none;-ms-overflow-style:none}
+#vasChartScroll::-webkit-scrollbar{display:none}
+.chart-scrollbar-track{position:relative;width:100%;height:4px;background:var(--g100);border-radius:2px;margin-top:0.6rem}
+.chart-scrollbar-thumb{position:absolute;top:0;left:0;height:100%;background:var(--g500);border-radius:2px}
+.more-card{background:white;border:1px solid var(--g100);border-radius:16px;padding:1.6rem;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:1rem;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.more-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(6,78,59,0.12);border-color:var(--g500)}
+.more-card-icon{width:40px;height:40px;border-radius:10px;background:var(--g50);display:flex;align-items:center;justify-content:center;color:var(--g700);flex-shrink:0}
+.more-card-title{font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:0.3rem}
+.more-card-sub{font-size:0.8rem;color:var(--sub);line-height:1.55}
+.more-card-arrow{margin-top:auto;display:flex;align-items:center;gap:0.3rem;font-size:0.78rem;font-weight:700;color:var(--g700)}
+.more-card-arrow svg{transition:transform .2s ease}
+.more-card:hover .more-card-arrow svg{transform:translateX(4px)}
 @media (max-width:480px){
   nav > ul{gap:0.8rem !important}
   section{padding-left:1rem !important;padding-right:1rem !important}
@@ -41,7 +52,7 @@ a:hover{color:#6ee7b7}
     <li><a href="회복사례.html" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.85rem">회복 사례</a></li>
     <li><a href="데이터.html" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.85rem">데이터</a></li>
     <li><a href="논문.html" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.85rem">논문</a></li>
-    <li><a href="http://pf.kakao.com/_xmnxfyn" target="_blank" style="color:var(--g400);text-decoration:none;font-size:0.85rem;font-weight:800">상담하기</a></li>
+    <li><a href="신청하기.html" style="color:var(--g400);text-decoration:none;font-size:0.85rem;font-weight:800">프로그램 신청</a></li>
   </ul>
 </nav>
 
@@ -150,8 +161,7 @@ a:hover{color:#6ee7b7}
 
     <div style="width:100%;margin-top:2.2rem;border-radius:14px;background:var(--g50);border:1px solid var(--g100);padding:1.8rem 1.6rem">
       <div style="font-size:0.95rem;font-weight:800;color:var(--g900);margin-bottom:1rem">실제 참여자 한 분의 12주 통증(VAS) 추이</div>
-      <div class="chart-scroll-hint" style="display:none;font-size:0.75rem;color:var(--g700);font-weight:700;margin-bottom:0.5rem">← 옆으로 밀어서 전체 보기</div>
-      <div style="width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch">
+      <div id="vasChartScroll" style="width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch">
       <svg width="640" height="330" viewBox="0 0 640 330" style="width:640px;max-width:none;height:auto;display:block">
         <text x="34" y="14" font-size="11" font-weight="800" fill="#7c948a">세로축: VAS 통증 점수 (0~5, 낮을수록 좋음)</text>
         <line x1="34" y1="78" x2="34" y2="290" stroke="#b9d2c7" stroke-width="1.6"/>
@@ -187,6 +197,7 @@ a:hover{color:#6ee7b7}
         <text x="634" y="56" font-size="13" font-weight="800" fill="#065f46" text-anchor="end">가족들과 함께 뛰게 됨</text>
       </svg>
       </div>
+      <div class="chart-scrollbar-track"><div class="chart-scrollbar-thumb" id="vasScrollThumb"></div></div>
       <div style="font-size:0.78rem;color:var(--sub);text-align:center;margin-top:0.6rem">김**님 · 1:1 참여자 · 실제 매일 기록 65건 · 인용문은 참여자가 직접 남긴 기록입니다</div>
     </div>
   </div>
@@ -262,26 +273,31 @@ a:hover{color:#6ee7b7}
   <div style="max-width:1100px;margin:0 auto">
     <div style="font-size:0.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--g700);font-weight:700;margin-bottom:0.6rem">더 알아보기</div>
     <h2 style="font-size:clamp(1.3rem,2.5vw,1.7rem);font-weight:900;margin:0 0 2rem">회복연구소를 더 깊이 알아보세요</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem">
-      <a href="디스크의시작과끝.html" style="background:white;border:2px solid var(--g100);border-radius:16px;padding:1.6rem 1.2rem;text-align:center;text-decoration:none;color:var(--ink);display:block">
-        <div style="font-size:1rem;font-weight:800;margin-bottom:0.4rem">디스크의 시작과 끝</div>
-        <div style="font-size:0.78rem;color:var(--sub);line-height:1.5">발병부터 일상 복귀까지, 아무도 알려주지 않은 구조</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem">
+      <a href="디스크의시작과끝.html" class="more-card">
+        <div class="more-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <div><div class="more-card-title">디스크의 시작과 끝</div><div class="more-card-sub">발병부터 일상 복귀까지, 아무도 알려주지 않은 구조</div></div>
+        <div class="more-card-arrow">자세히 보기 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
       </a>
-      <a href="가이드북.html" style="background:white;border:2px solid var(--g100);border-radius:16px;padding:1.6rem 1.2rem;text-align:center;text-decoration:none;color:var(--ink);display:block">
-        <div style="font-size:1rem;font-weight:800;margin-bottom:0.4rem">회복 가이드북</div>
-        <div style="font-size:0.78rem;color:var(--sub);line-height:1.5">12주 회복 과정을 단계별로 정리했습니다</div>
+      <a href="가이드북.html" class="more-card">
+        <div class="more-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5C10.5 5 8 4.5 4 4.5v14c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-14c-4 0-6.5.5-8 2z"/><path d="M12 6.5v14"/></svg></div>
+        <div><div class="more-card-title">회복 가이드북</div><div class="more-card-sub">12주 회복 과정을 단계별로 정리했습니다</div></div>
+        <div class="more-card-arrow">자세히 보기 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
       </a>
-      <a href="회복사례.html" style="background:white;border:2px solid var(--g100);border-radius:16px;padding:1.6rem 1.2rem;text-align:center;text-decoration:none;color:var(--ink);display:block">
-        <div style="font-size:1rem;font-weight:800;margin-bottom:0.4rem">회복 사례</div>
-        <div style="font-size:0.78rem;color:var(--sub);line-height:1.5">실제 참여자들이 이렇게 시작했습니다</div>
+      <a href="회복사례.html" class="more-card">
+        <div class="more-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div><div class="more-card-title">회복 사례</div><div class="more-card-sub">실제 참여자들이 이렇게 시작했습니다</div></div>
+        <div class="more-card-arrow">자세히 보기 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
       </a>
-      <a href="데이터.html" style="background:white;border:2px solid var(--g100);border-radius:16px;padding:1.6rem 1.2rem;text-align:center;text-decoration:none;color:var(--ink);display:block">
-        <div style="font-size:1rem;font-weight:800;margin-bottom:0.4rem">회복 데이터</div>
-        <div style="font-size:0.78rem;color:var(--sub);line-height:1.5">숫자로 보는 슬로우조깅 회복의 증거</div>
+      <a href="데이터.html" class="more-card">
+        <div class="more-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16l4-6 4 3 5-8"/></svg></div>
+        <div><div class="more-card-title">회복 데이터</div><div class="more-card-sub">숫자로 보는 슬로우조깅 회복의 증거</div></div>
+        <div class="more-card-arrow">자세히 보기 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
       </a>
-      <a href="논문.html" style="background:white;border:2px solid var(--g100);border-radius:16px;padding:1.6rem 1.2rem;text-align:center;text-decoration:none;color:var(--ink);display:block">
-        <div style="font-size:1rem;font-weight:800;margin-bottom:0.4rem">논문</div>
-        <div style="font-size:0.78rem;color:var(--sub);line-height:1.5">회복을 뒷받침하는 연구 자료</div>
+      <a href="논문.html" class="more-card">
+        <div class="more-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/></svg></div>
+        <div><div class="more-card-title">논문</div><div class="more-card-sub">회복을 뒷받침하는 연구 자료</div></div>
+        <div class="more-card-arrow">자세히 보기 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
       </a>
     </div>
   </div>
@@ -318,7 +334,7 @@ a:hover{color:#6ee7b7}
   <div style="max-width:600px;margin:0 auto">
     <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;color:white;margin:0 0 1rem">지금, 회복을 시작하세요</h2>
     <p style="color:rgba(255,255,255,.7);margin:0 0 2rem;line-height:1.8">12주, 정확한 구조와 기록으로 끝까지 완주할 수 있도록 함께합니다</p>
-    <a href="http://pf.kakao.com/_xmnxfyn" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.95rem 2.4rem;background:var(--g500);color:white;border-radius:10px;text-decoration:none;font-weight:800;font-size:1rem;box-shadow:0 4px 16px rgba(16,185,129,0.35)">상담하기 →</a>
+    <a href="신청하기.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.95rem 2.4rem;background:var(--g500);color:white;border-radius:10px;text-decoration:none;font-weight:800;font-size:1rem;box-shadow:0 4px 16px rgba(16,185,129,0.35)">프로그램 신청 →</a>
   </div>
 </section>
 
@@ -355,6 +371,25 @@ function goQ(i) {
 }
 goQ(0);
 setInterval(() => goQ((qi + 1) % quotes.length), 5000);
+
+const vasScroll = document.getElementById('vasChartScroll');
+const vasThumb = document.getElementById('vasScrollThumb');
+function syncVasThumb() {
+  if (!vasScroll || !vasThumb) return;
+  const track = vasScroll.scrollWidth;
+  const view = vasScroll.clientWidth;
+  const widthPct = Math.min(100, (view / track) * 100);
+  const maxLeftPct = 100 - widthPct;
+  const scrollablePx = track - view;
+  const leftPct = scrollablePx > 0 ? (vasScroll.scrollLeft / scrollablePx) * maxLeftPct : 0;
+  vasThumb.style.width = widthPct + '%';
+  vasThumb.style.left = leftPct + '%';
+}
+if (vasScroll) {
+  vasScroll.addEventListener('scroll', syncVasThumb);
+  window.addEventListener('resize', syncVasThumb);
+  syncVasThumb();
+}
 </script>
 </body>
 </html>
