@@ -25,7 +25,7 @@
   .hero .count{display:inline-flex;align-items:center;gap:0.5rem;margin-top:1.6rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:999px;padding:0.5rem 1.1rem;font-size:0.88rem;font-weight:600;}
 
   /* ── 단계 필터 ── */
-  .filter-section{background:white;border-bottom:1px solid var(--gray2);position:sticky;top:0;z-index:10;}
+  .filter-section{background:white;border-bottom:1px solid var(--gray2);position:sticky;top:56px;z-index:10;}
   .filter-inner{max-width:1100px;margin:0 auto;padding:1rem 1.2rem;display:flex;gap:0.6rem;overflow-x:auto;}
   .filter-btn{flex:none;padding:0.65rem 1.2rem;border-radius:999px;border:1.5px solid var(--gray2);background:white;color:var(--gray7);font-size:0.88rem;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
   .filter-btn:hover{border-color:var(--g500);color:var(--g900);}
@@ -68,25 +68,51 @@
   }
   .cta-btn:hover{background:var(--g700);transform:translateY(-1px);}
 
-  .back-link{display:inline-flex;align-items:center;gap:0.3rem;color:#c9ede1;font-size:0.88rem;font-weight:600;margin-top:1.8rem;}
-  .back-link:hover{color:white;}
-
   @media (max-width:640px){
     .hero{padding:3rem 1.2rem 2.5rem;}
     .stage{padding:2.5rem 0 0.5rem;}
+  }
+
+  nav {
+    background: var(--g900); padding: 0.9rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+  }
+  .nav-logo { color: white; font-size: 1rem; font-weight: 800; text-decoration: none; white-space: nowrap; }
+  .nav-logo span { color: var(--g400); }
+  .nav-links { display: flex; gap: 1.2rem; list-style: none; }
+  .nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.85rem; transition: color .2s; white-space: nowrap; }
+  .nav-links a:hover, .nav-links a.active { color: var(--g400); }
+  @media (max-width:900px){
+    nav { padding: 0.9rem 1.2rem; }
+    .nav-links { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; gap: 0.9rem; padding-bottom: 2px; }
+    .nav-links a { font-size: 0.8rem; }
   }
 </style>
 </head>
 <body>
 
+<nav>
+  <a href="https://hub-murex-eta.vercel.app/" class="nav-logo">허리디스크 <span>회복연구소</span></a>
+  <ul class="nav-links">
+    <li><a href="디스크의시작과끝.html">회복의 구조</a></li>
+    <li><a href="가이드북.html">가이드북</a></li>
+    <li><a href="회복사례.html">회복 사례</a></li>
+    <li><a href="데이터.html">데이터</a></li>
+    <li><a href="자료모음집.html" class="active">무료자료</a></li>
+    <li><a href="논문.html">논문</a></li>
+    <li><a href="신청하기.html">프로그램 신청</a></li>
+    <li><a href="https://youtube.com/channel/UCIl78SFUFNzliMFDV2oS5BA" target="_blank">유튜브 ↗</a></li>
+    <li><a href="http://pf.kakao.com/_xmnxfyn" target="_blank">카카오톡 ↗</a></li>
+  </ul>
+</nav>
+
 <section class="hero">
   <div class="wrap">
     <div class="eyebrow">회복연구소 무료 자료실</div>
-    <h1>지금 어디쯤 계시든,<br>도움이 될 자료 하나는 있습니다</h1>
+    <h1>지금 어디쯤 계시든,<br>회복은 만들어갈 수 있습니다</h1>
     <p>제가 직접 겪고, 참여자분들과 함께 만들어온 자료 10가지입니다. 지금 상태에 맞는 것부터 하나씩 꺼내 보세요.</p>
     <div class="count">📦 총 10개 자료 · 전부 무료</div>
-    <br>
-    <a href="index.html" class="back-link">← 허브로 돌아가기</a>
   </div>
 </section>
 
