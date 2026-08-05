@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>무료 자료실 | 허리디스크 회복연구소</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root {
+    --g900: #064e3b; --g700: #047857; --g500: #10b981; --g400: #34d399;
+    --g100: #d1fae5; --g50: #ecfdf5;
+    --gray9: #111827; --gray7: #374151; --gray5: #6b7280; --gray2: #e5e7eb; --gray1: #f9fafb;
+    --bg: #f8fffe;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg);color:var(--gray9);line-height:1.5;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 1.2rem;}
+
+  /* ── 히어로 ── */
+  .hero{background:var(--g900);color:white;padding:4.5rem 1.2rem 3.5rem;}
+  .hero .eyebrow{font-size:0.9rem;font-weight:800;letter-spacing:2px;color:var(--g400);text-transform:uppercase;margin-bottom:1rem;}
+  .hero h1{font-size:clamp(1.8rem,4vw,3rem);font-weight:800;line-height:1.35;margin-bottom:1rem;max-width:680px;}
+  .hero p{font-size:1.05rem;color:#c9ede1;max-width:560px;line-height:1.7;}
+  .hero .count{display:inline-flex;align-items:center;gap:0.5rem;margin-top:1.6rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:999px;padding:0.5rem 1.1rem;font-size:0.88rem;font-weight:600;}
+
+  /* ── 단계 필터 ── */
+  .filter-section{background:white;border-bottom:1px solid var(--gray2);position:sticky;top:0;z-index:10;}
+  .filter-inner{max-width:1100px;margin:0 auto;padding:1rem 1.2rem;display:flex;gap:0.6rem;overflow-x:auto;}
+  .filter-btn{flex:none;padding:0.65rem 1.2rem;border-radius:999px;border:1.5px solid var(--gray2);background:white;color:var(--gray7);font-size:0.88rem;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+  .filter-btn:hover{border-color:var(--g500);color:var(--g900);}
+  .filter-btn.active{background:var(--g900);border-color:var(--g900);color:white;}
+
+  /* ── 자료 섹션 ── */
+  .stage{padding:3.5rem 0 1rem;}
+  .stage-head{margin-bottom:1.6rem;}
+  .stage-label{font-size:0.82rem;font-weight:800;letter-spacing:1.5px;color:var(--g700);text-transform:uppercase;margin-bottom:0.4rem;}
+  .stage-title{font-size:clamp(1.3rem,2.5vw,1.7rem);font-weight:700;color:var(--gray9);}
+  .stage-desc{color:var(--gray5);font-size:0.94rem;margin-top:0.4rem;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;}
+
+  .card{
+    background:white;border-radius:16px;border:1px solid var(--gray2);padding:1.5rem;
+    box-shadow:0 2px 12px rgba(6,78,59,0.08);transition:transform 0.2s, box-shadow 0.2s;
+    display:flex;flex-direction:column;gap:0.9rem;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(6,78,59,0.14);}
+  .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:0.6rem;}
+  .card-icon{width:42px;height:42px;border-radius:11px;background:var(--g50);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex:none;}
+  .badge{background:var(--g100);color:var(--g900);padding:0.3rem 0.7rem;border-radius:999px;font-size:0.74rem;font-weight:700;white-space:nowrap;}
+  .card h3{font-size:1.08rem;font-weight:700;line-height:1.45;color:var(--gray9);}
+  .card p{font-size:0.88rem;color:var(--gray5);line-height:1.6;flex:1;}
+  .card-cta{
+    display:flex;align-items:center;justify-content:center;gap:0.4rem;
+    padding:0.8rem 1rem;border-radius:10px;border:2px solid var(--g900);color:var(--g900);
+    font-weight:700;font-size:0.9rem;transition:background 0.2s, color 0.2s;
+  }
+  .card-cta:hover{background:var(--g900);color:white;}
+
+  /* ── 하단 CTA ── */
+  .cta-section{background:var(--g50);padding:4rem 1.2rem;margin-top:2rem;text-align:center;}
+  .cta-section h2{font-size:clamp(1.3rem,2.5vw,1.7rem);font-weight:700;margin-bottom:0.8rem;}
+  .cta-section p{color:var(--gray7);margin-bottom:1.6rem;font-size:1rem;}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:0.5rem;background:var(--g900);color:white;
+    padding:0.9rem 2rem;border-radius:10px;font-weight:700;font-size:1rem;transition:background 0.2s, transform 0.15s;
+  }
+  .cta-btn:hover{background:var(--g700);transform:translateY(-1px);}
+
+  .back-link{display:inline-flex;align-items:center;gap:0.3rem;color:#c9ede1;font-size:0.88rem;font-weight:600;margin-top:1.8rem;}
+  .back-link:hover{color:white;}
+
+  @media (max-width:640px){
+    .hero{padding:3rem 1.2rem 2.5rem;}
+    .stage{padding:2.5rem 0 0.5rem;}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">회복연구소 무료 자료실</div>
+    <h1>지금 어디쯤 계시든,<br>도움이 될 자료 하나는 있습니다</h1>
+    <p>제가 직접 겪고, 참여자분들과 함께 만들어온 자료 10가지입니다. 지금 상태에 맞는 것부터 하나씩 꺼내 보세요.</p>
+    <div class="count">📦 총 10개 자료 · 전부 무료</div>
+    <br>
+    <a href="index.html" class="back-link">← 허브로 돌아가기</a>
+  </div>
+</section>
+
+<nav class="filter-section">
+  <div class="filter-inner" id="filterBar">
+    <button class="filter-btn active" data-stage="all">전체보기</button>
+    <button class="filter-btn" data-stage="acute">지금 많이 아파요</button>
+    <button class="filter-btn" data-stage="moving">조금씩 움직이기 시작했어요</button>
+    <button class="filter-btn" data-stage="steady">꾸준히 회복 중이에요</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <section class="stage" data-group="acute">
+    <div class="stage-head">
+      <div class="stage-label">Stage 1</div>
+      <div class="stage-title">지금 많이 아프신 분께</div>
+      <p class="stage-desc">움직이기 전에, 먼저 지금 상태부터 확인하세요.</p>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top"><div class="card-icon">✅</div><span class="badge">구글폼 · 1분 진단</span></div>
+        <h3>허리디스크 악화 신호 체크리스트</h3>
+        <p>지금 내 상태가 위험한 신호인지, 10개 문항으로 1분 안에 확인합니다.</p>
+        <a class="card-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSegX5yDDbUM3zh8qpAs2pj19QxcB6ri-TwXjj9mpnL3cgKr3A/viewform" target="_blank" rel="noopener">진단해보기 →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><div class="card-icon">📋</div><span class="badge">PDF</span></div>
+        <h3>허리디스크 환자라면 알아야할 24시간 생활수칙</h3>
+        <p>자세, 수면, 이동까지 — 하루 동안 허리를 지키는 습관을 정리했습니다.</p>
+        <a class="card-cta" href="https://drive.google.com/file/d/1EX9aCjbpEWVPOUXdyEH0-JH6Ik1kciNV/view?usp=sharing" target="_blank" rel="noopener">자료 보기 →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><div class="card-icon">💬</div><span class="badge">PDF · 경험담</span></div>
+        <h3>허리디스크로 병원만 10군데 넘게 다니고 깨달은 것들</h3>
+        <p>이 병원 저 병원 전전하며 직접 겪고 나서야 알게 된 것들입니다.</p>
+        <a class="card-cta" href="https://drive.google.com/file/d/1G7PTcg0tX1P9amSp4KghdicW0TCh-VCw/view?usp=sharing" target="_blank" rel="noopener">자료 보기 →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="stage" data-group="moving">
+    <div class="stage-head">
+      <div class="stage-label">Stage 2</div>
+      <div class="stage-title">조금씩 움직이기 시작하신 분께</div>
+      <p class="stage-desc">무리하지 않는 선에서, 몸을 다시 깨우는 단계입니다.</p>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top"><div class="card-icon">🧭</div><span class="badge">노션 · 가이드</span></div>
+        <h3>허리디스크 회복 방향 가이드</h3>
+        <p>뭐부터 시작해야 할지 모르겠다면, 방향부터 잡아드립니다.</p>
+        <a class="card-cta" href="https://app.notion.com/p/33369cbf93a880cb956ee348e58332ad?source=copy_link" target="_blank" rel="noopener">가이드 읽기 →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><div class="card-icon">🤸</div><span class="badge">PDF</span></div>
+        <h3>허리디스크 맞춤 안전한 스트레칭 가이드</h3>
+        <p>통증을 오히려 키우는 동작은 빼고, 안전한 것만 골랐습니다.</p>
+        <a class="card-cta" href="https://drive.google.com/file/d/1ZCxEHdckWuXERyVF_BHu3IFU4axiMh9-/view?usp=sharing" target="_blank" rel="noopener">자료 보기 →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><div class="card-icon">💪</div><span class="badge">PDF</span></div>
+        <h3>위축된 허리디스크 환자들을 위한 무리없는 근력강화 운동</h3>
+        <p>오래 안 써서 약해진 근육을, 통증 없이 되살리는 방법입니다.</p>
+        <a class="card-cta" href="https://drive.google.com/file/d/1OaEwBbVcJ8CmCXrl6v26WSofYEWSyNXy/view?usp=sharing" target="_blank" rel="noopener">자료 보기 →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><div class="card-icon">🎯</div><span class="badge">웹 도구 · 바로 진행</span></div>
+        <h3>디스크 환자 활동 전략</h3>
+        <p>지금 내 활동량을 입력하면, 나에게 맞는 전략을 바로 찾아줍니다.</p>
+        <a class="card-cta" href="https://kkyojk-cpu.github.io/disc-activity-strategy/" target="_blank" rel="noopener">지금 해보기 →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="stage" data-group="steady">
+    <div class="stage-head">
+      <div class="stage-label">Stage 3</div>
+      <div class="stage-title">꾸준히 회복 중이신 분께</div>
+      <p class="stage-desc">본격적으로 활동량을 늘리고, 기록으로 확인하는 단계입니다.</p>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top"><div class="card-icon">🗺️</div><span class="badge">PDF</span></div>
+        <h3>허리디스크 회복 로드맵 : 멈춤에서 활동으로</h3>
+        <p>멈춰있던 몸을 다시 움직이게 하기까지, 전체 흐름을 정리했습니다.</p>
+        <a class="card-cta" href="https://drive.google.com/file/d/1kx7OVCK58ZI_L_Za42rz1J7Ik19pR0kP/view?usp=sharing" target="_blank" rel="noopener">자료 보기 →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><div class="card-icon">🏃</div><span class="badge">PDF</span></div>
+        <h3>「툭-툭 100m부터 OK, 가장 쉬운 허리회복 러닝습관」</h3>
+        <p>달리기가 무섭게 느껴지는 분들을 위한, 가장 쉬운 첫걸음입니다.</p>
+        <a class="card-cta" href="https://drive.google.com/file/d/1SsPltttTzFxzuoxHw_Ut8sVLIw7D7vIf/view?usp=sharing" target="_blank" rel="noopener">자료 보기 →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><div class="card-icon">📝</div><span class="badge">PDF · 기록지</span></div>
+        <h3>슬로우조깅 기록지 무료배포용</h3>
+        <p>매일 활동을 기록하면서, 회복 속도를 눈으로 직접 확인하세요.</p>
+        <a class="card-cta" href="https://drive.google.com/file/d/1JukOB-drS00NjWqMsWPSGhnB-8Ws3pEi/view?usp=sharing" target="_blank" rel="noopener">자료 보기 →</a>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<section class="cta-section">
+  <h2>더 자세한 이야기가 궁금하다면</h2>
+  <p>카카오 채널에서 편하게 물어보세요. 직접 답변드립니다.</p>
+  <a class="cta-btn" href="http://pf.kakao.com/_xmnxfyn" target="_blank" rel="noopener">💛 카카오 채널 문의하기</a>
+</section>
+
+<script>
+(function(){
+  var btns = document.querySelectorAll('.filter-btn');
+  var groups = document.querySelectorAll('.stage');
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var stage = btn.dataset.stage;
+      groups.forEach(function(g){
+        g.style.display = (stage === 'all' || g.dataset.group === stage) ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
