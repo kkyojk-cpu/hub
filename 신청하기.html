@@ -56,6 +56,16 @@ nav {
 .ac-btn:hover { background: var(--g700); }
 .ac-btn.b2 { background: #0f766e; } .ac-btn.b2:hover { background: #047857; }
 .ac-btn.b3 { background: #1e293b; } .ac-btn.b3:hover { background: #0f172a; }
+
+.apply-card.featured { position: relative; overflow: visible; }
+.ac-badge {
+  position: absolute; top: -14px; right: 22px; z-index: 2;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white; font-size: 0.78rem; font-weight: 800;
+  padding: 0.45rem 1rem; border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(217,119,6,0.4);
+  letter-spacing: -0.2px;
+}
 footer { background: var(--gray9); color: rgba(255,255,255,.55); padding: 2.5rem 2rem; text-align: center; font-size: 0.85rem; }
 footer a { color: var(--g400); text-decoration: none; }
 
@@ -184,7 +194,8 @@ footer a { color: var(--g400); text-decoration: none; }
       </div>
     </div>
 
-    <div class="apply-card">
+    <div class="apply-card featured">
+      <div class="ac-badge">회복연구소 추천</div>
       <div class="ac-head h2">
         <div class="ac-tag">그룹 커리큘럼</div>
         <div class="ac-name">그룹 프로그램</div>
