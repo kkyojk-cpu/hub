@@ -57,6 +57,26 @@ nav {
 .ac-btn.b2 { background: #0f766e; } .ac-btn.b2:hover { background: #047857; }
 .ac-btn.b3 { background: #1e293b; } .ac-btn.b3:hover { background: #0f172a; }
 
+/* 그룹 카드 안 미리보기 — 앱을 켜면 보이는 지도가 천천히 흐른다.
+   고객이 신청 전에 "내 자리가 지도 위에 있다"를 눈으로 먼저 본다. */
+.ac-preview { margin: 0 0 1.2rem; border-radius: 14px; overflow: hidden;
+  border: 1.5px solid var(--gray2); background: #eaf3fb; }
+.ac-preview-bar { padding: .6rem .9rem .65rem; background: #064e3b; color: #fff; }
+.ac-preview-bar span { display: block; font-size: .58rem; font-weight: 800; letter-spacing: 2px; color: #10b981; margin-bottom: 1px; }
+.ac-preview-bar b { display: block; font-size: 1rem; font-weight: 900; letter-spacing: -.4px; }
+.ac-preview-view { position: relative; height: 210px; overflow: hidden; }
+.ac-preview-view img { position: absolute; left: 0; top: 0; width: 100%; display: block;
+  animation: acRoadmap 30s linear infinite alternate; }
+@keyframes acRoadmap {
+  from { transform: translateY(calc(-100% + 210px)); }   /* 1단계(맨 아래)에서 시작 */
+  to   { transform: translateY(0); }                      /* 12단계(맨 위)까지 */
+}
+@media (prefers-reduced-motion: reduce) {
+  .ac-preview-view img { animation: none; transform: translateY(calc(-100% + 210px)); }
+}
+.ac-preview-cap { padding: .55rem .9rem .65rem; background: #fff; border-top: 1px solid var(--gray2);
+  font-size: .72rem; color: var(--gray5); text-align: center; }
+
 .apply-card.featured { position: relative; overflow: visible; }
 .ac-badge {
   position: absolute; top: -14px; right: 22px; z-index: 2;
@@ -173,41 +193,28 @@ footer a { color: var(--g400); text-decoration: none; }
 
 <div class="content">
   <div class="apply-grid">
-    <div class="apply-card">
-      <div class="ac-head">
-        <div class="ac-tag">1:1 밀착 코칭</div>
-        <div class="ac-name">나침반 1:1</div>
-        <div class="ac-tagline">방향 없이 혼자 버티고 있다면,<br>코치가 매일 기록을 보고 판단합니다</div>
-      </div>
-      <div class="ac-body">
-        <div class="ac-target">병원·주사·도수치료를 반복했지만 나아지지 않는 분. 어떻게 움직여야 할지 혼자서는 판단이 안 되는 분.</div>
-        <ul class="ac-features">
-          <li>매일 기록 + 코치 1:1 피드백</li>
-          <li>PASS / BLOCK 판단을 코치가 직접</li>
-          <li>슬조 도입 시점과 활동량 코치 결정</li>
-          <li>개별 영상미팅을 통한 밀착 상황 공유</li>
-          <li>4주 단위, 연장 가능</li>
-        </ul>
-        <div class="ac-price">199,000원</div>
-        <div class="ac-period">4주 기준</div>
-        <a href="https://recovery-log-production.up.railway.app/go1" target="_blank" class="ac-btn">신청하기 →</a>
-      </div>
-    </div>
-
     <div class="apply-card featured">
       <div class="ac-badge">회복연구소 추천</div>
       <div class="ac-head h2">
-        <div class="ac-tag">그룹 커리큘럼</div>
+        <div class="ac-tag">12단계 회복로드</div>
         <div class="ac-name">그룹 프로그램</div>
-        <div class="ac-tagline">같은 상황의 분들과 함께,<br>12주 커리큘럼으로 체계적으로 진행합니다</div>
+        <div class="ac-tagline">오늘 어디까지 할지<br>지도 위에 정해져 있습니다</div>
       </div>
       <div class="ac-body">
-        <div class="ac-target">혼자는 지속이 어려운 분. 비용 부담을 줄이면서도 구조 안에서 움직이고 싶은 분.</div>
+        <div class="ac-preview">
+          <div class="ac-preview-bar"><span>그룹프로그램</span><b>회복로드 12단계</b></div>
+          <div class="ac-preview-view">
+            <img src="img/stagemap.jpg" alt="회복 12단계 지도 — 1단계부터 12단계까지" loading="lazy" decoding="async">
+          </div>
+          <div class="ac-preview-cap">앱을 켜면 지도 위에 내 자리가 있습니다</div>
+        </div>
+        <div class="ac-target">혼자는 지속이 어려운 분. 얼마나 해야 할지 매일 고민하지 않고 정해진 만큼만 하고 싶은 분.</div>
         <ul class="ac-features">
-          <li>그룹 전용 기록 앱</li>
-          <li>12주 단계별 커리큘럼 + 가이드 영상</li>
-          <li>주말 리포트 + 분석</li>
-          <li>주말 라이브 소통, 오픈채팅방 커뮤니티 운영</li>
+          <li><b>회복 과정을 12단계로 나눈 전용 앱</b></li>
+          <li>시작할 자리를 몸 상태로 정해드립니다</li>
+          <li>몸이 준비되면 다음 단계, 아니면 그 자리에</li>
+          <li>주차별 가이드 영상 + 주말 리포트</li>
+          <li>토요일 라이브 · 오픈채팅방 매일 소통</li>
           <li>4주 단위, 상시 모집</li>
         </ul>
         <div class="ac-price">79,000원</div>
@@ -234,6 +241,27 @@ footer a { color: var(--g400); text-decoration: none; }
         <div class="ac-price">39,000원</div>
         <div class="ac-period">단독 이용</div>
         <a href="https://docs.google.com/forms/d/e/1FAIpQLScGuLEXQT4vdMaAFKzzw2GTELGVDONY5yO8IHcDI7BX178Z8Q/viewform?usp=dialog" target="_blank" class="ac-btn b3">시작하기 →</a>
+      </div>
+    </div>
+
+    <div class="apply-card">
+      <div class="ac-head">
+        <div class="ac-tag">1:1 밀착 코칭</div>
+        <div class="ac-name">나침반 1:1</div>
+        <div class="ac-tagline">방향 없이 혼자 버티고 있다면,<br>코치가 매일 기록을 보고 판단합니다</div>
+      </div>
+      <div class="ac-body">
+        <div class="ac-target">병원·주사·도수치료를 반복했지만 나아지지 않는 분. 어떻게 움직여야 할지 혼자서는 판단이 안 되는 분.</div>
+        <ul class="ac-features">
+          <li>매일 기록 + 코치 1:1 피드백</li>
+          <li>PASS / BLOCK 판단을 코치가 직접</li>
+          <li>슬조 도입 시점과 활동량 코치 결정</li>
+          <li>개별 영상미팅을 통한 밀착 상황 공유</li>
+          <li>4주 단위, 연장 가능</li>
+        </ul>
+        <div class="ac-price">199,000원</div>
+        <div class="ac-period">4주 기준</div>
+        <a href="https://recovery-log-production.up.railway.app/go1" target="_blank" class="ac-btn">신청하기 →</a>
       </div>
     </div>
   </div>
