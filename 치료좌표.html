@@ -1,0 +1,806 @@
+<title>허리디스크 회복 좌표</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700;900&family=Spectral:ital,wght@0,400;1,400&display=swap">
+
+<style>
+:root{
+  --ground:#f6f8f7;--panel:#ffffff;--panel-2:#eef2f0;
+  --ink:#11241f;--ink-2:#4a5c56;--ink-3:#8c9c96;
+  --line:#d8e0dc;--line-soft:#e7ecea;
+  --self:#0b6b4f;--self-soft:#e3f0ea;
+  --other:#a8443a;--other-soft:#f6e6e3;
+  --dead:#8c9c96;--focus:#0b6b4f;
+  --veil:rgba(17,36,31,.42);
+  /* 가운데에서 멀수록 가라앉는 정도. 밝은 화면에서는 먹색으로 아주 옅게. */
+  --vig-rgb:17,36,31;--vig-a:.055;--vig-b:.13;
+  --shadow:0 1px 2px rgba(17,36,31,.06),0 8px 24px rgba(17,36,31,.06);
+  --shadow-lg:0 24px 70px rgba(17,36,31,.22),0 4px 14px rgba(17,36,31,.1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0e1513;--panel:#151e1b;--panel-2:#1b2522;
+    --ink:#e9efec;--ink-2:#a5b5af;--ink-3:#6f827b;
+    --line:#2a3733;--line-soft:#212c29;
+    --self:#4fc49a;--self-soft:#142c24;
+    --other:#e08a7e;--other-soft:#2e1d1a;
+    --dead:#6f827b;--focus:#4fc49a;--veil:rgba(0,0,0,.6);
+    --vig-rgb:0,0,0;--vig-a:.16;--vig-b:.30;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+    --shadow-lg:0 24px 70px rgba(0,0,0,.6),0 4px 14px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0e1513;--panel:#151e1b;--panel-2:#1b2522;
+  --ink:#e9efec;--ink-2:#a5b5af;--ink-3:#6f827b;
+  --line:#2a3733;--line-soft:#212c29;
+  --self:#4fc49a;--self-soft:#142c24;
+  --other:#e08a7e;--other-soft:#2e1d1a;
+  --dead:#6f827b;--focus:#4fc49a;--veil:rgba(0,0,0,.6);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+  --shadow-lg:0 24px 70px rgba(0,0,0,.6),0 4px 14px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:'Noto Sans KR','Malgun Gothic',sans-serif;line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow:hidden;
+  word-break:keep-all;overflow-wrap:break-word}
+
+/* ── 화면 전환 ─────────────────────────────── */
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;
+  opacity:0;visibility:hidden;transition:opacity .34s ease,visibility .34s}
+.screen.on{opacity:1;visibility:visible}
+
+/* ── ① 시작 ───────────────────────────────── */
+#start{align-items:center;justify-content:center;text-align:center;
+  padding:clamp(24px,6vw,64px);gap:clamp(20px,3vw,30px)}
+#start .kicker{font-size:clamp(12px,1.5vw,14px);font-weight:700;letter-spacing:.24em;color:var(--ink-3)}
+#start h1{font-family:'Noto Serif KR',serif;font-weight:900;margin:0;
+  font-size:clamp(34px,7vw,74px);line-height:1.14;letter-spacing:-.03em;text-wrap:balance}
+#start p{margin:0;max-width:40ch;color:var(--ink-2);font-size:clamp(15px,2vw,19px);
+  word-break:keep-all;text-wrap:pretty}
+.bigbtn{margin-top:6px;border:none;cursor:pointer;font-family:inherit;
+  background:var(--self);color:#fff;font-weight:900;
+  font-size:clamp(17px,2.3vw,22px);padding:clamp(15px,2vw,20px) clamp(30px,4.5vw,46px);
+  border-radius:999px;box-shadow:0 8px 26px rgba(11,107,79,.3);
+  transition:transform .18s,box-shadow .18s}
+.bigbtn:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(11,107,79,.38)}
+.bigbtn:active{transform:translateY(0)}
+.bigbtn:focus-visible{outline:3px solid var(--self);outline-offset:4px}
+#start .foot{font-size:clamp(11.5px,1.4vw,13px);color:var(--ink-3);margin-top:8px}
+/* 이 화면이 무엇이고 무엇이 아닌지 (2026-09-19).
+   버튼 아래에 둔다 — 읽지 않고 넘어가시더라도 눈에는 한 번 걸리게. */
+#start .notice{max-width:64ch;margin:26px auto 0;text-align:left;
+  border-top:1px solid var(--line);padding-top:16px}
+#start .notice p{margin:0 0 9px;font-size:clamp(11.5px,1.35vw,13.5px);
+  line-height:1.75;color:var(--ink-3);word-break:keep-all}
+#start .notice p:last-child{margin-bottom:0}
+#start .notice b{color:var(--ink-2);font-weight:800}
+
+/* ── ②④ 좌표 화면 공통 ─────────────────────── */
+.board{padding:clamp(12px,2vw,22px) clamp(12px,2.4vw,28px) clamp(10px,1.6vw,18px);
+  height:100%;display:flex;flex-direction:column;gap:clamp(8px,1.2vw,14px)}
+.boardhead{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.boardhead h2{font-family:'Noto Serif KR',serif;font-weight:900;margin:0;
+  font-size:clamp(18px,3.2vh,54px);letter-spacing:-.02em}
+.stamp{font-family:'Noto Sans KR',sans-serif;font-weight:700;color:var(--self);
+  font-size:clamp(12px,1.45vw,15px);letter-spacing:0;margin-left:10px;
+  background:var(--self-soft);padding:4px 11px;border-radius:999px;
+  vertical-align:middle;white-space:nowrap}
+.boardhead .note{font-size:clamp(11.5px,1.4vw,14px);color:var(--ink-2)}
+.boardhead .note b{color:var(--ink)}
+.legend{display:flex;gap:16px;font-size:clamp(11.5px,1.7vh,26px);font-weight:700;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%}
+.legend .s{background:var(--self)} .legend .o{background:var(--other)}
+
+.map{position:relative;flex:1;min-height:0;
+  background:var(--panel);border:1px solid var(--line);border-radius:6px;
+  box-shadow:var(--shadow);overflow:hidden}
+
+.quad{position:absolute;width:50%;height:50%;z-index:0}
+.q1{top:0;left:0;background:linear-gradient(135deg,var(--self-soft),transparent 72%)}
+.q3{bottom:0;right:0;background:linear-gradient(315deg,var(--other-soft),transparent 72%)}
+/* 가운데에서 멀수록 그 성질이 강하다 (2026-09-18).
+   전에는 사분면 어디냐만 읽히고 "얼마나 멀리 있냐"가 안 읽혔다.
+   배경을 가라앉혀 봤더니 화면만 탁해졌다 — 화살표가 제일 깨끗하고 확실하다.
+   축선은 가운데가 흐리고 끝으로 갈수록 진해진다. 화살촉은 네 끝에 하나씩. */
+.axisline{position:absolute}
+.axisline.h{left:0;right:0;top:50%;height:1.5px;
+  background:linear-gradient(to right,
+    rgba(var(--vig-rgb),.40) 0%, rgba(var(--vig-rgb),.18) 30%,
+    rgba(var(--vig-rgb),.07) 50%,
+    rgba(var(--vig-rgb),.18) 70%, rgba(var(--vig-rgb),.40) 100%)}
+.axisline.v{top:0;bottom:0;left:50%;width:1.5px;
+  background:linear-gradient(to bottom,
+    rgba(var(--vig-rgb),.40) 0%, rgba(var(--vig-rgb),.18) 30%,
+    rgba(var(--vig-rgb),.07) 50%,
+    rgba(var(--vig-rgb),.18) 70%, rgba(var(--vig-rgb),.40) 100%)}
+.axisline::before,.axisline::after{content:"";position:absolute;
+  border:8px solid transparent}
+.axisline.h::before{left:-1px;top:50%;transform:translateY(-50%);
+  border-left:0;border-right-color:rgba(var(--vig-rgb),.40)}
+.axisline.h::after{right:-1px;top:50%;transform:translateY(-50%);
+  border-right:0;border-left-color:rgba(var(--vig-rgb),.40)}
+.axisline.v::before{top:-1px;left:50%;transform:translateX(-50%);
+  border-top:0;border-bottom-color:rgba(var(--vig-rgb),.40)}
+.axisline.v::after{bottom:-1px;left:50%;transform:translateX(-50%);
+  border-bottom:0;border-top-color:rgba(var(--vig-rgb),.40)}
+/* 축 라벨은 치료 이름과 확실히 갈라야 한다 (2026-09-19).
+   전에는 둘 다 흰 알약이라 "이것도 치료 하나인가" 로 읽혔다.
+   검은 박스로 뒤집어 봤더니 갈라지기는 하는데 네 개가 똑같이 투박했다.
+
+   그래서 판을 없앴다. 치료 이름은 알약(둥근 테두리 + 색점),
+   축 라벨은 각지고 테두리가 없으며 **자기가 가리키는 쪽에만 굵은 선**이 붙는다.
+   위 라벨은 위에, 아래 라벨은 아래에 — 선이 곧 화살표 노릇을 한다.
+   글자는 진하게 두되 바탕은 종이색을 살짝 덮어 뒤의 눈금이 비쳐 보이게 한다. */
+/* 축은 색으로 가른다 (2026-09-19 대표님 지시).
+   세로축(위·아래) = 분홍 · 가로축(왼·오른쪽) = 민트.
+   ★ 점의 초록(#0b6b4f)·벽돌색(#a8443a)과 헷갈리면 안 되므로
+     일부러 채도를 올리고 밝기를 띄웠다. 점은 작은 동그라미,
+     축은 큰 색판이라 크기로도 한 번 더 갈린다. */
+.axlabel{position:absolute;font-size:clamp(14px,2.35vh,40px);font-weight:900;
+  color:#fff;white-space:nowrap;
+  padding:.36em .85em;border-radius:4px;letter-spacing:.05em;
+  border:0;box-shadow:0 3px 12px rgba(17,36,31,.2);z-index:3}
+.axlabel.top,.axlabel.bottom{background:#e0457a}      /* 분홍 — 무엇을 하는가 */
+.axlabel.left,.axlabel.right{background:#0ea395}      /* 민트 — 몇 번 하는가 */
+.axlabel.top{top:4px;left:50%;transform:translateX(-50%)}
+.axlabel.bottom{bottom:4px;left:50%;transform:translateX(-50%)}
+.axlabel.left{left:4px;top:50%;transform:translateY(18%)}
+.axlabel.right{right:4px;top:50%;transform:translateY(-118%)}
+
+/* 글자 크기 (2026-09-18 촬영 뒤 키움).
+   전에는 15px 이었다. 1080p 영상을 폰으로 보면 이름이 점으로만 보였다.
+   영상에서 읽히려면 화면 높이의 2.5% 는 되어야 한다 — 1080 기준 27px. */
+.dot{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:9px;
+  background:var(--panel);border:2px solid var(--line);border-radius:999px;
+  padding:8px 19px 8px 14px;font-size:clamp(15px,2.75vh,46px);font-weight:800;color:var(--ink);
+  cursor:pointer;white-space:nowrap;font-family:inherit;
+  box-shadow:0 1px 4px rgba(17,36,31,.1);
+  transition:transform .16s,box-shadow .16s,border-color .16s;z-index:2}
+.dot:hover{transform:translate(-50%,-50%) scale(1.09);box-shadow:0 5px 16px rgba(17,36,31,.2);z-index:5}
+.dot:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.dot.seen{border-color:var(--ink-3)}
+.dot .bead{width:14px;height:14px;border-radius:50%;flex:none}
+.dot.self .bead{background:var(--self)}
+.dot.other .bead{background:var(--other)}
+.dot.null{border-style:dashed;border-color:var(--dead);color:var(--ink-2)}
+.dot.null .bead{background:var(--dead)}
+
+/* 커서를 올리면 점 바로 위에 뜬다 — 영상에서 짚어가며 설명하실 자리 */
+.dot::after{
+  content:attr(data-who);
+  position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%) translateY(4px);
+  background:var(--ink);color:var(--ground);font-size:clamp(11px,1.25vw,13.5px);font-weight:700;
+  padding:5px 11px;border-radius:6px;white-space:nowrap;pointer-events:none;
+  opacity:0;transition:opacity .16s,transform .16s;box-shadow:0 4px 14px rgba(17,36,31,.26)}
+.dot::before{
+  content:"";position:absolute;left:50%;bottom:calc(100% + 3px);transform:translateX(-50%) translateY(4px);
+  border:6px solid transparent;border-top-color:var(--ink);pointer-events:none;
+  opacity:0;transition:opacity .16s,transform .16s}
+.dot:hover::after,.dot:focus-visible::after,
+.dot:hover::before,.dot:focus-visible::before{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* 아래 큰 버튼 */
+.nullcta{display:flex;align-items:center;justify-content:center;gap:12px;
+  border:2px dashed var(--line);background:var(--panel);border-radius:6px;cursor:pointer;
+  padding:clamp(12px,1.8vw,18px);font-family:inherit;font-weight:900;color:var(--ink);
+  font-size:clamp(14px,1.9vw,19px);transition:border-color .18s,background .18s,transform .16s}
+.nullcta:hover{border-color:var(--ink-3);background:var(--panel-2);transform:translateY(-1px)}
+.nullcta:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.nullcta .n{font-size:clamp(11.5px,1.4vw,14px);font-weight:700;color:var(--ink-3)}
+.backbtn{border:1px solid var(--line);background:var(--panel);border-radius:999px;cursor:pointer;
+  font-family:inherit;font-weight:700;color:var(--ink-2);font-size:clamp(12px,1.5vw,15px);
+  padding:8px 18px;transition:background .16s}
+.backbtn:hover{background:var(--panel-2)}
+.backbtn:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+
+/* ── ③ 덮개 ───────────────────────────────── */
+.veil{position:fixed;inset:0;background:var(--veil);backdrop-filter:blur(3px);
+  opacity:0;visibility:hidden;transition:opacity .26s,visibility .26s;z-index:40;
+  display:flex;align-items:center;justify-content:center;padding:clamp(14px,3vw,40px)}
+.veil.on{opacity:1;visibility:visible}
+.sheet{width:min(940px,100%);max-height:92vh;overflow:auto;
+  background:var(--panel);border-radius:10px;box-shadow:var(--shadow-lg);
+  padding:clamp(22px,3.4vw,40px);
+  transform:scale(.9) translateY(18px);opacity:0;
+  transition:transform .32s cubic-bezier(.2,.9,.3,1.2),opacity .26s}
+.veil.on .sheet{transform:scale(1) translateY(0);opacity:1}
+
+.sheet .top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:6px}
+.sheet h3{font-family:'Noto Serif KR',serif;font-weight:900;margin:0;
+  font-size:clamp(25px,3.8vw,40px);letter-spacing:-.02em;line-height:1.16}
+.closebtn{flex:none;border:1px solid var(--line);background:var(--panel);cursor:pointer;
+  font-family:inherit;font-weight:900;color:var(--ink);font-size:clamp(13px,1.6vw,16px);
+  padding:9px 20px;border-radius:999px;transition:background .16s,border-color .16s}
+.closebtn:hover{background:var(--panel-2);border-color:var(--ink-3)}
+.closebtn:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 18px}
+.tag{font-size:clamp(11px,1.3vw,13px);font-weight:700;padding:5px 12px;border-radius:999px}
+.tag.direct{background:var(--self-soft);color:var(--self)}
+.tag.indirect{background:var(--panel-2);color:var(--ink-2)}
+.tag.who-self{background:var(--self-soft);color:var(--self)}
+.tag.who-other{background:var(--other-soft);color:var(--other)}
+.tag.freq{background:var(--panel-2);color:var(--ink-2)}
+
+.verdict{font-size:clamp(17px,2.3vw,23px);line-height:1.72;font-weight:500;
+  color:var(--ink);background:var(--panel-2);border-radius:8px;
+  padding:clamp(16px,2.2vw,24px);margin:0 0 20px;
+  word-break:keep-all;text-wrap:pretty}
+.verdict b{font-weight:900}
+.sent{display:block}
+.sent + .sent{margin-top:.42em}
+.line dd .sent + .sent{margin-top:.3em}
+.verdict .up{color:var(--self)} .verdict .down{color:var(--other)}
+
+.grid{display:grid;gap:0}
+.line{display:grid;grid-template-columns:104px 1fr;gap:6px 20px;
+  padding:14px 0;border-top:1px solid var(--line-soft)}
+.line dt{font-size:clamp(11.5px,1.4vw,13.5px);font-weight:900;color:var(--ink-3);letter-spacing:.03em}
+.line dd{margin:0;font-size:clamp(14px,1.7vw,16.5px);color:var(--ink);
+  word-break:keep-all;text-wrap:pretty;line-height:1.68}
+.line dd.warn{color:var(--other)}
+.quote{margin:18px 0 0;padding:15px 18px;background:var(--panel-2);
+  border-left:3px solid var(--line);border-radius:3px;
+  font-family:'Spectral',Georgia,serif;font-size:clamp(13px,1.55vw,15px);line-height:1.62;color:var(--ink-2)}
+.quote cite{display:block;margin-top:9px;font-family:'Noto Sans KR',sans-serif;
+  font-style:normal;font-size:clamp(11px,1.3vw,12.5px);color:var(--ink-3);font-weight:700}
+
+.caution{margin-top:18px;background:var(--other-soft);border-radius:6px;
+  padding:14px 17px;font-size:clamp(12.5px,1.5vw,14px);color:var(--ink);word-break:keep-all}
+.caution b{color:var(--other)}
+
+@media (max-width:760px){
+  .dot{padding:4px 9px 4px 7px;gap:4px}
+  .dot .bead{width:7px;height:7px}
+  .line{grid-template-columns:1fr;gap:3px}
+  .sheet .top{flex-direction:column;gap:12px}
+  .closebtn{align-self:flex-end}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<!-- ① 시작 -->
+<section class="screen on" id="start">
+  <div class="kicker">논문 원문 대조 · 2026년 9월 기준</div>
+  <h1>허리디스크 치료<br>어디에 놓이나</h1>
+  <p><b>한국에서 실제로 받을 수 있는 치료 마흔다섯 가지</b>를
+  두 가지 사실로만 갈라 놓았습니다 —
+  <b>몇 번 하는 것인가</b>, 그리고 <b>몸에서 무엇을 하는가.</b></p>
+  <button class="bigbtn" id="go">좌표 열기</button>
+
+  <!-- 무료자료로 풀면서 넣는다 (2026-09-19).
+       감추지 않고 성격을 먼저 밝힌다 — 이 화면이 무엇이고 무엇이 아닌지. -->
+  <div class="notice">
+    <p>이 화면은 사람이 쓴 논문을 <b>AI가 읽고 정리한 것</b>입니다.
+    치료 이름을 누르면 그 자리에 놓인 이유와 <b>논문 원문, 출처(DOI)</b>가 같이 나옵니다.
+    원문을 그대로 둔 것은 <b>저희 말을 믿지 마시고 직접 확인하시라는 뜻</b>입니다.</p>
+    <p>놓인 자리는 <b>순위가 아닙니다.</b> 서로 비교한 연구가 없으면 같은 높이에 두었습니다.
+    같은 치료라도 사람에 따라 결과가 다릅니다.</p>
+    <p><b>진단과 치료는 의사의 몫입니다.</b> 이 화면을 보고 받으시던 치료를 혼자 중단하지 마십시오.</p>
+  </div>
+  <div class="foot">이름을 누르면 그 자리에 놓인 이유와 논문 원문이 나옵니다</div>
+</section>
+
+<!-- ② 사분면 -->
+<section class="screen" id="board">
+  <div class="board">
+    <div class="boardhead">
+      <h2>허리디스크 회복 좌표 <span class="stamp">인류의 연구자료와 대조했습니다</span></h2>
+      <div class="legend">
+        <span><i class="s"></i>스스로 할 수 있음</span>
+        <span><i class="o"></i>혼자서 할 수 없음</span>
+      </div>
+    </div>
+    <div class="map" id="map">
+      <div class="quad q1"></div><div class="quad q3"></div>
+      <div class="axisline h"></div><div class="axisline v"></div>
+      <span class="axlabel top">움직임을 바꿈</span>
+      <span class="axlabel bottom">통증을 조절</span>
+      <span class="axlabel left">꾸준히</span>
+      <span class="axlabel right">한번만</span>
+    </div>
+    <button class="nullcta" id="tonull">
+      해도 안 해도 차이없던 것 <span class="n">열 가지 · 눌러서 보기</span>
+    </button>
+  </div>
+</section>
+
+<!-- ④ 해도 안 해도 차이없던 것 -->
+<section class="screen" id="nullboard">
+  <div class="board">
+    <div class="boardhead">
+      <h2>해도 안 해도 차이없던 것</h2>
+      <div class="note">가짜로 해준 것과, 아예 안 한 것과 <b>결과가 같았습니다</b></div>
+    </div>
+    <div class="map" id="nullmap">
+      <div class="axisline v"></div>
+      <span class="axlabel left">꾸준히</span>
+      <span class="axlabel right">한번만</span>
+    </div>
+    <button class="backbtn" id="back" style="align-self:center">← 좌표로 돌아가기</button>
+  </div>
+</section>
+
+<!-- ③ 덮개 -->
+<div class="veil" id="veil">
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   ★ 좌표값은 고정이다. 화면을 고쳐도 x·y 를 건드리지 않는다.
+     한 번 자리가 바뀌면 대표님이 영상에서 짚어둔 자리와 어긋난다.
+   x  몇 번 하는가.  0 = 매일 계속   100 = 평생 한 번
+   y  무엇을 하는가.  0 = 조직·구조를 바꾼다   100 = 증상만 낮춘다
+   ════════════════════════════════════════════════════════════ */
+const ITEMS = [
+{ name:"자전거", x:23, y:18, who:"self", scope:"건강인", freq:"주 150km 이상",
+  verdict:'<b>달리기와 직접 비교한 연구는 없습니다.</b> 자전거를 오래 탄 사람은 <b class="up">디스크의 수분과 젤 성분이 더 나았다</b>고 확인됐습니다. 통증을 눌러준 것이 아니라 조직 자체를 본 결과입니다. 즉, <b>움직임을 크게 바꾸면서도 매일 꾸준히 반복해야 하는 쪽</b>입니다.',
+  what:"디스크의 MRI로 잰 물기 신호가 10% 길어졌습니다. 수분과 GAG 함량이 더 낫다는 뜻입니다.",
+  last:"한 시점에 견줘본 것라 추적 기간이 없습니다",
+  limit:"<b>치료 연구가 아니라 한 시점에 견줘본 것입니다.</b> 자전거를 타서 좋아진 것인지, 원래 좋은 사람이 타는 것인지 이 설계로는 못 가릅니다. 대상도 척추질환 병력이 없는 사람들이었고, 같은 초록이 \"사이클리스트의 약 절반이 요통을 겪는다\"고 밝힙니다. 또한 같은 저자의 2016년 리뷰는 디스크에 이로운 하중을 <b>\"dynamic, axial\"</b> 즉 위아래 방향으로 눌렸다 풀리는 힘이라고 서술하는데, 자전거는 앉은 자세라 그 하중이 크지 않습니다.",
+  quote:"Cyclists' IVD showed prolonged T2 time (+10.0% ± 17.3%; P = 0.021), implying better IVD hydration and glycosaminoglycan content, compared with referents… may be associated with beneficial changes at the spine.",
+  cite:"Belavý DL 외, Med Sci Sports Exerc 2019 · DOI 10.1249/MSS.0000000000001770" },
+
+{ name:"달리기", x:11, y:18, who:"self", scope:"건강인", freq:"매일",
+  verdict:'꾸준히 달린 사람은 <b class="up">디스크의 수분과 젤 성분이 늘고 디스크가 두꺼워졌다</b>고 확인됐습니다. 다만 그 효과는 <b>초당 2m 안팎, 빠른 걷기에서 느린 조깅 사이</b>에서만 나타났고 충격이 큰 동작에서는 아니었습니다. 즉, <b>움직임을 크게 바꾸면서도 매일 꾸준히 반복해야 하는 쪽</b>입니다.',
+  what:"초당 2m 안팎 구간에서만 좋은 쪽으로 연관됐습니다. 충격이 큰 동작이나 정적인 자세는 아니었습니다.",
+  last:"추적 설계가 아니라 확인되지 않았습니다",
+  limit:"<b>이 좌표에서 근거가 가장 얇은 항목입니다.</b> 한 시점에 견줘본 연구이고 대상이 허리디스크 환자가 아니라 일반 러너입니다. 논문도 \"is associated with\"라고만 쓰고 인과를 주장하지 않으며, 스스로를 \"a starting point\"라고 표현합니다.",
+  quote:"Here we show that chronic running exercise in men and women is associated with better IVD composition (hydration and proteoglycan content) and with IVD hypertrophy… accelerations at fast walking and slow running (2 m/s), but not high-impact tasks, lower intensity walking or static positions, correlated to positive IVD characteristics.",
+  cite:"Belavý DL 외, Scientific Reports 2017 · DOI 10.1038/srep45975" },
+
+{ name:"금연", x:6, y:21, who:"self", scope:"방사통 포함", freq:"한 번 끊고 유지",
+  verdict:'담배를 끊은 사람은 계속 피운 사람보다 <b class="up">통증이 더 좋아졌다</b>고 보고됐습니다. 니코틴이 디스크로 가는 혈관을 좁힌다는 작동 원리도 제시돼 있습니다. 즉, <b>움직임을 바꾸는 쪽에 가까우면서도 평생 유지해야 하는 쪽</b>입니다.',
+  what:"혈관 밀도가 줄고 내경이 좁아져 산소가 떨어지고, 디스크를 채우는 성분·콜라겐 합성이 줄어 디스크 퇴행이 촉진된다는 설명입니다.",
+  last:"평균 8개월 추적(관찰연구)",
+  limit:"<b>작동 원리은 토끼 실험이고 저자들이 \"The authors believe\"라고 가설로 썼습니다.</b> 사람 데이터는 5,333명 관찰연구입니다. 게다가 다른 5년 추적 연구는 흡연이 디스크 진행과 무관하다고 보고했습니다 — <b>논문끼리 갈립니다.</b> 확정된 사실로 쓰면 안 됩니다.",
+  quote:"Compared with patients who had continued to smoke, those who had quit smoking during the course of care reported significantly greater improvement in pain… those who had continued smoking during treatment had no clinically important improvement in reported pain.",
+  cite:"Behrend C 외, J Bone Joint Surg Am 2012 · DOI 10.2106/JBJS.K.01598" },
+
+{ name:"걷기", x:13, y:33, who:"self", scope:"일반 요통", freq:"매일",
+  verdict:'걷기는 통증을 그때그때 눌러주는 것이 아니라, <b class="up">요통이 다시 오기까지의 기간 자체를 늘렸다</b>고 확인됐습니다. 재발까지 112일에서 208일로 늘었습니다. 즉, <b>움직임을 다소 바꾸면서도 매일 꾸준히 반복해야 하는 쪽</b>입니다.',
+  what:"재발 한가운데 값이 112일에서 208일로 늘었습니다.",
+  last:"최소 12개월 · 최대 36개월 추적",
+  limit:"요통에서 <b>이미 회복된 사람의 재발 예방</b>이 대상이지 급성기 치료가 아닙니다. 참가자의 81%가 여성이고, 걷기군에서 다리 관련 이상반응이 더 많았습니다(100건 대 54건).",
+  quote:"The intervention was effective in preventing an episode of activity-limiting low back pain (hazard ratio 0·72 [95% CI 0·60-0·85], p=0·0002). The median days to a recurrence was 208 days in the intervention group and 112 days in the control group.",
+  cite:"Pocovi NC 외, Lancet 2024 · DOI 10.1016/S0140-6736(24)00755-4" },
+
+{ name:"수영·아쿠아", x:27, y:29, who:"self", scope:"일반 요통", freq:"주 2회 60분",
+  verdict:'물속 운동은 <b class="up">12개월 뒤에도 효과가 남았고 차이가 오히려 더 벌어졌다</b>고 확인됐습니다. 이 좌표에서 지속기간이 가장 길게 입증된 항목입니다. 다만 근육 부피 변화는 집단 간 차이가 의미 있는 차이가 아니었습니다. 즉, <b>움직임을 다소 바꾸면서 주 2회씩 꾸준히 반복해야 하는 쪽</b>입니다.',
+  what:"물속이라 척추에 실리는 하중이 줄어든 상태로 운동합니다. 장애 점수가 12개월까지 계속 벌어졌습니다.",
+  last:"12개월 추적에서도 유지 · 차이가 오히려 커짐",
+  limit:"<b>비특이적 만성요통이 대상입니다.</b> 디스크탈출증 연구가 아닙니다. 다열근 부피가 늘긴 했으나 집단 간 차이는 의미 있는 차이가 아니었습니다.",
+  quote:"the therapeutic aquatic exercise group showed greater alleviation of disability, with adjusted mean group differences of −1.77… after the 3-month intervention, −2.42… at the 6-month follow-up, and −3.61 (95% CI, −5.63 to −1.58; P = .001) at the 12-month follow-up",
+  cite:"Peng MS 외, JAMA Network Open 2022 · DOI 10.1001/jamanetworkopen.2021.42069" },
+
+{ name:"근력운동", x:24, y:42, who:"self", scope:"일반 요통", freq:"주 2~3회",
+  verdict:'체간 근력운동은 <b>조직을 바꾼다는 근거는 없고</b>, 대신 <b class="up">심부 근육의 활성과 협응을 되찾는다</b>고 서술됩니다. 다만 다른 운동과 비교하면 차이가 없었습니다. 즉, <b>움직임을 다소 바꾸면서 꾸준히 반복해야 하는 쪽</b>입니다.',
+  what:"심부 체간근을 켜고 협응을 되살린 뒤, 점차 복잡하고 기능적인 동작으로 넘어갑니다.",
+  last:"12개월 이상 장기에서도 최소중재보다 우월. 다만 다른 운동보다 낫지는 않았습니다",
+  limit:"대상이 <b>만성 비특이적 요통</b>입니다. 디스크탈출증 연구가 아닙니다. 다른 운동과 비교하면 차이가 없다는 것도 함께 봐야 합니다.",
+  quote:"MCE intervention focuses on the activation of the deep trunk muscles and targets the restoration of control and co-ordination of these muscles, progressing to more complex and functional tasks.",
+  cite:"Saragiotto BT 외, Cochrane 2016 · DOI 10.1002/14651858.CD012004" },
+
+{ name:"필라테스", x:34, y:46, who:"other", scope:"일반 요통", freq:"주 2~3회",
+  verdict:'필라테스는 아무것도 안 하는 것보다는 통증이 줄었지만, <b class="down">다른 운동보다 낫다는 결정적 근거는 없다</b>고 저자들이 직접 씁니다. 즉, <b>움직임을 다소 바꾸면서 꾸준히 다녀야 하는 쪽</b>입니다.',
+  what:"통증은 최소중재보다 줄었습니다. 다만 다른 운동과 비교하면 결론이 나지 않았습니다.",
+  last:"3~12개월까지 통증 감소 유지",
+  limit:"지도자가 필요해 '혼자서 할 수 없음'으로 두었습니다. <b>비특이적 요통만 대상</b>입니다.",
+  quote:"while there is some evidence for the effectiveness of Pilates for low back pain, there is no conclusive evidence that it is superior to other forms of exercises",
+  cite:"Yamato TP 외, Cochrane 2015 · DOI 10.1002/14651858.CD010265.pub2" },
+
+{ name:"요가", x:38, y:52, who:"self", scope:"일반 요통", freq:"주 1~3회",
+  verdict:'요가는 기능이 조금 좋아졌지만 <b class="down">그 크기가 의미 있는 선에 도달하지 못했습니다.</b> 게다가 6~12개월에 요통이 악화되는 부작용이 늘었습니다. 즉, <b>움직임을 적게 바꾸면서 꾸준히 반복해야 하는 쪽</b>입니다.',
+  what:"기능이 조금 좋아졌으나 그 크기가 의미 있는 선(5점)에 도달하지 못했습니다.",
+  last:"3개월 시점 측정",
+  limit:"<b>6~12개월에 부작용(주로 요통 악화)이 늘었습니다</b> — 위험비 4.76. 미국내과학회는 만성요통 1차 선택지에 요가를 넣지만 근거 수준은 낮음입니다.",
+  quote:"low-certainty evidence from 11 trials showed that there may be a small clinically unimportant improvement in back-specific function with yoga (MD −1.69… MCID 5 points)… yoga increased the risk of adverse events, primarily increased back pain, at six to 12 months (RR 4.76).",
+  cite:"Wieland LS 외, Cochrane 2022 · DOI 10.1002/14651858.CD010671.pub3" },
+
+{ name:"체중감량", x:9, y:38, who:"self", scope:"요통 일반", freq:"평생 유지",
+  verdict:'체중이 높을수록 디스크 퇴행이 많다는 <b>연관은 확인됐지만</b>, <b class="down">빼면 좋아진다는 근거는 매우 약합니다.</b> 생활습관 중재는 대기군보다 낫지 않았습니다. 즉, <b>움직임을 적게 바꾸면서 평생 유지해야 하는 쪽</b>입니다.',
+  what:"BMI가 높을수록 디스크 퇴행이 많았습니다. 다만 단면조사라 인과가 아닙니다.",
+  last:"확인하지 못했습니다",
+  limit:"체중감량이 요통을 낫게 한다는 근거의 질이 <b>\"very low\"</b>입니다. 11편 중 8편이 단일군이고 그중 7편이 비만수술 연구입니다.",
+  quote:"There is very low-quality evidence that weight loss programs may improve back pain, disability, and quality of life in patients with LBP, although adherence and maintenance are potential barriers to implementation.",
+  cite:"Chen L 외, BMC Musculoskelet Disord 2022 · DOI 10.1186/s12891-022-05391-w" },
+
+{ name:"수술", x:90, y:22, who:"other", scope:"디스크", freq:"사실상 한 번",
+  verdict:'수술은 <b class="up">신경을 누르는 디스크 물질을 물리적으로 없앱니다.</b> 증상을 가리는 것이 아니라 압박 구조 자체를 제거하는 유일한 방법입니다. 다만 1년 뒤 회복 확률은 보존치료와 똑같이 95%였습니다. 즉, <b>움직임을 가장 크게 바꾸면서 한 번으로 끝나는 쪽</b>입니다.',
+  what:"탈출된 디스크 물질을 제거해 신경 압박을 없앱니다. 다리 통증이 빨리 가라앉습니다.",
+  last:"회복이 빠릅니다. 다만 1년 시점 회복 확률은 양쪽 모두 95%로 같아집니다",
+  limit:"WFNS 2024는 <b>마미증후군이나 심한 신경학적 결손이 없다면 보존치료를 먼저</b> 권고합니다. 다만 그 상황이라면 수술이 필요합니다. SPORT 연구는 양방향 교차가 많아 저자들이 우월성 결론을 내리지 말라고 직접 경고했습니다.",
+  quote:"Relief of leg pain was faster for patients assigned to early surgery (P&lt;0.001)… In both groups, however, the probability of perceived recovery after 1 year of follow-up was 95%.",
+  cite:"Peul WC 외, NEJM 2007 · DOI 10.1056/NEJMoa064039" },
+
+{ name:"소염진통제", x:12, y:65, who:"self", scope:"디스크", freq:"매일 복용",
+  verdict:'소염진통제는 만성요통에서는 가짜약보다 나았지만, <b class="down">좌골신경통에서는 통증 감소가 의미 있는 차이가 아니었습니다.</b> 디스크 환자에게는 이쪽 결과가 중요합니다. 즉, <b>통증을 조절하면서 증상 있을 때마다 반복해야 하는 쪽</b>입니다.',
+  what:"만성요통에서 가짜약보다 낫지만 효과 크기가 작습니다. 좌골신경통에서는 차이가 없었습니다.",
+  last:"만성편 추적 한가운데 값 56일",
+  limit:"<b>만성요통 연구와 좌골신경통 연구를 섞으면 안 됩니다.</b> 미국내과학회는 급성요통에 강하게 권고합니다.",
+  quote:"The pooled mean difference showed comparable pain reduction… in the NSAIDs and placebo groups (MD −4.56, 95% CI −11.11 to 1.99)… The efficacy of NSAIDs for pain reduction was not significant.",
+  cite:"Rasmussen-Barr E 외, Cochrane 2016 · DOI 10.1002/14651858.CD012382" },
+
+{ name:"찜질·온열", x:8, y:78, who:"self", scope:"일반 요통", freq:"수시로",
+  verdict:'찜질은 <b class="up">통증과 장애를 작게, 단기간 낮춰준다</b>고 확인됐습니다. 미국내과학회가 급성요통 1순위 비약물 치료로 권고합니다. 다만 냉찜질은 결론을 낼 수 없었습니다. 즉, <b>통증을 조절하면서 수시로 반복해야 하는 쪽</b>입니다.',
+  what:"급성·아급성 요통에서 작은 단기 효과. 운동을 더하면 더 좋아졌습니다.",
+  last:"5일 시점 측정",
+  limit:"<b>냉찜질은 결론을 낼 수 없다</b>고 논문이 밝힙니다. 2006년 리뷰이고 디스크 대상이 아닙니다.",
+  quote:"There is moderate evidence in a small number of trials that heat wrap therapy provides a small short-term reduction in pain and disability in a population with a mix of acute and sub-acute low-back pain.",
+  cite:"French SD 외, Cochrane 2006 · DOI 10.1002/14651858.CD004750.pub2" },
+
+{ name:"통증교육·인지행동", x:27, y:58, who:"self", scope:"일반 요통", freq:"주 1회 × 수주",
+  verdict:'통증에 대한 생각과 행동을 바꾸는 방법입니다. 운동과 함께 하면 12개월까지 장애가 줄었지만, <b class="down">단독으로는 중장기에 집단운동과 차이가 없었습니다.</b> 즉, <b>통증을 조절하는 쪽에 가까우면서 몇 주에 걸쳐 배워야 하는 쪽</b>입니다.',
+  what:"통증 행동과 인지를 바꿔 장애를 줄이는 것이 목적입니다. 조직은 바꾸지 않습니다.",
+  last:"단기만. 중장기에는 집단운동과 차이 없음",
+  limit:"뇌 회백질 변화는 검출되지 않아 <b>저자들이 그 설명의 타당성에 의문을 제기했습니다.</b>",
+  quote:"In the intermediate- to long-term, there is little or no difference between behavioural therapy and group exercises for pain or depressive symptoms.",
+  cite:"Henschke N 외, Cochrane 2010 · DOI 10.1002/14651858.CD002014.pub3" },
+
+{ name:"도수치료", x:40, y:74, who:"other", scope:"일반 요통", freq:"주 1~2회",
+  verdict:'도수치료는 <b>무엇을 하는지(작동 원리)가 확인되지 않았고</b>, 확인된 것은 <b class="down">다른 권고 치료와 비슷한 수준의 통증·기능 변화</b>뿐입니다. 구조가 달라졌다는 근거는 없습니다. 즉, <b>통증을 조절하면서 계속 다녀야 하는 쪽</b>입니다.',
+  what:"확인하지 못했습니다. 효능 결과만 확인했습니다.",
+  last:"1·6·12개월 모두 다른 권고 치료와 비슷한 수준",
+  limit:"이 리뷰는 <b>좌골신경통을 명시적으로 제외했습니다</b> — \"Studies that exclusively examined sciatica were excluded\". 허리디스크 근거로 인용하면 출처 오귀속입니다. 저자들이 이해관계를 논문에 공개했습니다.",
+  quote:"Moderate quality evidence suggested that SMT has similar effects to other recommended therapies for short term pain relief… In general, these results were similar for the intermediate and long term outcomes.",
+  cite:"Rubinstein SM 외, BMJ 2019 · DOI 10.1136/bmj.l689" },
+
+{ name:"근이완제", x:16, y:86, who:"other", scope:"일반 요통", freq:"2주 이내",
+  verdict:'근이완제는 급성요통 2주 이내에 통증을 조금 낮추지만 <b class="down">그 크기가 임상적으로 중요하지 않고, 부작용 위험을 높일 수 있다</b>고 논문이 밝힙니다. 기능 개선은 없었습니다. 즉, <b>통증을 조절하면서 단기간 반복하는 쪽</b>입니다.',
+  what:"급성요통 2주 이내에 통증을 조금 낮춥니다. 장애 개선은 없었습니다.",
+  last:"2주 이내만 근거 있음",
+  limit:"<b>부작용 위험을 높일 수 있다</b>고 논문이 밝힙니다. 비특이적 요통만 대상입니다.",
+  quote:"non-benzodiazepine antispasmodics might provide small but not clinically important reductions in pain intensity at or before two weeks and might increase the risk of an adverse event in acute low back pain",
+  cite:"Cashin AG 외, BMJ 2021 · DOI 10.1136/bmj.n1446" },
+
+{ name:"침", x:38, y:85, who:"other", scope:"일반 요통", freq:"주 1~2회",
+  verdict:'침은 아무것도 안 한 것보다는 즉시 통증이 줄었지만, <b class="down">가짜침과 비교하면 의미 있는 차이에 도달하지 못했습니다.</b> 확인된 것은 7일 이내 변화뿐입니다. 즉, <b>통증을 조절하면서 계속 다녀야 하는 쪽</b>입니다.',
+  what:"확인하지 못했습니다. 작동 원리을 서술한 원문을 확보하지 못했습니다.",
+  last:"7일 이내 즉시기만",
+  limit:"이 리뷰도 <b>원인이 특정된 요통을 제외했습니다</b> — 디스크탈출증은 빠져 있습니다. 미국내과학회는 침을 권고하지만 그 근거 검색은 2016년까지이고 이 Cochrane이 더 최신입니다.",
+  quote:"acupuncture may relieve pain in the immediate term (up to seven days) compared to sham intervention… The difference did not meet the clinically important threshold of 15 points or 30% relative change.",
+  cite:"Mu J 외, Cochrane 2020 · DOI 10.1002/14651858.CD013814" },
+
+{ name:"마사지", x:31, y:91, who:"other", scope:"일반 요통", freq:"주 1~2회",
+  verdict:'마사지는 <b class="down">단기에만 차이가 있었고 장기에는 없었습니다.</b> 저자들이 \"효과적이라는 데 거의 확신이 없다\"고 직접 씁니다. 즉, <b>통증을 잠깐 조절하면서 계속 받아야 하는 쪽</b>입니다.',
+  what:"확인하지 못했습니다. 작동 원리을 서술한 원문을 확보하지 못했습니다.",
+  last:"단기에만. 장기 효과 없음",
+  limit:"근거의 질이 \"low\"에서 \"very low\"이고, <b>참가자의 1.5~25%가 통증이 늘었다고 보고</b>했습니다.",
+  quote:"massage was better than inactive controls for pain and function in the short-term, but not in the long-term. We have very little confidence that massage is an effective treatment for LBP.",
+  cite:"Furlan AD 외, Cochrane 2015 · DOI 10.1002/14651858.CD001929.pub3" },
+
+{ name:"체외충격파", x:52, y:79, who:"other", scope:"일반 요통", freq:"수 회 세션",
+  verdict:'체외충격파는 <b class="up">1개월과 3개월 시점에 통증과 장애가 줄었다</b>고 보고됐습니다. 다만 논문이 스스로 \"양질의 근거를 세우려면 더 잘 수행된 연구가 필요하다\"고 밝힙니다. 즉, <b>통증을 조절하면서 여러 번 받아야 하는 쪽</b>입니다.',
+  what:"확인하지 못했습니다. 합쳐서 본 것 초록에 작동 원리 설명이 없습니다.",
+  last:"1개월·3개월 시점에만 확인",
+  limit:"총 455명 10개 연구뿐이고 만성요통 대상입니다. <b>디스크탈출증 연구가 아닙니다.</b>",
+  quote:"The use of ESWT in CLBP patients results in significant and quantifiable reductions in pain and disability in the short term… further well-conducted RCTs are necessary for building high-quality evidence.",
+  cite:"Yue L 외, Biomed Res Int 2021 · DOI 10.1155/2021/5937250" },
+
+{ name:"프롤로", x:62, y:71, who:"other", scope:"일반 요통", freq:"반복 주사",
+  verdict:'프롤로는 <b>인대를 강화하겠다는 목적의 시술</b>이지만, <b class="down">단독으로는 효과가 없다고 결론났습니다.</b> 다른 치료와 함께 했을 때 좋아진 연구가 있으나 저자들이 그 결론은 혼란스럽다고 직접 밝힙니다. 즉, <b>통증을 조절하는 쪽에 가까우면서 여러 번 맞아야 하는 쪽</b>입니다.',
+  what:"자극 용액을 반복 주사해 요천추 인대를 강화하려는 시술입니다.",
+  last:"6개월 시점 측정",
+  limit:"<b>단독으로는 효과가 없습니다.</b> 만성요통 대상이고 디스크탈출증 연구가 아닙니다.",
+  quote:"When used alone, prolotherapy is not an effective treatment for chronic low-back pain… Conclusions are confounded by clinical heterogeneity amongst studies and by the presence of co-interventions.",
+  cite:"Dagenais S 외, Cochrane 2007 · DOI 10.1002/14651858.CD004059.pub3" },
+
+{ name:"주사 (경막외)", x:73, y:64, who:"other", scope:"디스크", freq:"몇 달에 한 번",
+  verdict:'주사는 <b class="up">신경 주위 염증을 낮춰 즉시 통증을 줄여줍니다.</b> 다만 <b class="down">탈출된 디스크는 그대로 남고 장기 효과는 없었습니다.</b> 구조가 안 변하니 움직일 수 있는 범위도 그대로입니다. 즉, <b>통증을 조절하면서 몇 달에 한 번만 가능한 쪽</b>입니다.',
+  what:"신경근 주위 염증을 낮춰 통증 신호를 줄입니다.",
+  last:"즉시기에만 효과. 장기 효과 없음. 장기 수술 위험도 바꾸지 못했습니다",
+  limit:"이 연구는 <b>신경뿌리가 눌린 상태이 대상이라 허리디스크에 정확히 맞습니다.</b> 즉시 통증을 낮추는 것은 사실이고, 그 크기가 환자가 몸으로 느낄 만한 최소 차이에 못 미쳤다는 것도 사실입니다.",
+  quote:"For radiculopathy, epidural corticosteroids were associated with greater immediate-term reduction in pain… Effects were below predefined minimum clinically important difference thresholds, and there were no longer-term benefits.",
+  cite:"Chou R 외, Annals of Internal Medicine 2015 · DOI 10.7326/M15-0934" },
+
+{ name:"신경성형술", x:85, y:56, who:"other", scope:"디스크", freq:"1회 시술",
+  verdict:'신경성형술은 <b class="up">10년 추적에서 장애 점수가 55에서 12로 좋아졌다</b>고 보고됐습니다. 이 좌표에서 추적기간이 가장 깁니다. <b class="down">다만 가짜 시술을 받은 쪽도 55에서 25로 좋아졌습니다.</b> 즉, <b>통증을 조절하는 쪽에 가까우면서 한 번 받는 쪽</b>입니다.',
+  what:"4개월 이상 지속된 방사통에 보존치료가 실패한 환자를 대상으로 했습니다. 10년 추적 자료가 있는 드문 시술입니다.",
+  last:"10년 추적 — 장애점수 55.3 → 11.7",
+  limit:"<b>반드시 같이 읽어야 할 것 — 가짜 시술을 받은 쪽도 55.4에서 24.8로 좋아졌습니다.</b> 시술의 순수 효과는 그 차이만큼입니다. 90명 단일 연구이고, 저자들이 10년간 다른 치료가 섞였음을 밝힙니다.",
+  quote:"The ODI in the lysis group improved from 55.3 ± 11.6 to 9.6 ± 9.3 after one year and to 11.7 ± 14.2 after 10 years. The placebo group also improved from 55.4 ± 11.5 to 30.7 ± 14.2 after one year and to 24.8 ± 12.0 after 10 years.",
+  cite:"Gerdesmeyer L 외, Pain Physician 2021 · PMID 34323437" },
+
+/* ───── 2026-09-18 추가: 한국에서 실제로 받을 수 있는 치료 ─────
+   좌표는 각 논문이 실제로 측정한 것에 맞춰 잡았다.
+   x 몇 번 하는가 · y 무엇을 하는가 — 기존 항목의 값은 하나도 건드리지 않았다. */
+
+{ name:"추나요법", x:46, y:62, who:"other", scope:"근골격계 전반", freq:"반복 시술",
+  verdict:'무작위 시험 66편·6,170명을 모은 리뷰입니다. 가짜 시술과 비교한 한 편에서 <b class="up">통증이 더 줄었고</b>, 견인·약물·물리치료와 비교했을 때도 통증 감소가 뚜렷했습니다. 즉, <b>통증을 낮추는 쪽이면서 계속 받아야 하는 쪽</b>입니다.',
+  what:"가짜 시술 대비 통증이 크게 낮았습니다 (효과 크기 -3.09).",
+  last:"추적 기간을 따로 보고하지 않았습니다",
+  limit:"<b>가짜 시술과 비교한 연구가 딱 한 편뿐입니다.</b> 기능 개선 근거는 통증보다 약하다고 논문이 직접 밝혔고, 대상이 근골격계 질환 전체라 <b>허리디스크 전용 근거가 아닙니다.</b>",
+  quote:"One sham-controlled RCT showed that C(T)MT relieved pain more effectively than a sham control (SMD -3.09 [-3.59, -2.59]). For active-controlled RCTs, pooled meta-analysis showed that C(T)MT had statistically significant effects on pain reduction, especially compared to traction, drugs, and physical therapies.",
+  cite:"Lee NW 외, Evid Based Complement Alternat Med 2017 · DOI 10.1155/2017/8218139" },
+
+{ name:"부항", x:22, y:96, who:"other", scope:"요통 전반", freq:"계속 받아야 유지",
+  verdict:'무작위 시험 11편·921명입니다. 2~8주 시점에는 <b class="up">통증이 뚜렷하게 줄었습니다</b>. 다만 <b>1개월 뒤에는 그 차이가 사라졌고</b> 3~6개월에도 남지 않았습니다. 즉, <b>통증만 잠깐 낮추고 계속 받아야 하는 쪽</b>입니다.',
+  what:"2~8주 시점 통증만 좋아졌고, 1개월 뒤에는 차이가 없었습니다.",
+  last:"1개월 · 3~6개월 (그 시점엔 효과 없음)",
+  limit:"연구끼리 결과가 많이 갈립니다. 논문이 직접 <b>\"6~12개월 추적 연구가 필요하다\"</b>고 밝혔습니다. 허리디스크가 아니라 요통 전체가 대상입니다.",
+  quote:"High-quality evidence demonstrated cupping significantly improves pain at 2-8 weeks endpoint intervention (d=1.09, p = 0.004). There was no continuous pain improvement observed at one month (d=0.11, p = 0.85) and 3-6 months (d=0.39, p = 0.11).",
+  cite:"Zhang Z 외, Complement Ther Med 2024 · DOI 10.1016/j.ctim.2024.103013" },
+
+{ name:"한약", x:4, y:70, who:"other", scope:"요추디스크", freq:"매일 복용",
+  verdict:'<b>허리디스크만 대상으로 한 무작위 시험 27편·3,133명입니다.</b> 양약과 비교해 <b class="up">통증과 기능 점수가 더 나았고</b> 부작용은 적었습니다. 한의 계열 중 대상이 가장 정확한 근거입니다.',
+  what:"양약 대비 통증 점수가 뚜렷하게 낮았습니다 (효과 크기 0.66).",
+  last:"최종 추적 지표는 있으나 기간이 명시돼 있지 않습니다",
+  limit:"<b>논문이 스스로 \"결과가 한쪽으로 치우칠 위험이 크고 연구끼리 편차가 심해 근거 등급을 낮췄다\"고 적었습니다.</b> 결론도 \"향후 시험이 확인한다면\"이라는 조건부 표현입니다. 확정된 사실로 옮기면 안 됩니다.",
+  quote:"Meta-analysis showed that CHC had superior outcomes compared to Western medicine: effective rate (RR = 1.12), JOA score (SMD = 0.86), visual analog scale (VAS) score (SMD = 0.66), and safety (RR = 0.05). However, the evidence quality was downgraded due to significant risks of bias and high heterogeneity.",
+  cite:"Guan J 외, Systematic Reviews 2025 · DOI 10.1186/s13643-025-02963-4" },
+
+{ name:"척추교정술", x:48, y:88, who:"other", scope:"요통 전반", freq:"반복 시술",
+  verdict:'무작위 시험 47편·9,211명, BMJ 게재입니다. 결론은 <b>"다른 권고 치료들과 효과가 비슷하다"</b>입니다. 통증 차이는 의미 있는 차이가 아니었고 기능만 조금 나았습니다.',
+  what:"권고 치료 대비 단기 통증 차이가 없었고, 기능만 소폭 좋았습니다(효과 크기 -0.25).",
+  last:"1개월 · 6개월 · 12개월 (중장기도 단기와 비슷)",
+  limit:"★ <b>이 논문은 좌골신경통만 본 연구를 일부러 제외했습니다.</b> 허리디스크 근거로 쓰면 안 됩니다. 가짜 시술 비교 근거는 질이 낮고, 논문이 <b>\"이상반응 위험을 환자에게 알려야 한다\"</b>고 명시했습니다.",
+  quote:"Moderate quality evidence suggested that SMT has similar effects to other recommended therapies for short term pain relief (mean difference -3.17, 95% CI -7.85 to 1.51) and a small, clinically better improvement in function (SMD -0.25). Studies that exclusively examined sciatica were excluded.",
+  cite:"Rubinstein SM 외, BMJ 2019 · DOI 10.1136/bmj.l689" },
+
+{ name:"마음챙김", x:70, y:90, who:"self", scope:"만성 요통", freq:"8주 배우고 끝",
+  verdict:'342명을 무작위로 두 편으로 나눠 비교한 시험입니다. <b>주 2시간씩 8주 그룹 교육만</b> 받았는데 26주 시점에 통증이 의미있게 좋아진 사람이 <b class="up">43.6% 대 26.6%</b>였고, <b>52주에도 유지됐습니다.</b> 즉, <b>배우고 나면 혼자 이어가는 쪽</b>입니다.',
+  what:"26주 시점 통증이 의미있게 좋아진 비율이 43.6% 대 26.6%였습니다.",
+  last:"52주(1년) 추적",
+  limit:"대상이 만성 요통이지 허리디스크가 아닙니다. 8회 중 6회 이상 나온 사람이 53.7%뿐이라 <b>절반 가까이가 제대로 하지 않았습니다.</b> 인지행동치료와는 차이가 없어 이것만의 효과인지는 못 가립니다.",
+  quote:"The percentage of participants with clinically meaningful improvement in pain bothersomeness at 26 weeks was 43.6% in the MBSR group and 44.9% in the CBT group, vs 26.6% in the usual care group (RR for MBSR vs usual care, 1.64). Findings for MBSR persisted with little change at 52 weeks.",
+  cite:"Cherkin DC 외, JAMA 2016 · DOI 10.1001/jama.2016.2323" },
+
+{ name:"경구 스테로이드", x:30, y:70, who:"other", scope:"디스크 탈출 확진", freq:"15일 먹고 끝",
+  verdict:'MRI로 확인된 <b>디스크 탈출 269명</b>입니다. 3주째 <b class="up">기능이 6.4점 좋아졌지만</b>, <b>다리 통증은 0.3점 차이로 의미가 없었습니다.</b> 수술률도 달라지지 않았습니다.',
+  what:"3주째 기능 지수가 6.4점 더 좋아졌습니다. 통증은 차이 없었습니다.",
+  last:"52주",
+  limit:"<b>부작용이 49.2% 대 23.9%로 두 배 넘게 많았습니다.</b> 저자들도 기능 개선을 \"조금 좋아졌다\"고만 썼습니다.",
+  quote:"The prednisone-treated group showed an adjusted mean 6.4-point greater improvement in ODI scores at 3 weeks than the placebo group (P = .006)... the prednisone group showed an adjusted mean 0.3-point greater reduction in pain at 3 weeks (P = .34).",
+  cite:"Goldberg H 외, JAMA 2015 · DOI 10.1001/jama.2015.4468" },
+
+{ name:"둘록세틴", x:7, y:90, who:"other", scope:"만성 요통", freq:"매일 복용",
+  verdict:'만성요통 458명, 14주입니다. 통증이 가짜약보다 <b>0.46점</b> 더 내려갔습니다. 숫자로는 차이가 있다고 나오지만 <b>10점 만점에서 1점도 안 되는 차이</b>입니다.',
+  what:"14주째 통증 점수가 0.46점 더 내려갔습니다.",
+  last:"14주",
+  limit:"졸림·변비·구역·어지럼·구강건조가 가짜약보다 많았습니다. <b>디스크가 아니라 \"만성 요통\"이 대상</b>이라 그대로 대입할 수 없습니다. 제약사 직원이 저자에 포함돼 있습니다.",
+  quote:"The BPI average pain score improved significantly in the duloxetine group compared with that in the placebo group at Week 14 [-2.43 vs. -1.96; between-group difference, -0.46 (-0.77 to -0.16); P = 0.0026].",
+  cite:"Konno S 외, Spine 2016 · DOI 10.1097/BRS.0000000000001707" },
+
+{ name:"내시경 수술", x:76, y:13, who:"other", scope:"디스크 탈출 확진", freq:"한 번",
+  verdict:'613명을 무작위로 두 편으로 나눠 비교한 시험입니다. 12개월 다리통증이 <b class="up">개방수술에 밀리지 않았습니다</b>(7.0 대 16.0). 재수술은 1년 안에 5% 대 6%였습니다.',
+  what:"12개월 시점 다리통증 점수가 7.0 대 16.0이었습니다(0~100).",
+  last:"12개월",
+  limit:"논문 스스로 <b>\"차이가 작아 임상적 의미에 못 미칠 수 있다\"</b>고 적었습니다. 배우는 기간의 125명은 1차 분석에서 빠졌습니다.",
+  quote:"PTED was non-inferior to open microdiscectomy in reduction of leg pain. PTED resulted in more favourable results for self-reported leg pain, back pain, functional status, quality of life, and recovery. These differences, however, were small and may not reach clinical relevance.",
+  cite:"Gadjradj PS 외, BMJ 2022 · DOI 10.1136/bmj-2021-065846" },
+
+{ name:"척추유합술", x:94, y:9, who:"other", scope:"척추관협착증", freq:"한 번",
+  verdict:'247명을 무작위로 두 편으로 나눠 비교한 시험입니다. 신경 누르는 뼈를 깎아내는 수술에 뼈를 굳히는 것을 <b>더해도 2년·5년 결과가 같았습니다</b>. 입원은 7.4일 대 4.1일로 길었고, 6.5년 뒤 추가 수술률도 22% 대 21%로 같았습니다.',
+  what:"수술 2년 뒤 생활 불편 점수가 27 대 24로 차이가 없었습니다(P=0.24).",
+  last:"2년 · 5년 · 6.5년",
+  limit:"대상이 <b>척추관협착증이지 급성 디스크 탈출이 아닙니다.</b> 1차 분석이 계획대로 받은 사람만 본 분석입니다.",
+  quote:"Among patients with lumbar spinal stenosis, with or without degenerative spondylolisthesis, decompression surgery plus fusion surgery did not result in better clinical outcomes at 2 years and 5 years than did decompression surgery alone.",
+  cite:"Försth P 외, N Engl J Med 2016 · DOI 10.1056/NEJMoa1513721" },
+
+{ name:"인공디스크", x:94, y:33, who:"other", scope:"만성 요통·디스크 퇴행", freq:"한 번",
+  verdict:'173명을 인공디스크와 재활로 나눠 <b>8년</b> 추적했습니다. 기능이 <b>6.1점</b> 더 좋아졌지만, <b>연구가 미리 정한 "의미있는 차이" 10점에 못 미쳤습니다.</b>',
+  what:"8년 뒤 기능 지수가 6.1점 더 좋았습니다. 기준선은 10점이었습니다.",
+  last:"8년 (이 좌표에서 가장 긴 추적)",
+  limit:"표본이 173명입니다. 재활군의 24%가 도중에 수술로 넘어가 차이가 희석됐을 수 있고, 수술군의 14%는 추가 수술을 받았습니다.",
+  quote:"The difference between groups is statistically significant in favor of surgery, but smaller than the prespecified clinically important difference of 10 ODI points that the study was designed to detect.",
+  cite:"Furunes H 외, The Spine Journal 2017 · DOI 10.1016/j.spinee.2017.05.011" },
+
+{ name:"PRP 주사", x:55, y:58, who:"other", scope:"디스크성 요통", freq:"1회(반복 가능)",
+  verdict:'누가 진짜를 받았는지 모르게 한 연구지만 <b>전부 47명</b>입니다(주사 29·대조 18). 8주 시점 통증과 기능이 좋아졌고, <b>그 뒤로는 비교하려고 둔 쪽을 전부 주사군으로 바꿔 비교할 상대가 없어졌습니다.</b> 디스크가 변했는지는 재지 않았습니다.',
+  what:"8주 시점 기능·최악통증·만족도가 좋아졌습니다.",
+  last:"비교는 8주까지. 그 뒤는 비교하려고 둔 쪽이 없습니다",
+  limit:"<b>비교하려고 둔 쪽이 18명뿐이고 8주 뒤 사라집니다.</b> 저자들도 <b>\"어떤 환자에게 듣는지 규정하려면 추가 연구가 필요하다\"</b>고 밝혔습니다.",
+  quote:"Participants who received intradiskal PRP showed significant improvements in FRI, NRS Best Pain, and NASS patient satisfaction scores over 8 weeks compared with controls. Although these results are promising, further studies are needed to define the subset of participants most likely to respond.",
+  cite:"Tuakli-Wosornu YA 외, PM&R 2016 · DOI 10.1016/j.pmrj.2015.08.010" },
+
+{ name:"줄기세포", x:70, y:47, who:"other", scope:"디스크성 요통", freq:"1회",
+  verdict:'<b>404명·49개 기관 허가 직전 마지막 단계 시험입니다. 가장 중요하게 보기로 미리 정해둔 결과가 실패했고 그 다음으로 보기로 한 결과들도 전부 실패했습니다.</b> 뚜렷한 결과는 미리 정해둔 일부 집단에서만 나왔습니다. 앞선 100명 연구에서는 <b>MRI상 디스크가 달라지지 않았습니다.</b>',
+  what:"12·24개월 복합 반응률에서 비교하려고 둔 쪽과 차이가 없었습니다.",
+  last:"36개월",
+  limit:"★ <b>제조사가 후원하고 자금을 댄 연구입니다.</b> 뚜렷하게 나온 것은 전부 일부만 따로 떼어 본 분석이지 주된 결과가 아닙니다. <b>\"재생됐다\"고 쓸 근거가 없습니다.</b>",
+  quote:"The primary efficacy endpoint for the trial did not reach significance for either treatment group compared to control in all subjects. Furthermore, none of the secondary endpoints showed a significant difference between treatment and control in all subjects.",
+  cite:"Beall DP 외, The Spine Journal 2025 · DOI 10.1016/j.spinee.2025.03.015" },
+
+{ name:"매트리스", x:74, y:76, who:"self", scope:"만성 요통", freq:"한 번 고르면 끝",
+  verdict:'313명을 대상으로, 누가 진짜를 받았는지 아무도 모르게 하고 비교한 시험입니다. 90일 뒤 <b class="up">중간 강도가 단단한 것보다 나았습니다</b> — 누웠을 때 통증, 일어날 때 통증, 장애 모두요. <b>딱딱한 게 좋다는 통념과 반대입니다.</b>',
+  what:"90일 뒤 누웠을 때 통증이 중간 강도 쪽에서 더 좋았습니다(OR 2.36).",
+  last:"90일",
+  limit:"2003년 단일 시험이고 대상이 <b>\"누웠을 때·일어날 때 아픈 만성 요통\"</b>입니다. 허리디스크 환자를 따로 본 연구가 아닙니다. 이 분야는 <b>매트리스 업계 자금이 얽힌 연구가 많다</b>는 지적을 받아왔습니다.",
+  quote:"At 90 days, patients with medium-firm mattresses had better outcomes for pain in bed (odds ratio 2.36), pain on rising (1.93), and disability (2.10) than did patients with firm mattresses. A mattress of medium firmness improves pain and disability among patients with chronic non-specific low-back pain.",
+  cite:"Kovacs FM 외, The Lancet 2003 · DOI 10.1016/S0140-6736(03)14792-7" },
+
+{ name:"맥켄지 운동", x:44, y:38, who:"self", scope:"요통 전반", freq:"매일 반복",
+  verdict:'무작위 시험 17편 중 11편을 모았습니다. 답은 <b>"다른 운동보다 더 낫지는 않다"</b>입니다. 급성에서는 통증도 장애도 차이가 없었고, 만성에서는 <b>비교 대상이 무엇이냐에 따라 결과가 뒤집혔습니다.</b>',
+  what:"급성 요통에서 통증 해소도 장애도 다른 치료와 차이가 없었습니다.",
+  last:"논문마다 다릅니다",
+  limit:"논문이 스스로 <b>\"비교하는 치료가 무엇이냐에 달렸다\"</b>고 조건을 달았습니다. 우월하다고 옮기면 안 됩니다. 다만 <b>근거 등급 자체는 이 좌표에서 가장 튼튼한 축에 듭니다.</b>",
+  quote:"In patients with acute LBP, there was no significant difference in pain resolution (P = .11) and disability (P = .61) between MDT and other interventions. There is moderate- to high-quality evidence that MDT is not superior to other rehabilitation interventions for reducing pain and disability in patients with acute LBP.",
+  cite:"Lam OT 외, J Orthop Sports Phys Ther 2018 · DOI 10.2519/jospt.2018.7562" },
+
+];
+
+const NULLS = [
+{ name:"침상안정", x:8, y:32, who:"self", scope:"디스크", freq:"계속 누워 있기",
+  verdict:'누워서 쉬는 것은 <b class="down">그냥 지켜보기와 차이가 없었습니다.</b> 2주 시점 호전율이 침상안정 70%, 지켜보기 65%였고 12주에는 양쪽 다 87%가 좋아졌습니다.',
+  what:"좌골신경통 환자 183명을 나눠 본 연구입니다.",
+  last:"2주·12주 모두 차이 없음",
+  limit:"<b>이 연구는 좌천추 신경근증후군 환자가 대상이라 허리디스크에 정확히 맞습니다.</b>",
+  quote:"After two weeks, 64 of the 92 patients in the bed-rest group (70 percent) reported improvement, as compared with 59 of the 91 patients in the control (watchful-waiting) group (65 percent)… bed rest is not a more effective therapy than watchful waiting.",
+  cite:"Vroomen PC 외, NEJM 1999 · DOI 10.1056/NEJM199902113400602" },
+
+{ name:"타이레놀", x:19, y:62, who:"self", scope:"일반 요통", freq:"매일 복용",
+  verdict:'타이레놀은 <b class="down">가짜약과 차이가 없었습니다. 그것도 고품질 근거로요.</b> 1주·2주·4주·12주 전부 차이가 없었고, 만성요통에서는 효과가 있는지조차 불확실합니다.',
+  what:"하루 4g을 복용해도 가짜약과 결과가 같았습니다.",
+  last:"12주까지 봤고 차이 없음",
+  limit:"미국내과학회 권고 목록에도 <b>들어 있지 않습니다.</b> 만성요통 근거는 철회된 논문 1편에 기대고 있습니다.",
+  quote:"For acute LBP, there is high-quality evidence for no difference between paracetamol (4 g per day) and placebo at 1 week, 2 weeks, 4 weeks, and 12 weeks… it is uncertain if it has any effect on chronic LBP.",
+  cite:"Saragiotto BT 외, Cochrane 2016 · DOI 10.1002/14651858.CD012230" },
+
+{ name:"전기치료", x:38, y:32, who:"other", scope:"일반 요통", freq:"주 수 회",
+  verdict:'전기치료는 <b class="down">가짜 치료와 비교했을 때 쓸 근거가 없다고 결론났습니다.</b> 기능 개선이 없다는 점은 두 연구에서 일관됐습니다.',
+  what:"통증 감소에 대해서는 연구 간 결과가 엇갈렸고, 기능 개선은 일관되게 없었습니다.",
+  last:"확인된 효과 없음",
+  limit:"<b>2008년 리뷰</b>이고 고품질 연구가 4편(585명)뿐입니다. 지금 기준으로는 오래된 자료입니다.",
+  quote:"the evidence from the small number of placebo-controlled trials does not support the use of TENS in the routine management of chronic LBP.",
+  cite:"Khadilkar A 외, Cochrane 2008 · DOI 10.1002/14651858.CD003008.pub3" },
+
+{ name:"견인치료", x:50, y:62, who:"other", scope:"디스크", freq:"주 수 회",
+  verdict:'견인치료는 <b class="down">좌골신경통을 동반한 환자에서 통증·기능·복귀 어디에도 영향이 없었다</b>고 보고했습니다. 게다가 논문이 통증 악화와 신경증상 악화 사례를 함께 적고 있습니다.',
+  what:"수동 견인과 기계 견인 모두에 해당한다고 논문이 명시합니다.",
+  last:"확인된 효과 없음",
+  limit:"<b>논문이 이상반응을 함께 보고합니다</b> — 통증 증가, 신경학적 징후 악화, 이후 수술.",
+  quote:"there was low- to moderate-quality evidence that traction probably has no impact on pain intensity, functional status or global improvement… These included increased pain, aggravation of neurological signs and subsequent surgery.",
+  cite:"Wegner I 외, Cochrane 2013 · DOI 10.1002/14651858.CD003010.pub5" },
+
+{ name:"고주파 열치료", x:80, y:32, who:"other", scope:"일반 요통", freq:"시술 1~수 회",
+  verdict:'고주파는 신경을 지져 통증 신호를 끊는 시술입니다. <b class="down">디스크성 통증에는 단기 효과가 없었습니다.</b> 후관절 통증에서만 단기 근거가 있습니다.',
+  what:"신경을 차단해 통증 신호를 끊습니다. 디스크 자체는 건드리지 않습니다.",
+  last:"디스크성 통증에서는 단기·중기 모두 효과 없음",
+  limit:"논문이 <b>\"단기 효과가 없다는 점이 중기·장기 효과의 임상적 타당성을 무너뜨린다\"</b>고 씁니다. 23개 연구 중 방사통을 본 것은 2편뿐입니다.",
+  quote:"RF denervation used for disc pain produces conflicting results, with no effects for RF denervation compared with placebo over the short and intermediate term… Lack of evidence of short-term effectiveness undermines the clinical plausibility of intermediate-term or long-term effectiveness.",
+  cite:"Maas ET 외, Cochrane 2015 · DOI 10.1002/14651858.CD008572.pub2" },
+
+/* ───── 2026-09-18 추가 ───── */
+
+{ name:"프레가발린", x:24, y:88, who:"other", scope:"좌골신경통", freq:"매일 복용",
+  verdict:'좌골신경통 209명에게 8주간 최대 600mg을 줬습니다. 다리 통증이 <b>가짜약보다 오히려 높았습니다</b>(3.7 대 3.1). 52주째도 차이가 없었습니다.',
+  what:"8주째 다리 통증이 3.7 대 3.1로, 가짜약 쪽이 더 낮았습니다.",
+  last:"52주",
+  limit:"<b>부작용이 227건 대 124건으로 두 배 가까웠습니다.</b> 어지럼증이 특히 많았습니다.",
+  quote:"At week 8, the mean unadjusted leg-pain intensity score was 3.7 in the pregabalin group and 3.1 in the placebo group (adjusted mean difference, 0.5; 95% CI, -0.2 to 1.2; P=0.19).",
+  cite:"Mathieson S 외, N Engl J Med 2017 · DOI 10.1056/NEJMoa1614292" },
+
+{ name:"아편유사제", x:52, y:88, who:"other", scope:"급성 요통·목통증", freq:"최대 6주",
+  verdict:'347명에게 6주간 투여했습니다. 6주째 통증이 <b>가짜약보다 오히려 높았습니다</b>(2.78 대 2.25). 저자들은 <b>"급성 요통·목통증에 아편유사제를 권해서는 안 된다"</b>고 결론지었습니다.',
+  what:"6주째 통증이 2.78 대 2.25로, 가짜약 쪽이 더 낮았습니다.",
+  last:"6주",
+  limit:"대상이 \"비특이적\" 급성 요통·목통증이라 <b>디스크 탈출로 진단된 사람만 본 시험이 아닙니다.</b> 변비 등 부작용은 더 많았습니다.",
+  quote:"Mean pain score at 6 weeks was 2.78 in the opioid group versus 2.25 in the placebo group (adjusted mean difference 0.53, 95% CI -0.00 to 1.07, p=0.051).",
+  cite:"Jones CMP 외, Lancet 2023 · DOI 10.1016/S0140-6736(23)00404-X" },
+
+{ name:"비타민D", x:8, y:62, who:"self", scope:"만성 요통", freq:"매일 복용",
+  verdict:'무작위 시험 10편을 모았습니다. 통증이 <b>의미있게 줄지 않았습니다</b>. 원래 비타민D 수치가 낮았든 아니든, 오래 먹었든 활성형을 썼든 마찬가지였습니다.',
+  what:"통증 감소가 의미 있는 차이가 아니었습니다.",
+  last:"연구마다 다릅니다",
+  limit:"저자들은 <b>\"종합 치료의 일부로는 고려할 수 있다\"</b>며 추가 연구가 필요하다고 적었습니다. 완전 부정이 아니라 <b>지금 근거로는 못 찾았다</b>는 뜻입니다.",
+  quote:"The results indicated that vitamin D supplementation did not significantly reduce pain scores compared to control groups (SMD: -0.130, 95%CI=-0.260 to 0.000; I2=0%), regardless of participants' baseline vitamin D levels.",
+  cite:"Lee TJ 외, In Vivo 2024 · DOI 10.21873/invivo.13778" },
+
+{ name:"요추보조기", x:66, y:62, who:"self", scope:"만성 요통", freq:"매일 착용",
+  verdict:'세계 의학근거 검토기관 코크란의 최신 정리(무작위 시험 8편·501명)입니다. <b>소염진통제와 같이 썼을 때만</b> 단기 통증이 조금 내려갔고, <b>혼자 차는 것만으로는 통증도 장애도 의미 있는 차이가 없었습니다.</b>',
+  what:"단독 착용 시 3개월 통증·장애 모두 의미 있는 차이가 없었습니다.",
+  last:"4주 ~ 3개월 (그 이상 추적 없음)",
+  limit:"근거 등급이 전부 낮음 또는 매우 낮음입니다. <b>부작용·낙상을 보고한 연구가 한 편도 없어 해로움은 아직 모릅니다.</b>",
+  quote:"Lumbar supports may result in a small reduction in pain intensity when provided in addition to NSAIDs, but may offer little to no benefit for pain intensity and disability when used alone. Therefore, there is insufficient evidence to support the routine use of lumbar supports for managing CLBP.",
+  cite:"Arienti C 외, Cochrane Database Syst Rev 2026 · DOI 10.1002/14651858.CD015492.pub2" },
+
+{ name:"치료용 초음파", x:66, y:32, who:"other", scope:"만성 요통", freq:"6~18회 세션",
+  verdict:'세계 의학근거 검토기관 코크란(무작위 시험 10편·1,025명)입니다. 가짜 치료와 비교해 <b>단기 통증 차이가 없었고</b>, 30% 이상 좋아진 사람 수도 차이가 없었습니다. 기능은 아주 조금 좋아졌지만 논문이 직접 <b>"임상적으로 중요해 보이지 않는다"</b>고 적었습니다.',
+  what:"가짜 치료 대비 단기 통증 차이가 없었습니다.",
+  last:"단기만. 장기 추적 데이터가 없습니다",
+  limit:"근거 등급이 매우 낮음~낮음입니다. 논문이 스스로 <b>\"실제 효과는 이것과 상당히 다를 수 있다\"</b>고 밝혔고, 10편 중 치료자 눈가림을 한 연구가 한 편도 없었습니다.",
+  quote:"There was very low-certainty evidence of little to no difference between therapeutic ultrasound and placebo for short-term pain improvement. The current evidence does not support the use of therapeutic ultrasound in the management of chronic LBP.",
+  cite:"Ebadi S 외, Cochrane Database Syst Rev 2020 · DOI 10.1002/14651858.CD009169.pub3" },
+
+];
+
+/* ── 화면 전환 ─────────────────────────────── */
+const screens = { start:document.getElementById("start"),
+                  board:document.getElementById("board"),
+                  nullboard:document.getElementById("nullboard") };
+function go(name){
+  Object.values(screens).forEach(s=>s.classList.remove("on"));
+  screens[name].classList.add("on");
+}
+document.getElementById("go").addEventListener("click", ()=>go("board"));
+document.getElementById("tonull").addEventListener("click", ()=>go("nullboard"));
+document.getElementById("back").addEventListener("click", ()=>go("board"));
+
+/* ── 점 그리기 ─────────────────────────────── */
+function plot(list, host, isNull){
+  list.forEach(it=>{
+    const b = document.createElement("button");
+    b.className = "dot " + it.who + (isNull ? " null" : "");
+    /* 0~100 을 그대로 쓰지 않고 안쪽으로 물린다 (2026-09-19).
+       축 라벨을 진한 박스로 바꿔 키웠더니 가장자리 점(신경성형술·척추교정술)을 덮었다.
+       점을 옮기면 그 치료가 놓인 뜻이 달라지므로, 자리는 그대로 두고
+       그리는 판만 줄인다. 서로의 상대 위치는 하나도 안 바뀐다. */
+    const PAD_X = 0, PAD_Y = 0;   // 가장자리에 라벨이 앉을 띠
+    b.style.left = (PAD_X + it.x * (100 - PAD_X * 2) / 100) + "%";
+    b.style.top  = (PAD_Y + it.y * (100 - PAD_Y * 2) / 100) + "%";
+    b.dataset.who = it.who === "self" ? "스스로 할 수 있음" : "혼자서 할 수 없음";
+    b.innerHTML = '<span class="bead"></span>' + it.name;
+    b.addEventListener("click", ()=>{ b.classList.add("seen"); open(it); });
+    host.appendChild(b);
+  });
+}
+plot(ITEMS, document.getElementById("map"), false);
+plot(NULLS, document.getElementById("nullmap"), true);
+
+/* 문장마다 줄을 바꾼다 — 영상에서 읽으실 것이라 가독성이 먼저다.
+   ★ 종결어미(…다. …요.) 뒤에서만 자른다. 태그 안에는 그 패턴이 없어 안전하다.
+   ★ 너무 짧은 조각은 앞 줄에 붙인다. 안 그러면 줄 첫머리에 온점만 남아 더 읽기 나쁘다. */
+function sentences(html){
+  const MARK = "";
+  const parts = html
+    .replace(/([다요]\.)(<\/b>)?(\s+)/g, "$1$2" + MARK)
+    .split(MARK)
+    .filter(t => t.trim().length);
+  const out = [];
+  parts.forEach(t=>{
+    const plain = t.replace(/<[^>]+>/g, "").trim();
+    if (out.length && plain.length < 16) out[out.length - 1] += " " + t;
+    else out.push(t);
+  });
+  return out.map(t => '<span class="sent">' + t.trim() + "</span>").join("");
+}
+
+/* ── 덮개 ─────────────────────────────────── */
+const veil = document.getElementById("veil");
+const sheet = document.getElementById("sheet");
+let lastFocus = null;
+
+function open(it){
+  lastFocus = document.activeElement;
+  const scopeCls = it.scope === "디스크" ? "direct" : "indirect";
+  const scopeTxt = it.scope === "디스크" ? "디스크·좌골신경통 환자 연구"
+    : it.scope === "건강인" ? "환자가 아닌 건강한 사람 연구"
+    : it.scope === "방사통 포함" ? "방사통 환자가 포함된 연구"
+    : "일반 요통 연구 · 디스크는 제외된 경우가 많음";
+  const whoCls = it.who === "self" ? "who-self" : "who-other";
+  const whoTxt = it.who === "self" ? "스스로 할 수 있음" : "혼자서 할 수 없음";
+
+  sheet.innerHTML =
+    '<div class="top"><h3>' + it.name + '</h3>' +
+    '<button class="closebtn" id="closebtn">닫기</button></div>' +
+    '<div class="tags">' +
+      '<span class="tag ' + scopeCls + '">' + scopeTxt + '</span>' +
+      '<span class="tag ' + whoCls + '">' + whoTxt + '</span>' +
+      '<span class="tag freq">' + it.freq + '</span>' +
+    '</div>' +
+    '<p class="verdict">' + sentences(it.verdict) + '</p>' +
+    '<dl class="grid">' +
+      '<div class="line"><dt>확인된 것</dt><dd>' + it.what + '</dd></div>' +
+      '<div class="line"><dt>얼마나 가나</dt><dd>' + it.last + '</dd></div>' +
+      '<div class="line"><dt>한계</dt><dd class="warn">' + sentences(it.limit) + '</dd></div>' +
+    '</dl>' +
+    '<blockquote class="quote">' + it.quote + '<cite>' + it.cite + '</cite></blockquote>';
+
+  veil.classList.add("on");
+  sheet.scrollTop = 0;
+  const cb = document.getElementById("closebtn");
+  cb.addEventListener("click", close);
+  cb.focus();
+}
+function close(){
+  veil.classList.remove("on");
+  if (lastFocus) lastFocus.focus();
+}
+/* 닫기는 버튼과 Esc 로만. 화면을 눌러 닫히면 촬영 중에 실수로 닫힌다. */
+document.addEventListener("keydown", e=>{ if (e.key === "Escape" && veil.classList.contains("on")) close(); });
+</script>
